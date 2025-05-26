@@ -4,3 +4,4 @@ git branch -a           -> see all branches
 git checkout mitani     -> change branch to "mitani"
 git checkout main       -> change branch to "main"
 
+git merge my-branch     -> merges my-branch to current branch (main)
