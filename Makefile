@@ -6,7 +6,7 @@
 #    By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 16:25:11 by mmisumi           #+#    #+#              #
-#    Updated: 2025/05/27 16:59:14 by sneshev          ###   ########.fr        #
+#    Updated: 2025/05/27 17:05:28 by sneshev          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,6 @@ LIBFT := libft/libft.a
 
 CC := cc
 CFLAGS := -Wall -Werror -Wextra -I. -Ilibft
-LINKFLAGS := -lreadline -Llibft -lft
 
 RM := rm -f 
 
@@ -37,7 +36,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 
 $(OBJDIR)/%.o: src/%.c | $(OBJDIR)
-	$(CC) $(CFLAGS) -c $< -o $@ $(LINKFLAGS)
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 clean:
 	$(RM) $(OBJS)
