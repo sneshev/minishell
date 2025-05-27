@@ -6,7 +6,7 @@
 #    By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 16:25:11 by mmisumi           #+#    #+#              #
-#    Updated: 2025/05/27 16:40:26 by mmisumi          ###   ########.fr        #
+#    Updated: 2025/05/27 16:47:34 by mmisumi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ OBJS := $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 LIBFT := libft/libft.a
 
 CC := cc
-CFLAGS := -Wall -Werror -Wextra -I. -Ilibft -lreadline
+CFLAGS := -Wall -Werror -Wextra -I. -Ilibft
+LINKFLAGS := -lreadline -Llibft -lft
 
 RM := rm -f 
 
@@ -33,10 +34,10 @@ $(LIBFT):
 	make -C libft
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -Llibft -lft
+	$(CC) $(CFLAGS) $(LINKFLAGS) -o $(NAME) $(OBJS)
 
-$(OBJDIR)/%.o: src/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJDIR)/%.o: src/%.c | $(OBJDIR)
+	$(CC) $(CFLAGS) $(LINKFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)
