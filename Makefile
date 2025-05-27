@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+         #
+#    By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 16:25:11 by mmisumi           #+#    #+#              #
-#    Updated: 2025/05/27 16:47:34 by mmisumi          ###   ########.fr        #
+#    Updated: 2025/05/27 16:59:14 by sneshev          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,10 @@ $(LIBFT):
 	make -C libft
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(LINKFLAGS) -o $(NAME) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 
 $(OBJDIR)/%.o: src/%.c | $(OBJDIR)
-	$(CC) $(CFLAGS) $(LINKFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ $(LINKFLAGS)
 
 clean:
 	$(RM) $(OBJS)
