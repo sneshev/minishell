@@ -6,7 +6,7 @@
 #    By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 16:25:11 by mmisumi           #+#    #+#              #
-#    Updated: 2025/05/27 17:05:28 by sneshev          ###   ########.fr        #
+#    Updated: 2025/05/29 16:15:13 by sneshev          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJS := $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 
 LIBFT := libft/libft.a
 
-CC := cc
+CC := cc -g
 CFLAGS := -Wall -Werror -Wextra -I. -Ilibft
 
 RM := rm -f 

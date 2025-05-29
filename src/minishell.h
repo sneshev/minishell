@@ -7,10 +7,12 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <signal.h>
+
+extern volatile sig_atomic_t g_signal;
 
 
-
-
+void handle_signals(int sig);
 
 
 #endif
