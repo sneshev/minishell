@@ -6,11 +6,17 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/29 15:06:56 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/29 15:34:56 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+#define COMMAND 1
+#define FLAG 2
+#define REDIRECTION 3
+#define PIPE 4
+#define STRING 5
 
 int	word_count(char const *s, char c)
 {
@@ -33,38 +39,77 @@ int	word_count(char const *s, char c)
 	return (j);
 }
 
+char	*get_env(char **envp)
+{
+	char	*env;
+	int		i;
+
+	env = NULL;
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			env = envp[i] + 5;
+			if (!env)
+				perror("no env message\n");
+			break ;
+		}
+		i++;
+	}
+	return (env);
+}
+
+char	**get_path(char *path, char *cmd)
+{
+	char	**paths;
+	char	*temp;
+	int		i;
+
+	i = 0;
+	paths = ft_split(path, ':');
+	while (paths[i])
+	{
+		temp = ft_strjoin(paths[i], "/");
+		free(paths[i]);
+		paths[i] = ft_strjoin(temp, cmd);
+		free(temp);
+		i++;
+	}
+	return (paths);
+}
+
+bool	is_command(char *line)
+{
+	if ()
+}
+
 bool	is_valid_input(char *line)
 {
 	char	**arguments;
-	char	**arg_type;
+	int		*arg_type;
 	int		wordcount;
 	int		i;
 
 	arguments = ft_split(line, ' ');
 	if (!arguments)
 		return (false);
+	arg_type = malloc(word_count);
+	if (!arg_type)
+		return (false);
 	wordcount = word_count(line, ' ');
 	i = 0;
 	while (i < wordcount)
 	{
 		if (arguments[i] == is_command())
-
-		
-
-
-
-		if (arguments[i][0] == '-')
-		{
-			printf("is -\n");
-			if (arguments[i - 1] && arguments[i - 1] )
-		}
-		if (ft_strncmp(arguments[i], "<", 2) == 0)
-			printf("is <\n");
-		if (ft_strncmp(arguments[i], ">", 2) == 0)
-			printf("is >\n");
-		if (ft_strncmp(arguments[i], "|", 2) == 0)
-			printf("is |\n");
-		if ()
+			arg_type[i] = COMMAND;
+		if (arguments[i] == is_flag())
+			arg_type[i] = FLAG;
+		if (arguments[i] == '|')
+			arg_type[i] = PIPE;
+		if (arguments[i] == '<' || arguments[i] == '>'
+		|| arguments[i] == "<<" || arguments[i] == '>')
+			arg_type = REDIRECTION;
 		i++;
 	}
 	return (true);
