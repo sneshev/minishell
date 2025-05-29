@@ -24,8 +24,20 @@ volatile sig_atomic_t	g_signal = -1;
 // 	}
 // }
 
+void printsig()
+{
+	if (g_signal == -1)
+		printf("\033[0;32m%d ()\033[0m", g_signal);
+	if (g_signal == 0)
+		printf("\033[0;32m%d (line read)\033[0m", g_signal);
+	if (g_signal == 2)
+		printf("\033[0;32m%d (ctrl + c'ed)\033[0m", g_signal);
+	fflush(NULL);
+}
+
 void	handle_signals(int sig)
 {
+	printsig();
 	if (g_signal == 0)
 	{
 		g_signal = sig;
@@ -39,7 +51,9 @@ void	handle_signals(int sig)
 
 void reset_signal(char *line)
 {
+	printf("	\033[0;31mresetting signal%d -> ", g_signal);
 	g_signal = -1;
+	printf("%d \033[0m	", g_signal);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
