@@ -33,6 +33,15 @@ void	handle_signals(int sig)
 	}
 	else
 	{
-		write(1, "\nminishell$ ", 13);
+		write(1, "^C\nminishell$ ", 15);
 	}
+}
+
+void reset_signal(char *line)
+{
+	g_signal = -1;
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	free(line);
 }

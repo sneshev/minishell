@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/29 16:55:41 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:13:09 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,20 @@ bool	is_valid_input(char *line)
 
 		i++;
 	}
+	free_arr(arguments, wordcount);
 	return (true);
+}
 
+void command(char *line)
+{
+	if (!line || !(*line))
+		return ;
+	while (1)
+	{
+		printf("3");
+		fflush(stdout);
+		usleep(50000);
+	}
 }
 
 void	minishell(char *line)
@@ -71,13 +83,7 @@ void	minishell(char *line)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		while (1)
-		{
-			printf("3");
-			fflush(stdout);
-			usleep(50000);
-		}
-		// exit(1);
+		command(line);
 	}
 	else 
 	{
@@ -89,16 +95,8 @@ void	minishell(char *line)
             perror("waitpid");
             break;
         }
-		// exit(1);
 	}
 }
-
-void	invalid_input(void)
-{
-
-}
-
-
 
 int main(int argc, char *argv[])
 {
@@ -115,23 +113,18 @@ int main(int argc, char *argv[])
 	{
 		char *line = readline("minishell$ ");
 		g_signal = 0;
-		printf("1"); fflush(NULL);
         if (!line) //ctrl + d
         {
             write(1, "exit\n", 5);
-            break;
+            break ;
         }
-		if (!(*line))
-			write(1, "kur", 3);
+		
 		if (g_signal == SIGINT)
 		{
-			g_signal = -1;
-			rl_replace_line("", 0);
-			rl_on_new_line();
-			rl_redisplay();  // Properly redraw the prompt
-			free(line);
-			continue;
+			reset_signal(line);
+			continue ;
 		}
+		
 		if (ft_strncmp(line, "exit", 5) == 0)
 		{
 			free(line);
@@ -140,8 +133,7 @@ int main(int argc, char *argv[])
 
 		if (is_valid_input(line) == true)
 			minishell(line);
-		// else
-		// 	invalid_input();
+
 		free(line);
 
 	}

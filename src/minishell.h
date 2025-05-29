@@ -12,7 +12,12 @@
 extern volatile sig_atomic_t g_signal;
 
 
+//signal handlers
 void handle_signals(int sig);
+void reset_signal(char *line);
+
+//utils
+void free_arr(char **arr, int args);
 
 
 #endif
