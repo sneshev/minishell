@@ -31,4 +31,8 @@ void	handle_signals(int sig)
 		g_signal = sig;
 		write(1, "\n", 1);
 	}
+	else
+	{
+		write(1, "\nminishell$ ", 13);
+	}
 }
