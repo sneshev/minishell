@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/30 18:09:04 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/30 18:15:40 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,13 @@ bool	is_valid_input(char *line)
 	i = 0;
 	while (i < wordcount)
 	{
-		if (arguments[i] == is_command())
+		if (is_command(arguments[i]))
 			arg_type[i] = COMMAND;
 		if (arguments[i] == is_flag())
 			arg_type[i] = FLAG;
-		if (arguments[i] == '|')
+		if (is_pipe(arguments[i]))
 			arg_type[i] = PIPE;
-		if (arguments[i] == '<' || arguments[i] == '>'
-		|| arguments[i] == "<<" || arguments[i] == '>')
+		if (is_redirect(arguments[i]))
 			arg_type = REDIRECTION;
 		i++;
 	}
