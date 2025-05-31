@@ -31,11 +31,12 @@ char	*get_env(char **envp);
 char	**get_path(char *path, char *cmd);
 
 //	arg_types
+bool	is_builtin(char *str);
 int		find_arg_type(char *arg, char **envp);
 bool	is_command(char *str, char **envp);
 bool	is_redirect(char *str);
 bool	is_pipe(char *str);
-bool	is_flag(char *arg);
+bool	is_flag(char *str);
 
 //list
 void	print_list(t_node **list);

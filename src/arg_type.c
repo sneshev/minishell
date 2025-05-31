@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 16:41:17 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:57:05 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	find_arg_type(char *arg, char **envp)
 {
+	if (is_builtin(arg))
+		return (BUILTIN);
 	if (is_command(arg, envp))
 		return (COMMAND);
 	if (is_flag(arg))
@@ -25,6 +27,24 @@ int	find_arg_type(char *arg, char **envp)
 	return (-1);
 }
 
+bool is_builtin(char *str)
+{
+	// if (ft_strncmp(arg, "echo", 5) == 0) // ?	?	?
+		// return (true);
+	if (ft_strncmp(str, "cd", 3) == 0)
+		return (true);
+	if (ft_strncmp(str, "pwd", 4) == 0)
+		return (true);
+	if (ft_strncmp(str, "export", 7) == 0)
+		return (true);
+	if (ft_strncmp(str, "unset", 6) == 0)
+		return (true);
+	if (ft_strncmp(str, "env", 4) == 0)
+		return (true);
+	if (ft_strncmp(str, "exit", 5) == 0)
+		return (true);
+	return (false);
+}
 bool	is_command(char *str, char **envp)
 {
 	char	*path;
@@ -84,8 +104,8 @@ bool	is_pipe(char *str)
 }
 
 //for now im only taking care of -, well see later if -- is needed too
-bool	is_flag(char *arg)
+bool	is_flag(char *str)
 {
-	(void)arg;
+	(void)str;
 	return false;
 }
