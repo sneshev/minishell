@@ -40,7 +40,7 @@ bool	is_pipe(char *str);
 bool	is_flag(char *str);
 
 //list
-void	print_list(t_node **list);
+void	print_list(t_node *list);
 void	free_node(t_node **node);
 void	free_list(t_node **list);
 t_node	*new_node(char *arg, char **envp);

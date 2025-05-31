@@ -12,27 +12,36 @@
 
 #include "minishell.h"
 
-void	print_list(t_node **list)
+void	print_list(t_node *list)
 {
 	int	i;
 
 	i = 0;
-	while (*list)
+	while (list)
 	{
-		printf("%d	list->line: %s\n", i, (*list)->arg);
-		printf("%d	list->arg_type: %d\n", i, (*list)->arg_type);
+		printf("%d	list->line: %s\n", i, list->arg);
+		printf("%d	list->arg_type: %d\n", i, list->arg_type);
 		printf("-----------------------\n");
-		*list = (*list)->next;
+		list = list->next;
 		i++;
 	}
 }
 
-void	free_node(t_node **node)
+void	free_node(t_node **node_ptr)
 {
-	if (*node)
+	t_node	*node;
+
+	if (!node_ptr)
+		return ;
+	node = *node_ptr;
+	if (node)
 	{
-		free(*node);
-		*node = NULL;
+		if (node->arg)
+			free(node->arg);
+		// if (node->next)
+			// free(node->next);
+		free(node);
+		node = NULL;
 	}
 }
 

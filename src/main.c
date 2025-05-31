@@ -48,7 +48,7 @@ bool	is_valid_input(char *line, char **envp)
 	free_array(args);
 	if (!list)
 		return (false);
-	print_list(&list);
+	print_list(list);
 	free_list(&list);
 	return (true);
 }
@@ -62,6 +62,7 @@ void	invalid_input(void)
 {
 
 }
+
 int main(int argc, char *argv[], char *envp[])
 {
 	(void)argv;
@@ -82,7 +83,6 @@ int main(int argc, char *argv[], char *envp[])
 			minishell(line);
 		// else
 		// 	invalid_input();
-
 	}
 	return (0);
 }

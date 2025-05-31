@@ -25,6 +25,7 @@ void enable_SIGINT()
 {
     struct sigaction	sa;
 
+    ft_bzero(&sa, sizeof(sa));
     sa.sa_handler = receive_SIGINT;
     sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
