@@ -6,17 +6,11 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 13:47:09 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:42:28 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#define COMMAND 1
-#define FLAG 2
-#define REDIRECTION 3
-#define PIPE 4
-#define STRING 5
 
 int	word_count(char const *s)
 {
@@ -41,33 +35,22 @@ int	word_count(char const *s)
 
 bool	is_valid_input(char *line, char **envp)
 {
-	char	**arguments;
-	int		*arg_type;
-	int		wordcount;
-	int		i;
+	t_node	*list;
+	char	**args;
+	int		wordc;
 
-	arguments = ft_split(line, ' ');
-	if (!arguments)
+	args = ft_split(line, ' ');
+	if (!args)
+		return (false);//should we specify its a malloc error?
+	wordc = word_count(line);
+	list = NULL;
+	create_list(&list, args, wordc, envp);
+	free_array(args);
+	if (!list)
 		return (false);
-	wordcount = word_count(line);
-	arg_type = malloc(wordcount);
-	if (!arg_type)
-		return (false);
-	i = 0;
-	while (i < wordcount)
-	{
-		if (is_command(arguments[i], envp))
-			arg_type[i] = COMMAND;
-		// if (arguments[i] == is_flag())
-		// 	arg_type[i] = FLAG;
-		if (is_pipe(arguments[i]))
-			arg_type[i] = PIPE;
-		if (is_redirect(arguments[i]))
-			arg_type[i] = REDIRECTION;
-		i++;
-	}
+	print_list(&list);
+	free_list(&list);
 	return (true);
-
 }
 
 void	minishell(char *line)

@@ -6,12 +6,45 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 13:45:34 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:59:10 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	find_arg_type(char *arg, char **envp)
+{
+	if (is_builtin(arg))
+		return (BUILTIN);
+	if (is_command(arg, envp))
+		return (COMMAND);
+	if (is_flag(arg))
+		return (FLAG);
+	if (is_pipe(arg))
+		return (PIPE);
+	if (is_redirect(arg))
+		return (REDIRECTION);
+	return (-1);
+}
+
+bool is_builtin(char *str)//some of these are also 2 (recognized by access) so what are they?
+{
+	// if (ft_strncmp(arg, "echo", 5) == 0) // ?	?	?
+		// return (true);
+	if (ft_strncmp(str, "cd", 3) == 0)
+		return (true);
+	if (ft_strncmp(str, "pwd", 4) == 0)
+		return (true);
+	if (ft_strncmp(str, "export", 7) == 0)
+		return (true);
+	if (ft_strncmp(str, "unset", 6) == 0)
+		return (true);
+	if (ft_strncmp(str, "env", 4) == 0)
+		return (true);
+	if (ft_strncmp(str, "exit", 5) == 0)
+		return (true);
+	return (false);
+}
 bool	is_command(char *str, char **envp)
 {
 	char	*path;
@@ -30,13 +63,13 @@ bool	is_command(char *str, char **envp)
 	{
 		full_cmd = ft_strdup(paths[i]);
 		if (!full_cmd)
-			return (free_path(paths), NULL);
+			return (free_array(paths), NULL);
 		if (access(full_cmd, F_OK) == 0)
-			return (free_path(paths), full_cmd);//have to double check how the i works in freeing the paths
+			return (free_array(paths), full_cmd);
 		free(full_cmd);
 		i++;
 	}
-	free_path(paths);
+	free_array(paths);
 	return (NULL);
 }
 
@@ -68,4 +101,11 @@ bool	is_pipe(char *str)
 	if (*str == '|' && *(str + 1) == '\0')
 		return (true);
 	return (false);
+}
+
+//for now im only taking care of -, well see later if -- is needed too
+bool	is_flag(char *str)
+{
+	(void)str;
+	return false;
 }

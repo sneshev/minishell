@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+         #
+#    By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 16:25:11 by mmisumi           #+#    #+#              #
-#    Updated: 2025/05/27 17:05:28 by sneshev          ###   ########.fr        #
+#    Updated: 2025/05/31 15:58:14 by mmisumi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OBJS := $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 LIBFT := libft/libft.a
 
 CC := cc
-CFLAGS := -Wall -Werror -Wextra -I. -Ilibft
+CFLAGS := -Wall -Werror -Wextra -I. -Ilibft -g
 
 RM := rm -f 
 
