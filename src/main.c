@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/30 18:15:40 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/05/30 18:24:30 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	word_count(char const *s)
 	return (j);
 }
 
-bool	is_valid_input(char *line)
+bool	is_valid_input(char *line, char **envp)
 {
 	char	**arguments;
 	int		*arg_type;
@@ -56,7 +56,7 @@ bool	is_valid_input(char *line)
 	i = 0;
 	while (i < wordcount)
 	{
-		if (is_command(arguments[i]))
+		if (is_command(arguments[i], envp))
 			arg_type[i] = COMMAND;
 		if (arguments[i] == is_flag())
 			arg_type[i] = FLAG;
@@ -79,7 +79,7 @@ void	invalid_input(void)
 {
 
 }
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char *envp[])
 {
 	(void)argv;
 	if (argc != 1)
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 		if (ft_strncmp(line, "exit", 5) == 0)
 			exit(1);
 
-		if (is_valid_input(line) == true)
+		if (is_valid_input(line, envp) == true)
 			minishell(line);
 		// else
 		// 	invalid_input();

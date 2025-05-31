@@ -8,7 +8,6 @@
 # include <stdlib.h>
 # include <stdbool.h>
 
-
 int		word_count(char const *s);
 bool	is_valid_input(char *line);
 void	minishell(char *line);
