@@ -71,9 +71,12 @@ int main(int argc, char *argv[], char *envp[])
 	while(1)
 	{
 		char *line = readline("minishell$ ");
-		if (ft_strncmp(line, "exit", 5) == 0)
+		if (!line || ft_strncmp(line, "exit", 5) == 0)
+		{
+			write(1, "exit\n", 5);
 			exit(1);
-
+		}
+		
 		if (g_signal == SIGINT)
 			receive_SIGINT();
 		if (is_valid_input(line, envp) == true)
