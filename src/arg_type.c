@@ -6,11 +6,24 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 16:14:10 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:41:17 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	find_arg_type(char *arg, char **envp)
+{
+	if (is_command(arg, envp))
+		return (COMMAND);
+	if (is_flag(arg))
+		return (FLAG);
+	if (is_pipe(arg))
+		return (PIPE);
+	if (is_redirect(arg))
+		return (REDIRECTION);
+	return (-1);
+}
 
 bool	is_command(char *str, char **envp)
 {
@@ -71,7 +84,8 @@ bool	is_pipe(char *str)
 }
 
 //for now im only taking care of -, well see later if -- is needed too
-bool	is_flag()
+bool	is_flag(char *arg)
 {
+	(void)arg;
 	return false;
 }

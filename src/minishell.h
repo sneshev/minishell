@@ -8,6 +8,13 @@
 # include <stdlib.h>
 # include <stdbool.h>
 
+#define BUILTIN 1
+#define COMMAND 2
+#define REDIRECTION 3
+#define PIPE 4
+#define STRING 5
+#define FLAG 6
+
 typedef struct	s_node
 {
 	char			*arg;
@@ -24,16 +31,18 @@ char	*get_env(char **envp);
 char	**get_path(char *path, char *cmd);
 
 //	arg_types
+int		find_arg_type(char *arg, char **envp);
 bool	is_command(char *str, char **envp);
 bool	is_redirect(char *str);
 bool	is_pipe(char *str);
+bool	is_flag(char *arg);
 
 //list
 void	print_list(t_node **list);
 void	free_node(t_node **node);
 void	free_list(t_node **list);
-t_node	*new_node(char *line, int arg_type);
+t_node	*new_node(char *arg, char **envp);
 void	add_node_back(t_node **list, t_node *current);
-t_node	*create_list(t_node **list, char **args, int *arg_type, int wordc);
+t_node	*create_list(t_node **list, char **args, int wordc, char **envp);
 
 #endif

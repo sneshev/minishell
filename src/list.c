@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 16:27:39 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:39:29 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ void	free_list(t_node **list)
 	*list = NULL;
 }
 
-t_node	*new_node(char *line, int arg_type)
+t_node	*new_node(char *arg, char **envp)
 {
 	t_node	*node;
 
 	node = malloc(sizeof(t_node));
 	if (!node)
 		return (NULL);
-	node->arg = ft_strdup(line);
+	node->arg = ft_strdup(arg);
 	if (!node->arg)
 		return (NULL);
-	node->arg_type = arg_type;
+	node->arg_type = find_arg_type(arg, envp);
 	node->next = NULL;
 	return (node);
 }
@@ -78,7 +78,7 @@ void	add_node_back(t_node **list, t_node *current)
 	temp->next = current;
 }
 
-t_node	*create_list(t_node **list, char **args, int *arg_type, int wordc)
+t_node	*create_list(t_node **list, char **args, int wordc, char **envp)
 {
 	t_node	*new;
 	int		index;
@@ -87,7 +87,7 @@ t_node	*create_list(t_node **list, char **args, int *arg_type, int wordc)
 	index = 0;
 	while (index < wordc)
 	{
-		new = new_node(args[index], arg_type[index]);
+		new = new_node(args[index], envp);
 		if (!new)
 			return (free_list(list), NULL);
 		add_node_back(list, new);

@@ -6,17 +6,11 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 16:29:32 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:42:28 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#define COMMAND 1
-#define FLAG 2
-#define REDIRECTION 3
-#define PIPE 4
-#define STRING 5
 
 int	word_count(char const *s)
 {
@@ -41,21 +35,16 @@ int	word_count(char const *s)
 
 bool	is_valid_input(char *line, char **envp)
 {
-	(void)envp;
 	t_node	*list;
 	char	**args;
-	int		*arg_type;
 	int		wordc;
 
 	args = ft_split(line, ' ');
 	if (!args)
 		return (false);//should we specify its a malloc error?
 	wordc = word_count(line);
-	arg_type = malloc(sizeof(int) * wordc);
-	if (!arg_type)
-		return (false);
 	list = NULL;
-	create_list(&list, args, arg_type, wordc);
+	create_list(&list, args, wordc, envp);
 	free_array(args);
 	if (!list)
 		return (false);
@@ -63,36 +52,6 @@ bool	is_valid_input(char *line, char **envp)
 	free_list(&list);
 	return (true);
 }
-
-// bool	is_valid_input(char *line, char **envp)
-// {
-// 	char	**arguments;
-// 	int		*arg_type;
-// 	int		wordcount;
-// 	int		i;
-
-// 	arguments = ft_split(line, ' ');
-// 	if (!arguments)
-// 		return (false);
-// 	wordcount = word_count(line);
-// 	arg_type = malloc(wordcount);
-// 	if (!arg_type)
-// 		return (false);
-// 	i = 0;
-// 	while (i < wordcount)
-// 	{
-// 		if (is_command(arguments[i], envp))
-// 			arg_type[i] = COMMAND;
-// 		if (arguments[i] == is_flag())
-// 			arg_type[i] = FLAG;
-// 		if (is_pipe(arguments[i]))
-// 			arg_type[i] = PIPE;
-// 		if (is_redirect(arguments[i]))
-// 			arg_type[i] = REDIRECTION;
-// 		i++;
-// 	}
-// 	return (true);
-// }
 
 void	minishell(char *line)
 {
@@ -106,7 +65,6 @@ void	invalid_input(void)
 int main(int argc, char *argv[], char *envp[])
 {
 	(void)argv;
-	(void)envp;
 	if (argc != 1)
 		return (1);
 	while(1)
@@ -115,7 +73,7 @@ int main(int argc, char *argv[], char *envp[])
 		if (ft_strncmp(line, "exit", 5) == 0)
 			exit(1);
 
-		if (is_valid_input(line, NULL) == true)
+		if (is_valid_input(line, envp) == true)
 			minishell(line);
 		// else
 		// 	invalid_input();
