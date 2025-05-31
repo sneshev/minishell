@@ -67,12 +67,15 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	if (argc != 1)
 		return (1);
+	enable_signals();
 	while(1)
 	{
 		char *line = readline("minishell$ ");
 		if (ft_strncmp(line, "exit", 5) == 0)
 			exit(1);
 
+		if (g_signal == SIGINT)
+			receive_SIGINT();
 		if (is_valid_input(line, envp) == true)
 			minishell(line);
 		// else

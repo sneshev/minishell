@@ -2,9 +2,10 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
 
@@ -45,5 +46,13 @@ void	free_list(t_node **list);
 t_node	*new_node(char *arg, char **envp);
 void	add_node_back(t_node **list, t_node *current);
 t_node	*create_list(t_node **list, char **args, int wordc, char **envp);
+
+//signals
+extern volatile sig_atomic_t	g_signal;
+void	enable_signals(void);
+void	receive_SIGINT();
+
+
+
 
 #endif
