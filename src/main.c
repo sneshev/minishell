@@ -76,7 +76,6 @@ int main(int argc, char *argv[], char *envp[])
 			write(1, "exit\n", 5);
 			exit(1);
 		}
-		
 		if (g_signal == SIGINT)
 			receive_SIGINT();
 		if (is_valid_input(line, envp) == true)

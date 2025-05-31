@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+/*
+    Have to make CTRL-C (SIGINT) stop the running child process
+    Have to make CTRL-\ (SIGQUIT) stop the running child process with core dump
+    
+    otherwise done :p
+*/
+
 volatile sig_atomic_t	g_signal = 0;
 
 
