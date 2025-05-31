@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 13:45:34 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:14:10 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ bool	is_command(char *str, char **envp)
 	{
 		full_cmd = ft_strdup(paths[i]);
 		if (!full_cmd)
-			return (free_path(paths), NULL);
+			return (free_array(paths), NULL);
 		if (access(full_cmd, F_OK) == 0)
-			return (free_path(paths), full_cmd);//have to double check how the i works in freeing the paths
+			return (free_array(paths), full_cmd);
 		free(full_cmd);
 		i++;
 	}
-	free_path(paths);
+	free_array(paths);
 	return (NULL);
 }
 
@@ -68,4 +68,10 @@ bool	is_pipe(char *str)
 	if (*str == '|' && *(str + 1) == '\0')
 		return (true);
 	return (false);
+}
+
+//for now im only taking care of -, well see later if -- is needed too
+bool	is_flag()
+{
+	return false;
 }
