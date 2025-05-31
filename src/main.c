@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/29 15:34:56 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/31 13:47:09 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define PIPE 4
 #define STRING 5
 
-int	word_count(char const *s, char c)
+int	word_count(char const *s)
 {
 	int	i;
 	int	j;
@@ -27,64 +27,19 @@ int	word_count(char const *s, char c)
 	j = 0;
 	while (s[i] != '\0')
 	{
-		while (s[i] == c)
+		while (s[i] == ' ')
 			i++;
 		if (s[i] != '\0')
 		{
 			j++;
-			while (s[i] != c && s[i] != '\0')
+			while (s[i] != ' ' && s[i] != '\0')
 				i++;
 		}
 	}
 	return (j);
 }
 
-char	*get_env(char **envp)
-{
-	char	*env;
-	int		i;
-
-	env = NULL;
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			env = envp[i] + 5;
-			if (!env)
-				perror("no env message\n");
-			break ;
-		}
-		i++;
-	}
-	return (env);
-}
-
-char	**get_path(char *path, char *cmd)
-{
-	char	**paths;
-	char	*temp;
-	int		i;
-
-	i = 0;
-	paths = ft_split(path, ':');
-	while (paths[i])
-	{
-		temp = ft_strjoin(paths[i], "/");
-		free(paths[i]);
-		paths[i] = ft_strjoin(temp, cmd);
-		free(temp);
-		i++;
-	}
-	return (paths);
-}
-
-bool	is_command(char *line)
-{
-	if ()
-}
-
-bool	is_valid_input(char *line)
+bool	is_valid_input(char *line, char **envp)
 {
 	char	**arguments;
 	int		*arg_type;
@@ -94,22 +49,21 @@ bool	is_valid_input(char *line)
 	arguments = ft_split(line, ' ');
 	if (!arguments)
 		return (false);
-	arg_type = malloc(word_count);
+	wordcount = word_count(line);
+	arg_type = malloc(wordcount);
 	if (!arg_type)
 		return (false);
-	wordcount = word_count(line, ' ');
 	i = 0;
 	while (i < wordcount)
 	{
-		if (arguments[i] == is_command())
+		if (is_command(arguments[i], envp))
 			arg_type[i] = COMMAND;
-		if (arguments[i] == is_flag())
-			arg_type[i] = FLAG;
-		if (arguments[i] == '|')
+		// if (arguments[i] == is_flag())
+		// 	arg_type[i] = FLAG;
+		if (is_pipe(arguments[i]))
 			arg_type[i] = PIPE;
-		if (arguments[i] == '<' || arguments[i] == '>'
-		|| arguments[i] == "<<" || arguments[i] == '>')
-			arg_type = REDIRECTION;
+		if (is_redirect(arguments[i]))
+			arg_type[i] = REDIRECTION;
 		i++;
 	}
 	return (true);
@@ -125,7 +79,7 @@ void	invalid_input(void)
 {
 
 }
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char *envp[])
 {
 	(void)argv;
 	if (argc != 1)
@@ -136,7 +90,7 @@ int main(int argc, char *argv[])
 		if (ft_strncmp(line, "exit", 5) == 0)
 			exit(1);
 
-		if (is_valid_input(line) == true)
+		if (is_valid_input(line, envp) == true)
 			minishell(line);
 		// else
 		// 	invalid_input();
