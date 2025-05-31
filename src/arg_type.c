@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 16:57:05 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:59:10 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	find_arg_type(char *arg, char **envp)
 	return (-1);
 }
 
-bool is_builtin(char *str)
+bool is_builtin(char *str)//some of these are also 2 (recognized by access) so what are they?
 {
 	// if (ft_strncmp(arg, "echo", 5) == 0) // ?	?	?
 		// return (true);
