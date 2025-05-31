@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/30 18:24:30 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/05/31 13:47:09 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,21 @@ bool	is_valid_input(char *line, char **envp)
 	arguments = ft_split(line, ' ');
 	if (!arguments)
 		return (false);
-	arg_type = malloc(word_count);
+	wordcount = word_count(line);
+	arg_type = malloc(wordcount);
 	if (!arg_type)
 		return (false);
-	wordcount = word_count(line);
 	i = 0;
 	while (i < wordcount)
 	{
 		if (is_command(arguments[i], envp))
 			arg_type[i] = COMMAND;
-		if (arguments[i] == is_flag())
-			arg_type[i] = FLAG;
+		// if (arguments[i] == is_flag())
+		// 	arg_type[i] = FLAG;
 		if (is_pipe(arguments[i]))
 			arg_type[i] = PIPE;
 		if (is_redirect(arguments[i]))
-			arg_type = REDIRECTION;
+			arg_type[i] = REDIRECTION;
 		i++;
 	}
 	return (true);

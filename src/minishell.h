@@ -9,10 +9,10 @@
 # include <stdbool.h>
 
 int		word_count(char const *s);
-bool	is_valid_input(char *line);
+bool	is_valid_input(char *line, char **envp);
 void	minishell(char *line);
-int		main(int argc, char *argv[]);
 
+void	free_path(char **arr);
 char	*get_env(char **envp);
 char	**get_path(char *path, char *cmd);
 
