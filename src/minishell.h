@@ -30,6 +30,13 @@ typedef struct	s_node
 bool	is_valid_input(char *line, char **envp);
 void	handle_invalid_input(void);
 
+//	get_args
+bool	is_space(char c);
+int		find_arg_len(char *str);
+int		count_args(char *str);
+char	**get_args(char *str);
+
+
 //	execution
 char	*get_env(char **envp);
 char	**get_path(char *path, char *cmd);
@@ -58,6 +65,5 @@ void	receive_SIGINT();
 //	utils
 int		word_count(char const *s);
 void	free_arr(char **arr);
-
 
 #endif

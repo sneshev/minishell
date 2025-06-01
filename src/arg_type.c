@@ -48,17 +48,17 @@ bool	is_command(char *str, char **envp)
 	{
 		full_cmd = ft_strdup(paths[i]);
 		if (!full_cmd)
-			return (free_array(paths), false);
+			return (free_arr(paths), false);
 		if (access(full_cmd, F_OK) == 0)
 		{
-			free_array(paths);
+			free_arr(paths);
 			free(full_cmd);
 			return (true);
 		}
 		free(full_cmd);
 		i++;
 	}
-	free_array(paths);
+	free_arr(paths);
 	return (false);
 }
 
@@ -138,31 +138,12 @@ bool	is_flag(char *str)
 	return false;
 }
 
-// return (-2); for unclosed brackets
-// doenst handle a string with spaces in between
-// example: "hello my name is"
-int is_quote(char *str)
+int is_string(char *str)
 {
-	int last_chr;
-
-	if (!str)
-		return (0);
 	if (*str == '\'')
-	{
-		last_chr = ft_strlen(str) - 1;
-		if (str[last_chr] == '\'' && last_chr)
-			return (SQUOTE);
-		else
-			return (-2);
-	}
-	else if (*str == '\"')
-	{
-		last_chr = ft_strlen(str) - 1;
-		if (str[last_chr] == '\"' && last_chr)
-			return (DQUOTE);
-		else
-			return (-2);
-	}
+		return (SQUOTE);
+	if (*str == '\"')
+		return (DQUOTE);
 	else
 		return (0);
 }
@@ -179,7 +160,7 @@ int	find_arg_type(char *arg, char **envp)
 		return (PIPE);
 	if (is_redirect(arg))
 		return (REDIRECTION);
-	if (is_quote(arg))
-		return (is_quote(arg));
+	if (is_string(arg))
+		return (is_string(arg));
 	return (-1);
 }
