@@ -35,17 +35,19 @@ int count_args(char *str)
         if (*str)
         {
             count++;
-            if (is_quote(*str))
+            while(*str && !is_space(*str)) 
             {
-                quote_type = *str;
-                str++;
-                while (*str && *str != quote_type)
+                if (is_quote(*str))
+                {
+                    quote_type = *str;
                     str++;
-                if (*str == '\0')
-                    return (-2);
-            }
-            while (*str && !is_space(*str))
+                    while (*str && *str != quote_type)
+                        str++;
+                    if (*str == '\0')
+                        return (-2);
+                }    
                 str++;
+            }
         }
     }
     return (count);
@@ -66,7 +68,7 @@ char **get_args(char *str)
 
 int main()
 {
-    char *str = "  \"i am\'  \' a god\"   ";
+    char *str = "\' hey  \"iamstepcjho i am\'  \' a god\"   \'";
     get_args(str);
 
 }
