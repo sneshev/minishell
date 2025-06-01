@@ -114,7 +114,7 @@ char **get_args(char *str)
 
     total_args = count_args(str);
     if (total_args < 0)
-        return (NULL);
+        return (printf("unclosed quotes\n"), NULL);
     arr = (char **)malloc((total_args + 1) * sizeof(char *));
     if (!arr)
         return (NULL);
