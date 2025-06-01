@@ -53,23 +53,60 @@ int count_args(char *str)
     return (count);
 }
 
+int arg_len(char *str)
+{
+    int count;
+    int quote_type;
+
+    count = 0;
+    while (is_space(*str))
+        str++;
+
+    if (*str)
+    {
+        while(*str && !is_space(*str))
+        {
+            count++;
+            if (is_quote(*str))
+            {
+                quote_type = is_quote(*str);
+                while (++(*str))
+                {
+                    count++;
+                    if (*str == quote_type)
+                        break ;
+                }
+            }
+            str++;
+        }
+    }
+    return (count);
+}
+
 char **get_args(char *str)
 {
     char **args = NULL;
     int arg_amount;
+    int index;
 
     arg_amount = count_args(str);
-    // args = (char **)malloc((arg_amount + 1) * sizeof(char *));
-    printf("%d\n", arg_amount);
+    args = (char **)malloc((arg_amount + 1) * sizeof(char *));
+    if (!args)
+        return (NULL);
+    index = 0;
+    while (index < arg_amount)
+    {
+        
+    }    
 
-    return args;
+    return (args);
 }
 
 
 int main()
 {
-    char *str = "\' hey  \"iamstepcjho i am\'  \' a god\"   \'";
-    get_args(str);
+    char *str = "\' hey\'  \"iamstepcjho i am\'  \' a god\"   \'";
+    arg_len(str);
 
 }
 
