@@ -1,67 +1,101 @@
 #include "minishell.h"
 
-int unclosed_quote(char *str)
+bool is_quote(char c)
 {
-    int quote;
+    if (c == '\'')
+        return (true);
+    else if (c == '\"')
+        return (true);
+    else
+        return (false);
+}
+
+bool is_space(char c)
+{
+    if (c == 32)
+        return (true);
+    else
+        return (false);
+}
+
+// return (-2); for unclosed brackets
+int count_args(char *str)
+{
+    int count;
+    int quote_type;
 
     if (!str)
         return (-1);
-    quote = 0;
-    if (*str == "\'")    
-        quote = SQUOTE;
-    else if (*str == "\"")
-        quote = DQUOTE;
-    
+    count = 0;
     while (*str)
     {
-
+        quote_type = 0;
+        while (is_space(*str))
+            str++;
+        if (*str)
+        {
+            count++;
+            if (is_quote(*str))
+            {
+                quote_type = *str;
+                str++;
+                while (*str && *str != quote_type)
+                    str++;
+                if (*str == '\0')
+                    return (-2);
+            }
+            while (*str && !is_space(*str))
+                str++;
+        }
     }
+    return (count);
 }
 
-void handle_quotes(int arg_amount, char *args[])
+char **get_args(char *str)
 {
-    int i;
+    char **args = NULL;
+    int arg_amount;
 
-    i = 0;
-    while (i < arg_amount)
-    {
-        if (unclosed_quote(args[i]))
-            ;
-    }
+    arg_amount = count_args(str);
+    // args = (char **)malloc((arg_amount + 1) * sizeof(char *));
+    printf("%d\n", arg_amount);
+
+    return args;
 }
 
-char **get_args(char *line)
+
+int main()
 {
-	char **args;
-	int arg_amount;
+    char *str = "  \"i am\'  \' a god\"   ";
+    get_args(str);
 
-	args = ft_split(line, ' ');
-	if (!args)
-		return (NULL);
-	arg_amount = word_count(line);
-	handle_quotes(arg_amount, args);
-	return (args);
 }
 
-bool	is_valid_input(char *line, char **envp)
-{
-	t_node	*list;
-	char	**args;
-	int		wordc;
 
-	args = get_args(line);
-	if (!args)
-		return (false);//should we specify its a malloc error?
-	wordc = word_count(line);
-	list = NULL;
-	create_list(&list, args, wordc, envp);
-	free_arr(args);
-	if (!list)
-		return (false);
-	print_list(list);
-	free_list(&list);
-	return (true);
-}
+
+
+
+
+
+// bool	is_valid_input(char *line, char **envp)
+// {
+// 	t_node	*list;
+// 	char	**args;
+// 	int		wordc;
+
+// 	args = get_args(line);
+// 	if (!args)
+// 		return (false);//should we specify its a malloc error?
+// 	wordc = word_count(line);
+// 	list = NULL;
+// 	create_list(&list, args, wordc, envp);
+// 	free_arr(args);
+// 	if (!list)
+// 		return (false);
+// 	print_list(list);
+// 	free_list(&list);
+// 	return (true);
+// }
 
 void	handle_invalid_input(void)
 {

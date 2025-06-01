@@ -12,26 +12,6 @@
 
 #include "minishell.h"
 
-void	free_array(char **arr)
-{
-	int	i;
-
-	i = 0;
-	if (!arr)
-		return ;
-	while (arr[i])
-	{
-		if (arr[i])
-		{
-			free(arr[i]);
-			arr[i] = NULL;
-		}
-		i++;
-	}
-	free(arr);
-	arr = NULL;
-}
-
 char	*get_env(char **envp)
 {
 	char	*env;
