@@ -1,9 +1,33 @@
 #include "minishell.h"
 
+int unclosed_quote(char *str)
+{
+    int quote;
+
+    if (!str)
+        return (-1);
+    quote = 0;
+    if (*str == "\'")    
+        quote = SQUOTE;
+    else if (*str == "\"")
+        quote = DQUOTE;
+    
+    while (*str)
+    {
+
+    }
+}
+
 void handle_quotes(int arg_amount, char *args[])
 {
-	(void)args;
-	(void)arg_amount;
+    int i;
+
+    i = 0;
+    while (i < arg_amount)
+    {
+        if (unclosed_quote(args[i]))
+            ;
+    }
 }
 
 char **get_args(char *line)
