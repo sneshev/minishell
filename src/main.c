@@ -12,55 +12,9 @@
 
 #include "minishell.h"
 
-int	word_count(char const *s)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (s[i] != '\0')
-	{
-		while (s[i] == ' ')
-			i++;
-		if (s[i] != '\0')
-		{
-			j++;
-			while (s[i] != ' ' && s[i] != '\0')
-				i++;
-		}
-	}
-	return (j);
-}
-
-bool	is_valid_input(char *line, char **envp)
-{
-	t_node	*list;
-	char	**args;
-	int		wordc;
-
-	args = ft_split(line, ' ');
-	if (!args)
-		return (false);//should we specify its a malloc error?
-	wordc = word_count(line);
-	list = NULL;
-	create_list(&list, args, wordc, envp);
-	free_array(args);
-	if (!list)
-		return (false);
-	print_list(list);
-	free_list(&list);
-	return (true);
-}
-
 void	minishell(char *line)
 {
 	(void)line;
-}
-
-void	invalid_input(void)
-{
-
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -81,8 +35,8 @@ int main(int argc, char *argv[], char *envp[])
 			receive_SIGINT();
 		if (is_valid_input(line, envp) == true)
 			minishell(line);
-		// else
-		// 	invalid_input();
+		else
+			handle_invalid_input();
 	}
 	return (0);
 }

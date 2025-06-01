@@ -25,11 +25,12 @@ typedef struct	s_node
 	struct s_node	*next;
 }					t_node;
 
-int		word_count(char const *s);
-bool	is_valid_input(char *line, char **envp);
-void	minishell(char *line);
 
-void	free_array(char **arr);
+//	input
+bool	is_valid_input(char *line, char **envp);
+void	handle_invalid_input(void);
+
+//	execution
 char	*get_env(char **envp);
 char	**get_path(char *path, char *cmd);
 
@@ -41,7 +42,7 @@ bool	is_redirect(char *str);
 bool	is_pipe(char *str);
 bool	is_flag(char *str);
 
-//list
+//	list
 void	print_list(t_node *list);
 void	free_node(t_node **node);
 void	free_list(t_node **list);
@@ -49,12 +50,14 @@ t_node	*new_node(char *arg, char **envp);
 void	add_node_back(t_node **list, t_node *current);
 t_node	*create_list(t_node **list, char **args, int wordc, char **envp);
 
-//signals
+//	signals
 extern volatile sig_atomic_t	g_signal;
 void	enable_signals(void);
 void	receive_SIGINT();
 
-
+//	utils
+int		word_count(char const *s);
+void	free_arr(char **arr);
 
 
 #endif
