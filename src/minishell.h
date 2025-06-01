@@ -14,7 +14,9 @@
 #define REDIRECTION 3
 #define PIPE 4
 #define STRING 5
-#define FLAG 6
+#define SQUOTE 6
+#define DQUOTE 7
+#define FLAG 8
 
 typedef struct	s_node
 {

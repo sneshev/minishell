@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-int	find_arg_type(char *arg, char **envp)
-{
-	if (is_builtin(arg))
-		return (BUILTIN);
-	if (is_command(arg, envp))
-		return (COMMAND);
-	if (is_flag(arg))
-		return (FLAG);
-	if (is_pipe(arg))
-		return (PIPE);
-	if (is_redirect(arg))
-		return (REDIRECTION);
-	return (-1);
-}
-
 bool is_builtin(char *str)//some of these are also 2 (recognized by access) so what are they?
 {
 	// if (ft_strncmp(arg, "echo", 5) == 0) // ?	?	?
@@ -151,4 +136,50 @@ bool	is_flag(char *str)
 {
 	(void)str;
 	return false;
+}
+
+// return (-2); for unclosed brackets
+// doenst handle a string with spaces in between
+// example: "hello my name is"
+int is_quote(char *str)
+{
+	int last_chr;
+
+	if (!str)
+		return (0);
+	if (*str == '\'')
+	{
+		last_chr = ft_strlen(str) - 1;
+		if (str[last_chr] == '\'' && last_chr)
+			return (SQUOTE);
+		else
+			return (-2);
+	}
+	else if (*str == '\"')
+	{
+		last_chr = ft_strlen(str) - 1;
+		if (str[last_chr] == '\"' && last_chr)
+			return (DQUOTE);
+		else
+			return (-2);
+	}
+	else
+		return (0);
+}
+
+int	find_arg_type(char *arg, char **envp)
+{
+	if (is_builtin(arg))
+		return (BUILTIN);
+	if (is_command(arg, envp))
+		return (COMMAND);
+	if (is_flag(arg))
+		return (FLAG);
+	if (is_pipe(arg))
+		return (PIPE);
+	if (is_redirect(arg))
+		return (REDIRECTION);
+	if (is_quote(arg))
+		return (is_quote(arg));
+	return (-1);
 }
