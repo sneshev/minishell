@@ -1,5 +1,26 @@
 #include "minishell.h"
 
+void	free_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return ;
+	while (arr[i])
+	{
+		if (arr[i])
+		{
+			free(arr[i]);
+			arr[i] = NULL;
+		}
+		i++;
+	}
+	free(arr);
+	arr = NULL;
+}
+
+
 bool is_quote(char c)
 {
     if (c == '\'')
@@ -53,7 +74,8 @@ int count_args(char *str)
     return (count);
 }
 
-int arg_len(char *str)
+// return (-2); for unclosed brackets
+int find_arg_len(char *str)
 {
     int count;
     int quote_type;
@@ -69,12 +91,14 @@ int arg_len(char *str)
             count++;
             if (is_quote(*str))
             {
-                quote_type = is_quote(*str);
-                while (++(*str))
+                quote_type = *str;
+                while (*(++str))
                 {
                     count++;
                     if (*str == quote_type)
                         break ;
+                    if (*(str + 1) == '\0')
+                        return (-2);
                 }
             }
             str++;
@@ -83,31 +107,68 @@ int arg_len(char *str)
     return (count);
 }
 
+void add_arg(char **arr, int index,char *str, int arg_len)
+{
+    int j;
+
+    arg_len = find_arg_len(str);
+    arr[index] = (char *)malloc((arg_len + 1) * sizeof(char));
+    if (!arr[index])
+        return ;
+    
+    j = 0;
+    while(j < arg_len)
+    {
+        arr[index][j] = str[j];
+        j++;
+    }
+    arr[index][j] = '\0';
+}
+
 char **get_args(char *str)
 {
-    char **args = NULL;
-    int arg_amount;
+    char **arr = NULL;
+    int total_args;
+    int arg_len;
     int index;
+    int j;
 
-    arg_amount = count_args(str);
-    args = (char **)malloc((arg_amount + 1) * sizeof(char *));
-    if (!args)
+    total_args = count_args(str);
+    arr = (char **)malloc((total_args + 1) * sizeof(char *));
+    if (!arr)
         return (NULL);
     index = 0;
-    while (index < arg_amount)
+    while (index < total_args)
     {
-        
-    }    
+        while (is_space(*str))
+            str++;
+        add_arg(arr, index, str, arg_len);
+        str += find_arg_len(str);
+        if (!arr[index])
+        {
+            free_arr(arr);
+            return (NULL);
 
-    return (args);
+        }
+        index++;
+    }
+    arr[index] = NULL;
+    return (arr);
 }
 
 
 int main()
 {
-    char *str = "\' hey\'  \"iamstepcjho i am\'  \' a god\"   \'";
-    arg_len(str);
-
+    char *str = "cat README.tx | grep \"Hello World!\"";
+    char **args = get_args(str);
+    int i = 0;
+    while (args[i])
+    {
+        printf("args[%d]: %s\n", i, args[i]);
+        free(args[i]);
+        i++;
+    }
+    free(args);
 }
 
 
