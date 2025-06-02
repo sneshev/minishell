@@ -9,12 +9,16 @@ git merge origin/my-branch  -> merges non-local branch "my-branch" to current br
 
 
 
-
-
-
-
-
-
-
 stef  -> working on signals
 stef2 -> working on is_valid
+
+
+
+
+
+
+TO DO;
+.do execution
+.nandle errors
+.handle signals in working processes
+.

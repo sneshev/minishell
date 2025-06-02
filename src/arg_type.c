@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 16:59:10 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:57:51 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,38 +30,17 @@ bool is_builtin(char *str)//some of these are also 2 (recognized by access) so w
 		return (true);
 	return (false);
 }
+
 bool	is_command(char *str, char **envp)
 {
-	char	*path;
-	char	**paths;
-	char	*full_cmd;
-	int		i;
+	char	*cmd;
 
-	if (str[0] == '/' || str[0] == '.')//more checks for this?
-		return (str);
-	i = 0;
-	path = get_env(envp);
-	paths = get_path(path, str);
-	if (!paths)
-		return (perror("malloc error message\n"), false);
-	while (paths[i])
-	{
-		full_cmd = ft_strdup(paths[i]);
-		if (!full_cmd)
-			return (free_arr(paths), false);
-		if (access(full_cmd, F_OK) == 0)
-		{
-			free_arr(paths);
-			free(full_cmd);
-			return (true);
-		}
-		free(full_cmd);
-		i++;
-	}
-	free_arr(paths);
-	return (false);
+	cmd = get_cmd(str, envp);
+	if (!cmd)
+		return (false);
+	free(cmd);
+	return (true);
 }
-
 
 /*
 	⬇️	this was the function before	⬇️
@@ -71,35 +50,6 @@ bool	is_command(char *str, char **envp)
 	can be used to execute the commands too, thats why i did 
 	not delete it but left it commented out
 */
-
-// bool	is_command(char *str, char **envp)
-// {
-// 	char	*path;
-// 	char	**paths;
-// 	char	*full_cmd;
-// 	int		i;
-
-// 	if (str[0] == '/' || str[0] == '.')//more checks for this?
-// 		return (str);
-// 	i = 0;
-// 	path = get_env(envp);
-// 	paths = get_path(path, str);
-// 	if (!paths)
-// 		return (perror("malloc error message\n"), NULL);
-// 	while (paths[i])
-// 	{
-// 		full_cmd = ft_strdup(paths[i]);
-// 		if (!full_cmd)
-// 			return (free_array(paths), NULL);
-// 		if (access(full_cmd, F_OK) == 0)
-// 			return (free_array(paths), full_cmd);
-// 		free(full_cmd);
-// 		i++;
-// 	}
-// 	free_array(paths);
-// 	return (NULL);
-// }
-
 
 bool is_redirect(char *str)
 {
@@ -131,36 +81,15 @@ bool	is_pipe(char *str)
 	return (false);
 }
 
-//for now im only taking care of -, well see later if -- is needed too
-bool	is_flag(char *str)
-{
-	(void)str;
-	return false;
-}
-
-int is_string(char *str)
-{
-	if (*str == '\'')
-		return (SQUOTE);
-	if (*str == '\"')
-		return (DQUOTE);
-	else
-		return (0);
-}
-
 int	find_arg_type(char *arg, char **envp)
 {
 	if (is_builtin(arg))
 		return (BUILTIN);
 	if (is_command(arg, envp))
 		return (COMMAND);
-	if (is_flag(arg))
-		return (FLAG);
 	if (is_pipe(arg))
 		return (PIPE);
 	if (is_redirect(arg))
 		return (REDIRECTION);
-	if (is_string(arg))
-		return (is_string(arg));
-	return (-1);
+	return (UNDEFINED);
 }

@@ -61,8 +61,6 @@ void	free_node(t_node **node_ptr)
 	{
 		if (node->arg)
 			free(node->arg);
-		// if (node->next)
-			// free(node->next);
 		free(node);
 		node = NULL;
 	}

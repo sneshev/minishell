@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:07:27 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 16:14:09 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:37:21 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,32 @@ char	**get_path(char *path, char *cmd)
 		i++;
 	}
 	return (paths);
+}
+
+char	*get_cmd(char *str, char **envp)
+{
+	char	*path;
+	char	**paths;
+	char	*full_cmd;
+	int		i;
+
+	if (str[0] == '/' || str[0] == '.')//more checks for this?
+		return (str);
+	i = 0;
+	path = get_env(envp);
+	paths = get_path(path, str);
+	if (!paths)
+		return (perror("malloc error message\n"), NULL);
+	while (paths[i])
+	{
+		full_cmd = ft_strdup(paths[i]);
+		if (!full_cmd)
+			return (free_array(paths), NULL);
+		if (access(full_cmd, F_OK) == 0)
+			return (free_array(paths), full_cmd);
+		free(full_cmd);
+		i++;
+	}
+	free_array(paths);
+	return (NULL);
 }

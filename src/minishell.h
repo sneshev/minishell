@@ -13,15 +13,17 @@
 #define COMMAND 2
 #define REDIRECTION 3
 #define PIPE 4
-#define STRING 5
+#define UNDEFINED 5
 #define SQUOTE 6
 #define DQUOTE 7
-#define FLAG 8
 
 typedef struct	s_node
 {
 	char			*arg;
 	int				arg_type;
+	int				index;
+	char			**envp;
+	struct s_node	*prev;
 	struct s_node	*next;
 }					t_node;
 
@@ -40,6 +42,7 @@ char	**get_args(char *str);
 //	execution
 char	*get_env(char **envp);
 char	**get_path(char *path, char *cmd);
+char	*get_cmd(char *str, char **envp);
 
 //	arg_types
 bool	is_builtin(char *str);
@@ -47,13 +50,12 @@ int		find_arg_type(char *arg, char **envp);
 bool	is_command(char *str, char **envp);
 bool	is_redirect(char *str);
 bool	is_pipe(char *str);
-bool	is_flag(char *str);
 
 //	list
 void	print_list(t_node *list);
 void	free_node(t_node **node);
 void	free_list(t_node **list);
-t_node	*new_node(char *arg, char **envp);
+t_node	*new_node(char *arg, int index, char **envp);
 void	add_node_back(t_node **list, t_node *current);
 t_node	*create_list(t_node **list, char **args, int wordc, char **envp);
 
@@ -65,5 +67,9 @@ void	receive_SIGINT();
 //	utils
 int		word_count(char const *s);
 void	free_arr(char **arr);
+
+//execute utils
+bool	get_flags(t_node **list);
+int		flag_count(t_node **list);
 
 #endif

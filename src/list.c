@@ -6,13 +6,13 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/31 16:39:29 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:09:30 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_node	*new_node(char *arg, char **envp)
+t_node	*new_node(char *arg, int index, char **envp)
 {
 	t_node	*node;
 
@@ -23,6 +23,9 @@ t_node	*new_node(char *arg, char **envp)
 	if (!node->arg)
 		return (NULL);
 	node->arg_type = find_arg_type(arg, envp);
+	node->index = index;
+	node->envp = envp;
+	node->prev = NULL;
 	node->next = NULL;
 	return (node);
 }
@@ -40,6 +43,7 @@ void	add_node_back(t_node **list, t_node *current)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = current;
+	current->prev = temp;
 }
 
 t_node	*create_list(t_node **list, char **args, int wordc, char **envp)
@@ -51,10 +55,13 @@ t_node	*create_list(t_node **list, char **args, int wordc, char **envp)
 	index = 0;
 	while (index < wordc)
 	{
-		new = new_node(args[index], envp);
+		new = new_node(args[index], index, envp);
 		if (!new)
 			return (free_list(list), NULL);
-		add_node_back(list, new);
+		if (*list == NULL)
+			list = new;
+		else
+			add_node_back(list, new);
 		index++;
 	}
 	return (*list);
