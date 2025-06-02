@@ -29,6 +29,8 @@ void print_type(int type)
 		printf("(double quotes)");
 	if (type == FLAG)
 		printf("(flag)");
+	if (type == -1)
+		printf("(undefined)");
 	printf("\n");
 }
 
