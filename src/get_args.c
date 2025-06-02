@@ -20,41 +20,6 @@ bool is_space(char c)
 }
 
 // return (-2); for unclosed brackets
-int count_args(char *str)
-{
-    int count;
-    int quote_type;
-
-    if (!str)
-        return (-1);
-    count = 0;
-    while (*str)
-    {
-        quote_type = 0;
-        while (is_space(*str))
-            str++;
-        if (*str)
-        {
-            count++;
-            while(*str && !is_space(*str)) 
-            {
-                if (is_quote(*str))
-                {
-                    quote_type = *str;
-                    str++;
-                    while (*str && *str != quote_type)
-                        str++;
-                    if (*str == '\0')
-                        return (-2);
-                }    
-                str++;
-            }
-        }
-    }
-    return (count);
-}
-
-// return (-2); for unclosed brackets
 int find_arg_len(char *str)
 {
     int count;
@@ -82,6 +47,33 @@ int find_arg_len(char *str)
                 }
             }
             str++;
+        }
+    }
+    return (count);
+}
+
+
+
+// return (-2); for unclosed brackets
+int count_args(char *str)
+{
+    int count;
+    int arg_len;
+
+    if (!str)
+        return (-1);
+    count = 0;
+    while (*str)
+    {
+        while (is_space(*str))
+            str++;
+        if (*str)
+        {
+            arg_len = find_arg_len(str);
+            if (arg_len < 0)
+                return (arg_len);
+            count++;
+            str += arg_len;
         }
     }
     return (count);
