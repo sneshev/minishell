@@ -6,95 +6,42 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/05/30 18:24:30 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:30:03 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#define COMMAND 1
-#define FLAG 2
-#define REDIRECTION 3
-#define PIPE 4
-#define STRING 5
-
-int	word_count(char const *s)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (s[i] != '\0')
-	{
-		while (s[i] == ' ')
-			i++;
-		if (s[i] != '\0')
-		{
-			j++;
-			while (s[i] != ' ' && s[i] != '\0')
-				i++;
-		}
-	}
-	return (j);
-}
-
-bool	is_valid_input(char *line, char **envp)
-{
-	char	**arguments;
-	int		*arg_type;
-	int		wordcount;
-	int		i;
-
-	arguments = ft_split(line, ' ');
-	if (!arguments)
-		return (false);
-	arg_type = malloc(word_count);
-	if (!arg_type)
-		return (false);
-	wordcount = word_count(line);
-	i = 0;
-	while (i < wordcount)
-	{
-		if (is_command(arguments[i], envp))
-			arg_type[i] = COMMAND;
-		if (arguments[i] == is_flag())
-			arg_type[i] = FLAG;
-		if (is_pipe(arguments[i]))
-			arg_type[i] = PIPE;
-		if (is_redirect(arguments[i]))
-			arg_type = REDIRECTION;
-		i++;
-	}
-	return (true);
-
-}
-
-void	minishell(char *line)
+void execute_line(char *line)
 {
 	(void)line;
 }
 
-void	invalid_input(void)
+void	minishell(char *envp[])
 {
-
+	while (1)
+	{
+		char *line = readline("minishell$ ");
+		if (!line || ft_strncmp(line, "exit", 5) == 0)
+		{
+			write(1, "exit\n", 5);
+			exit(1);
+		}
+		if (g_signal == SIGINT)
+			receive_SIGINT();
+		if (is_valid_input(line, envp) == true)
+			execute_line(line);
+		else
+			handle_invalid_input();
+	}
 }
+
 int main(int argc, char *argv[], char *envp[])
 {
 	(void)argv;
 	if (argc != 1)
 		return (1);
-	while(1)
-	{
-		char *line = readline("minishell$ ");
-		if (ft_strncmp(line, "exit", 5) == 0)
-			exit(1);
-
-		if (is_valid_input(line, envp) == true)
-			minishell(line);
-		// else
-		// 	invalid_input();
-
-	}
+	enable_signals();
+	minishell(envp);
 	return (0);
 }

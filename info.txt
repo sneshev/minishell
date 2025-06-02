@@ -6,3 +6,19 @@ git checkout main           -> change branch to "main"
 
 git merge my-branch         -> merges local branch "my-branch" to current branch (main)
 git merge origin/my-branch  -> merges non-local branch "my-branch" to current branch (main)
+
+
+
+stef  -> working on signals
+stef2 -> working on is_valid
+
+
+
+
+
+
+TO DO;
+.do execution
+.nandle errors
+.handle signals in working processes
+.
