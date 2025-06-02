@@ -1,21 +1,20 @@
 #include "minishell.h"
 #include <fcntl.h>
 
+// size_t	ft_strlen(const char *s)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (s[i])
+// 		i++;
+// 	return (i);
+// }
 
 // void append_to_file(char *input, char *filename)
 // {
 
 // }
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
 
 int replace_file(char *input, char *filename)
 {
