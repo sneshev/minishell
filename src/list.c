@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/02 16:09:30 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/03 15:53:19 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ t_node	*create_list(t_node **list, char **args, int wordc, char **envp)
 	int		index;
 
 	new = NULL;
-	index = 0;
-	while (index < wordc)
+	index = 1;
+	while (index <= wordc)
 	{
 		new = new_node(args[index], index, envp);
 		if (!new)

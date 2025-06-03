@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/02 18:59:52 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:00:42 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,33 @@ int	execute(t_node **list)
 {
 	char	*arg;
 	t_node	*temp;
-	int		i;
+	// int		i;
 
 	temp = *list;
-	i = 0;
+	// i = 1;
 	while (temp)
 	{
 		if (temp->arg_type == BUILTIN)
-			execute_builtin();
+		{
+			printf("builtin\n");
+			// execute_builtin();
+		}
 		else if (temp->arg_type == COMMAND)
-			execute_command();
+		{
+			printf("command\n");
+			// execute_command();
+		}
 		else if (temp->arg_type == PIPE)
-			execute_pipe();
+		{
+			printf("pipe\n");
+			// execute_pipe();
+		}
 		else if (temp->arg_type == REDIRECTION)
-			execute_direction();
-		while (temp->next && i < temp->index)
-			temp = temp->next;
+		{
+			printf("redirection\n");
+			// execute_direction();
+		}
+		temp = temp->next;
 	}
 	return (0);
 }
