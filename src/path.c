@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:07:27 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/02 15:37:21 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:38:47 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ char	*get_cmd(char *str, char **envp)
 	{
 		full_cmd = ft_strdup(paths[i]);
 		if (!full_cmd)
-			return (free_array(paths), NULL);
+			return (free_arr(paths), NULL);
 		if (access(full_cmd, F_OK) == 0)
-			return (free_array(paths), full_cmd);
+			return (free_arr(paths), full_cmd);
 		free(full_cmd);
 		i++;
 	}
-	free_array(paths);
+	free_arr(paths);
 	return (NULL);
 }

@@ -6,58 +6,89 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/03 16:00:42 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:48:29 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_command(char *arg, t_node **list)
+void	print_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		printf("arr[%d]: %s\n", i, arr[i]);
+		i++;
+	}
+}
+//i didnt try to test this at all yet...
+void	execute_command(t_node **node)
 {
 	char	*cmd;
 	int		flagc;
 	char	**flags;
+	int		pid;
 
-	cmd = get_cmd(arg, (*list)->envp);
+	pid = fork();
+	if (pid == -1)
+		error_message("fork error\n", -1);
+	
+	cmd = get_cmd((*node)->arg, (*node)->envp);
 	if (!cmd)
-		return (0);
-	flagc = flag_count(list);
-	flags = get_flags(list);
+		error_message("malloc error\n", -1);
+	printf("cmd: %s\n", cmd);
+	(*node)->arg = cmd;
+	flagc = flag_count(node);
+	printf("flagc: %d\n", flagc);
+	flags = get_flags(flagc, node);
+	// print_arr(flags);//!!SOMETHING GOES WRONG HERE!!
 	if (!flags)
-		return (free(cmd), 0);
-	if (execve(cmd, flags, (*list)->envp) == -1)
-		return (error_message());
+	{
+		free(cmd);
+		error_message("malloc error\n", -1);
+	}
+	if (access(cmd, X_OK) == -1)
+		error_message("access execute error\n", 126);
+	execve(flags[0], flags, (*node)->envp);//if execve is succesfull it will terminate and never get too the error_message
+	error_message("execve error\n", 127);//this means execve error
+}
+
+void	print_node(t_node *node)
+{
+	printf("index: %d\n", node->index);
+	printf("arg: %s\n", node->arg);
+	print_type(node->arg_type);
+	printf("-----------------------\n");
 }
 
 int	execute(t_node **list)
 {
-	char	*arg;
 	t_node	*temp;
-	// int		i;
 
 	temp = *list;
-	// i = 1;
 	while (temp)
 	{
 		if (temp->arg_type == BUILTIN)
 		{
-			printf("builtin\n");
-			// execute_builtin();
+			print_node(temp);
+		// 	// execute_builtin(&temp);
 		}
 		else if (temp->arg_type == COMMAND)
 		{
-			printf("command\n");
-			// execute_command();
+			print_node(temp);
+			execute_command(&temp);
 		}
 		else if (temp->arg_type == PIPE)
 		{
-			printf("pipe\n");
-			// execute_pipe();
+			print_node(temp);
+		// 	// execute_pipe();
 		}
 		else if (temp->arg_type == REDIRECTION)
 		{
-			printf("redirection\n");
-			// execute_direction();
+			print_node(temp);
+		// 	// execute_direction();
 		}
 		temp = temp->next;
 	}

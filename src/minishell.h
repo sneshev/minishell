@@ -17,6 +17,9 @@
 #define SQUOTE 6
 #define DQUOTE 7
 
+#define READ 0
+#define WRITE 1
+
 typedef struct	s_node
 {
 	char			*arg;
@@ -28,9 +31,13 @@ typedef struct	s_node
 }					t_node;
 
 
+//temporary
+void	print_type(int type);
+void	print_list(t_node *list);
+
 //	input
 bool	is_valid_input(char *line, char **envp);
-void	handle_invalid_input(void);
+// void	handle_invalid_input(void);
 
 //	get_args
 bool	is_space(char c);
@@ -38,8 +45,7 @@ int		find_arg_len(char *str);
 int		count_args(char *str);
 char	**get_args(char *str);
 
-
-//	execution
+//	path
 char	*get_env(char **envp);
 char	**get_path(char *path, char *cmd);
 char	*get_cmd(char *str, char **envp);
@@ -67,9 +73,14 @@ void	receive_SIGINT();
 //	utils
 int		word_count(char const *s);
 void	free_arr(char **arr);
+void	error_message(char const *s, int exit_code);
+
+//execute
+void	execute_command(t_node **node);
+int		execute(t_node **list);
 
 //execute utils
-bool	get_flags(t_node **list);
-int		flag_count(t_node **list);
+char	**get_flags(int flagc, t_node **node);
+int		flag_count(t_node **node);
 
 #endif

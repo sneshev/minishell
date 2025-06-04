@@ -1,16 +1,5 @@
 #include "minishell.h"
 
-
-#define BUILTIN 1
-#define COMMAND 2
-#define REDIRECTION 3
-#define PIPE 4
-#define STRING 5
-#define SQUOTE 6
-#define DQUOTE 7
-#define FLAG 8
-
-
 void print_type(int type)
 {
 	if (type == BUILTIN)
@@ -21,32 +10,24 @@ void print_type(int type)
 		printf("(redirection)");
 	if (type == PIPE)
 		printf("(pipe)");
-	if (type == STRING)
-		printf("(string)");
+	if (type == UNDEFINED)
+		printf("(undefined)");
 	if (type == SQUOTE)
 		printf("(single quotes)");
 	if (type == DQUOTE)
 		printf("(double quotes)");
-	if (type == FLAG)
-		printf("(flag)");
-	if (type == -1)
-		printf("(undefined)");
 	printf("\n");
 }
 
 void	print_list(t_node *list)
 {
-	int	i;
-
-	i = 0;
 	while (list)
 	{
-		printf("%d	list->line: %s\n", i, list->arg);
-		printf("%d	list->arg_type: %d ", i, list->arg_type);
+		printf("%d	list->line: %s\n", list->index, list->arg);
+		printf("%d	list->arg_type: %d ", list->index, list->arg_type);
 		print_type(list->arg_type);
 		printf("-----------------------\n");
 		list = list->next;
-		i++;
 	}
 }
 
