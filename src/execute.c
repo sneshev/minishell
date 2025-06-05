@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/04 16:48:29 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:28:42 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	execute_command(t_node **node)
 	flagc = flag_count(node);
 	printf("flagc: %d\n", flagc);
 	flags = get_flags(flagc, node);
-	// print_arr(flags);//!!SOMETHING GOES WRONG HERE!!
+	print_arr(flags);//!!SOMETHING GOES WRONG HERE!!
 	if (!flags)
 	{
 		free(cmd);

@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 15:59:57 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/04 16:17:12 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:29:55 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char	**get_flags(int flagc, t_node **node)
 		*node = (*node)->next;
 		i++;
 	}
+	flags[i] = NULL;
 	return (flags);
 }
 
