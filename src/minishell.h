@@ -58,6 +58,7 @@ bool	is_redirect(char *str);
 bool	is_pipe(char *str);
 
 //	list
+void print_line(t_node *list);
 void	print_list(t_node *list);
 void	free_node(t_node **node);
 void	free_list(t_node **list);

@@ -1,5 +1,10 @@
 #include "minishell.h"
 
+#define GREEN   "\033[0;32m"
+#define ORANGE  "\033[38;5;208m"  // or try 214 for a lighter orange
+#define YELLOW  "\033[0;33m"
+#define DEFAULT   "\033[0m"
+
 void print_type(int type)
 {
 	if (type == BUILTIN)
@@ -29,6 +34,34 @@ void	print_list(t_node *list)
 		printf("-----------------------\n");
 		list = list->next;
 	}
+}
+
+void print_line(t_node *list)
+{
+	while (list)
+	{
+		if (list->arg_type == COMMAND)
+		{
+			printf(GREEN "%s " DEFAULT, list->arg); fflush(NULL);
+			list = list->next;
+			while (list && list->arg_type != REDIRECTION && list->arg_type != PIPE)
+			{
+				printf(YELLOW "%s " DEFAULT, list->arg); fflush(NULL);
+				list = list->next;
+			}
+		}
+		else if (list->arg_type == REDIRECTION || list->arg_type == PIPE)
+		{
+			printf("%s ", list->arg); fflush(NULL);
+			list = list->next;
+		}
+		else
+		{
+			printf(ORANGE "%s " DEFAULT, list->arg); fflush(NULL);
+			list = list->next;
+		}
+	}
+	printf("\n"); fflush(NULL);
 }
 
 void	free_node(t_node **node_ptr)
