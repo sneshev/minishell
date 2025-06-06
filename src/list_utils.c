@@ -50,9 +50,14 @@ void print_line(t_node *list)
 				list = list->next;
 			}
 		}
-		else if (list->arg_type == REDIRECTION || list->arg_type == PIPE)
+		else if (list->arg_type == PIPE)
 		{
 			printf("%s ", list->arg); fflush(NULL);
+			list = list->next;
+		}
+		else if (list->arg_type == REDIRECTION)
+		{
+			printf(ORANGE "%s " DEFAULT, list->arg); fflush(NULL);
 			list = list->next;
 		}
 		else

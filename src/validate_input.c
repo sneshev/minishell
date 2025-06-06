@@ -23,6 +23,7 @@ bool	is_valid_input(char *line, char **envp)
 		return (false);
 	// check_arg_order(&line);
 	print_list(list);
+	print_line(list);
 	execute(&list);
 	free_list(&list);
 	return (true);
