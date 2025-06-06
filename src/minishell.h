@@ -20,20 +20,20 @@
 #define READ 0
 #define WRITE 1
 
-typedef struct	s_node
+typedef struct	s_list
 {
 	char			*arg;
 	int				arg_type;
 	int				index;
 	char			**envp;
-	struct s_node	*prev;
-	struct s_node	*next;
-}					t_node;
+	struct s_list	*prev;
+	struct s_list	*next;
+}					t_list;
 
 
 //temporary
 void	print_type(int type);
-void	print_list(t_node *list);
+void	print_list(t_list *list);
 
 //	input
 bool	is_valid_input(char *line, char **envp);
@@ -58,13 +58,13 @@ bool	is_redirect(char *str);
 bool	is_pipe(char *str);
 
 //	list
-void print_line(t_node *list);
-void	print_list(t_node *list);
-void	free_node(t_node **node);
-void	free_list(t_node **list);
-t_node	*new_node(char *arg, int index, char **envp);
-void	add_node_back(t_node **list, t_node *current);
-t_node	*create_list(t_node **list, char **args, int wordc, char **envp);
+void print_line(t_list *list);
+void	print_list(t_list *list);
+void	free_node(t_list **node);
+void	free_list(t_list **list);
+t_list	*new_node(char *arg, int index, char **envp);
+void	add_node_back(t_list **list, t_list *current);
+t_list	*create_list(t_list **list, char **args, int wordc, char **envp);
 
 //	signals
 extern volatile sig_atomic_t	g_signal;
@@ -77,11 +77,11 @@ void	free_arr(char **arr);
 void	error_message(char const *s, int exit_code);
 
 //execute
-void	execute_command(t_node **node, char **envp);
-int		execute(t_node **list);
+void	execute_command(t_list **node, char **envp);
+int		execute(t_list **list);
 
 //execute utils
-char	**get_flags(int flagc, t_node **node);
-int		flag_count(t_node **node);
+char	**get_flags(int flagc, t_list **node);
+int		flag_count(t_list **node);
 
 #endif

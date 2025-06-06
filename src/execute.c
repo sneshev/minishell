@@ -23,72 +23,72 @@ void	print_arr(char **arr)
 		i++;
 	}
 }
-//i didnt try to test this at all yet...
-void	execute_command(t_node **node, char **envp)
+
+void	child_process(t_list **list, char **envp)
 {
 	char	*cmd;
 	int		flagc;
 	char	**flags;
-	int		pid;
 
-	pid = fork();
-	if (pid == -1)
-		error_message("fork error\n", -1);
-	
-	cmd = get_cmd((*node)->arg, (*node)->envp);
+	cmd = get_cmd((*list)->arg, envp);
 	if (!cmd)
-		error_message("malloc error\n", -1);
-	(*node)->arg = cmd;
-	flagc = flag_count(node);
-	flags = get_flags(flagc, node);
-	print_arr(flags);//!!SOMETHING GOES WRONG HERE!!
+		error_message("malloc error", 1);
+	(*list)->arg = cmd;
+	flagc = flag_count(list);
+	flags = get_flags(flagc, list);
 	if (!flags)
 	{
 		free(cmd);
-		error_message("malloc error\n", -1);
+		error_message("malloc error", 1);
 	}
 	if (access(cmd, X_OK) == -1)
-		error_message("access execute error\n", 126);
-	execve(flags[0], flags, envp);//if execve is succesfull it will terminate and never get too the error_message
-	error_message("execve error\n", 127);//this means execve error
+		error_message("access execute error", 126);
+	if (execve(flags[0], flags, envp) == -1)
+		error_message("execve error", 127);
 }
 
-void	print_node(t_node *node)
+void	execute_command(t_list **list, char **envp)
 {
-	printf("index: %d\n", node->index);
-	printf("arg: %s\n", node->arg);
-	print_type(node->arg_type);
-	printf("-----------------------\n");
+	int	pid;
+	// int	status;
+
+	pid = fork();
+	if (pid == -1)
+		error_message("fork fail", -1);
+	if (pid == 0)
+		child_process(list, envp);
+	// status = 0;
+	// waitpid(pid, &status, 0);
+	// if (WIFEXITED(status))
+	// 	return (WEXITSTATUS(status));
+	wait(NULL);
 }
 
-int	execute(t_node **list)
+int	execute(t_list **list)
 {
-	t_node	*temp;
-
-	temp = *list;
-	while (temp)
+	while ((*list))
 	{
-		if (temp->arg_type == BUILTIN)
+		if ((*list)->arg_type == BUILTIN)
 		{
-			print_node(temp);
-		// 	// execute_builtin(&temp);
+			print_list(*list);
+		// 	// execute_builtin(&(*list));
 		}
-		else if (temp->arg_type == COMMAND)
+		else if ((*list)->arg_type == COMMAND)
 		{
-			print_node(temp);
-			execute_command(&temp, (*list)->envp);
+			print_list((*list));
+			execute_command(&(*list), (*list)->envp);
 		}
-		else if (temp->arg_type == PIPE)
+		else if ((*list)->arg_type == PIPE)
 		{
-			print_node(temp);
+			print_list((*list));
 		// 	// execute_pipe();
 		}
-		else if (temp->arg_type == REDIRECTION)
+		else if ((*list)->arg_type == REDIRECTION)
 		{
-			print_node(temp);
+			print_list(*list);
 		// 	// execute_direction();
 		}
-		temp = temp->next;
+		*list = (*list)->next;
 	}
 	return (0);
 }

@@ -8,7 +8,7 @@
 
 bool	is_valid_input(char *line, char **envp)
 {
-	t_node	*list;
+	t_list	*list;
 	char	**args;
 	int		arg_count;
 

@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-int	flag_count(t_node **node)
+int	flag_count(t_list **list)
 {
-	t_node	*temp;
+	t_list	*temp;
 	int		flagc;
 
 	flagc = 0;
-	temp = (*node)->next;
+	temp = (*list)->next;
 	while (temp && temp->arg_type != REDIRECTION && temp->arg_type != PIPE)
 	{
 		flagc++;
@@ -29,7 +29,7 @@ int	flag_count(t_node **node)
 
 // int	main(int argc, char *argv[], char *envp[])
 // {
-// 	t_node *list = NULL;
+// 	t_list *list = NULL;
 // 	list = create_list(&list, argv, argc - 1, envp);
 // 	print_list(list);
 // 	printf("flagc: %d\n", flag_count(&list));
@@ -37,7 +37,7 @@ int	flag_count(t_node **node)
 
 // }
 
-char	**get_flags(int flagc, t_node **node)
+char	**get_flags(int flagc, t_list **list)
 {
 	char	**flags;
 	int		i;
@@ -50,42 +50,19 @@ char	**get_flags(int flagc, t_node **node)
 	{
 		if (i == 0)
 		{
-			flags[i] = ft_strdup((*node)->arg);
+			flags[i] = ft_strdup((*list)->arg);
 			if (!flags[i])
 				return (free_arr(flags), error_message("malloc error\n", -1), NULL);
 		}
 		else
 		{
-			flags[i] = ft_strdup((*node)->arg);
+			flags[i] = ft_strdup((*list)->arg);
 			if (!flags[i])
 				return (free_arr(flags), error_message("malloc error\n", -1), NULL);
 		}
-		*node = (*node)->next;
+		*list = (*list)->next;
 		i++;
 	}
 	flags[i] = NULL;
 	return (flags);
 }
-
-// bool	get_flags(t_node **node)
-// {
-// 	t_node	*temp;
-// 	char	**flags;
-// 	int		flagc;
-// 	int		i;
-
-// 	flagc = flag_count(node);
-// 	flags = malloc(sizeof(char *) * (flagc + 1));
-// 	if (!flags)
-// 		return (false);
-// 	i = 0;
-// 	while (i <= flagc)
-// 	{
-// 		if (i == 0)
-// 			flags[i] = temp->prev->arg;
-// 		else
-// 			flags[i] = temp->arg;
-// 		i++;
-// 	}
-// 	return (*flags);
-// }

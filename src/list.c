@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-t_node	*new_node(char *arg, int index, char **envp)
+t_list	*new_node(char *arg, int index, char **envp)
 {
-	t_node	*node;
+	t_list	*node;
 
-	node = malloc(sizeof(t_node));
+	node = malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
 	node->arg = ft_strdup(arg);
@@ -30,9 +30,9 @@ t_node	*new_node(char *arg, int index, char **envp)
 	return (node);
 }
 
-void	add_node_back(t_node **list, t_node *current)
+void	add_node_back(t_list **list, t_list *current)
 {
-	t_node	*temp;
+	t_list	*temp;
 
 	if (*list == NULL)
 	{
@@ -46,9 +46,9 @@ void	add_node_back(t_node **list, t_node *current)
 	current->prev = temp;
 }
 
-t_node	*create_list(t_node **list, char **args, int wordc, char **envp)
+t_list	*create_list(t_list **list, char **args, int wordc, char **envp)
 {
-	t_node	*new;
+	t_list	*new;
 	int		index;
 
 	new = NULL;

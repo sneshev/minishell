@@ -43,7 +43,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	(void)argv;
 	(void)argc;
-	char *line = "grep './src/*.c' cat -l | wc -l > outfile.txt";
+	char *line = "ls -l -la -yo wc";
 	// if (argc != 1)
 	// 	return (1);
 	// enable_signals();

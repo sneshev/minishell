@@ -24,7 +24,7 @@ void print_type(int type)
 	printf("\n");
 }
 
-void	print_list(t_node *list)
+void	print_list(t_list *list)
 {
 	while (list)
 	{
@@ -36,7 +36,7 @@ void	print_list(t_node *list)
 	}
 }
 
-void print_line(t_node *list)
+void print_line(t_list *list)
 {
 	while (list)
 	{
@@ -69,9 +69,9 @@ void print_line(t_node *list)
 	printf("\n"); fflush(NULL);
 }
 
-void	free_node(t_node **node_ptr)
+void	free_node(t_list **node_ptr)
 {
-	t_node	*node;
+	t_list	*node;
 
 	if (!node_ptr)
 		return ;
@@ -85,9 +85,9 @@ void	free_node(t_node **node_ptr)
 	}
 }
 
-void	free_list(t_node **list)
+void	free_list(t_list **list)
 {
-	t_node	*temp;
+	t_list	*temp;
 	while (*list)
 	{
 		temp = *list;
