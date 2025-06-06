@@ -43,7 +43,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	(void)argv;
 	(void)argc;
-	char *line = "ls -l -la wc";
+	char *line = "wc -l -yuh -la wc";
 	// if (argc != 1)
 	// 	return (1);
 	// enable_signals();

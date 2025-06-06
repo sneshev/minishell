@@ -76,7 +76,7 @@ void	free_arr(char **arr);
 void	error_message(char const *s, int exit_code);
 
 //execute
-void	execute_command(t_node **node);
+void	execute_command(t_node **node, char **envp);
 int		execute(t_node **list);
 
 //execute utils

@@ -24,7 +24,7 @@ void	print_arr(char **arr)
 	}
 }
 //i didnt try to test this at all yet...
-void	execute_command(t_node **node)
+void	execute_command(t_node **node, char **envp)
 {
 	char	*cmd;
 	int		flagc;
@@ -38,10 +38,8 @@ void	execute_command(t_node **node)
 	cmd = get_cmd((*node)->arg, (*node)->envp);
 	if (!cmd)
 		error_message("malloc error\n", -1);
-	printf("cmd: %s\n", cmd);
 	(*node)->arg = cmd;
 	flagc = flag_count(node);
-	printf("flagc: %d\n", flagc);
 	flags = get_flags(flagc, node);
 	print_arr(flags);//!!SOMETHING GOES WRONG HERE!!
 	if (!flags)
@@ -51,7 +49,7 @@ void	execute_command(t_node **node)
 	}
 	if (access(cmd, X_OK) == -1)
 		error_message("access execute error\n", 126);
-	execve(flags[0], flags, (*node)->envp);//if execve is succesfull it will terminate and never get too the error_message
+	execve(flags[0], flags, envp);//if execve is succesfull it will terminate and never get too the error_message
 	error_message("execve error\n", 127);//this means execve error
 }
 
@@ -78,7 +76,7 @@ int	execute(t_node **list)
 		else if (temp->arg_type == COMMAND)
 		{
 			print_node(temp);
-			execute_command(&temp);
+			execute_command(&temp, (*list)->envp);
 		}
 		else if (temp->arg_type == PIPE)
 		{

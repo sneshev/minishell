@@ -19,7 +19,7 @@ int	flag_count(t_node **node)
 
 	flagc = 0;
 	temp = (*node)->next;
-	while (temp && temp->arg_type == UNDEFINED)
+	while (temp && temp->arg_type != REDIRECTION && temp->arg_type != PIPE)
 	{
 		flagc++;
 		temp = temp->next;

@@ -1,0 +1,2 @@
+/usr/bin/wc: illegal option -- y
+usage: wc [-Lclmw] [file ...]
