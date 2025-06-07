@@ -31,11 +31,11 @@ bool is_builtin(char *str)//some of these are also 2 (recognized by access) so w
 	return (false);
 }
 
-bool	is_command(char *str, char **envp)
+bool	is_command(char *str)
 {
 	char	*cmd;
 
-	cmd = get_cmd(str, envp);
+	cmd = get_cmd(str);
 	if (!cmd)
 		return (false);
 	free(cmd);
@@ -81,11 +81,11 @@ bool	is_pipe(char *str)
 	return (false);
 }
 
-int	find_arg_type(char *arg, char **envp)
+int	find_arg_type(char *arg)
 {
 	if (is_builtin(arg))
 		return (BUILTIN);
-	if (is_command(arg, envp))
+	if (is_command(arg))
 		return (COMMAND);
 	if (is_pipe(arg))
 		return (PIPE);

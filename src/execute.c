@@ -30,7 +30,7 @@ void	child_process(t_list **list, char **envp)
 	int		flagc;
 	char	**flags;
 
-	cmd = get_cmd((*list)->arg, envp);
+	cmd = get_cmd((*list)->arg);
 	if (!cmd)
 		error_message("malloc error", 1);
 	(*list)->arg = cmd;
@@ -50,12 +50,12 @@ void	child_process(t_list **list, char **envp)
 void	execute_command(t_list **list, char **envp)
 {
 	int	pid;
-	int	pip[2];
-	int	status;
+	// int	pip[2];
+	// int	status;
 
-	if (pipe(pip) == -1)
-		error_message("pipe error", 1);
-	close(pip[READ]);
+	// if (pipe(pip) == -1)
+	// 	error_message("pipe error", 1);
+	// close(pip[READ]);
 	pid = fork();
 	if (pid == -1)
 		error_message("fork fail", -1);
@@ -74,22 +74,18 @@ int	execute(t_list **list)
 	{
 		if ((*list)->arg_type == BUILTIN)
 		{
-			print_list(*list);
 		// 	// execute_builtin(&(*list));
 		}
 		else if ((*list)->arg_type == COMMAND)
 		{
-			print_list((*list));
 			execute_command(&(*list), (*list)->envp);
 		}
 		else if ((*list)->arg_type == PIPE)
 		{
-			print_list((*list));
 		// 	// execute_pipe();
 		}
 		else if ((*list)->arg_type == REDIRECTION)
 		{
-			print_list(*list);
 		// 	// execute_direction();
 		}
 		*list = (*list)->next;

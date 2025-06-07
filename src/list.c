@@ -22,7 +22,7 @@ t_list	*new_node(char *arg, int index, char **envp)
 	node->arg = ft_strdup(arg);
 	if (!node->arg)
 		return (NULL);
-	node->arg_type = find_arg_type(arg, envp);
+	node->arg_type = find_arg_type(arg);
 	node->index = index;
 	node->envp = envp;
 	node->prev = NULL;
@@ -65,4 +65,22 @@ t_list	*create_list(t_list **list, char **args, int wordc, char **envp)
 		index++;
 	}
 	return (*list);
+}
+
+t_list	*get_list(char *line, char **envp)
+{
+	t_list	*list;
+	char	**args;
+	int		arg_count;
+
+	args = get_args(line);
+	if (!args)
+		return (free_arr(args), NULL);
+	arg_count = count_args(line);
+	list = NULL;
+	create_list(&list, args, arg_count, envp);
+	if (!list)
+		return (NULL);
+	free_arr(args);
+	return (list);
 }

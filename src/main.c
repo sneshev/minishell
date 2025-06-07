@@ -12,15 +12,12 @@
 
 #include "minishell.h"
 
-void	execute_line(char *line)
-{
-	(void)line;
-	printf("valid input\n");
-}
-
 // void	minishell(char *envp[])
-void	minishell(char *line, char *envp[])
+void	minishell(char *line, char **envp)
 {
+	t_list	*list;
+
+	list = NULL;
 	while (1)
 	{
 		// char *line = readline("minishell$ ");
@@ -31,8 +28,12 @@ void	minishell(char *line, char *envp[])
 		}
 		// if (g_signal == SIGINT)
 		// 	receive_SIGINT();
-		if (is_valid_input(line, envp) == true)
-			execute_line(line);
+
+		list = get_list(line, envp);
+		if (!list)
+			error_message("malloc error", 1);
+		print_line(list);
+		execute(&list);
 		// else
 		// 	handle_invalid_input();
 		break ;
@@ -41,12 +42,12 @@ void	minishell(char *line, char *envp[])
 
 int main(int argc, char *argv[], char *envp[])
 {
-	(void)argv;
+	// (void)argv;
 	(void)argc;
-	char *line = "ls -l -la -yo wc";
+	// char *line = "ls -l -la";
 	// if (argc != 1)
 	// 	return (1);
 	// enable_signals();
-	minishell(line, envp);
+	minishell(argv[1], envp);
 	return (0);
 }
