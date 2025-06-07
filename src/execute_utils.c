@@ -17,7 +17,7 @@ int	flag_count(t_list **list)
 	t_list	*temp;
 	int		flagc;
 
-	flagc = 0;
+	flagc = 1;
 	temp = (*list)->next;
 	while (temp && temp->arg_type != REDIRECTION && temp->arg_type != PIPE)
 	{
@@ -46,7 +46,7 @@ char	**get_flags(int flagc, t_list **list)
 	if (!flags)
 		return (NULL);
 	i = 0;
-	while (i <= flagc)
+	while (i < flagc)
 	{
 		if (i == 0)
 		{

@@ -44,9 +44,6 @@ int		count_args(char *str);
 char	**get_args(char *str);
 
 //	path
-// char	*get_env(char **envp);
-// char	**get_path(char *path, char *cmd);
-// char	*get_cmd(char *str, char **envp);
 char	**get_paths(char *cmd);
 char	*get_cmd(char *cmd);
 

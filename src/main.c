@@ -13,14 +13,16 @@
 #include "minishell.h"
 
 // void	minishell(char *envp[])
-void	minishell(char *line, char **envp)
+void	minishell(char **envp)
 {
 	t_list	*list;
 
 	list = NULL;
-	while (1)
+	// while (1)
 	{
-		// char *line = readline("minishell$ ");
+		char	*line;
+		// line = readline("minishell$ ");
+		line = "ls -w";
 		if (!line || ft_strncmp(line, "exit", 5) == 0)
 		{
 			write(1, "exit\n", 5);
@@ -36,16 +38,18 @@ void	minishell(char *line, char **envp)
 		execute(&list);
 		// else
 		// 	handle_invalid_input();
-		break ;
+		// break ;
 	}
 }
 
 int main(int argc, char *argv[], char *envp[])
 {
+	(void)argc;
 	(void)argv;
-	if (argc != 1)
-		return (1);
+	// char *line = "ls -la";
+	// if (argc != 1)
+	// 	return (1);
 	// enable_signals();
-	minishell(argv[1], envp);
+	minishell(envp);
 	return (0);
 }

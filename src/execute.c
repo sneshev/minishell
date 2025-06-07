@@ -59,7 +59,7 @@ void	execute_command(t_list **list, char **envp)
 	pid = fork();
 	if (pid == -1)
 		error_message("fork fail", -1);
-	if (pid == 0)
+	if (pid != 0)
 		child_process(list, envp);
 	// status = 0;
 	// waitpid(pid, &status, 0);
@@ -78,7 +78,7 @@ int	execute(t_list **list)
 		}
 		else if ((*list)->arg_type == COMMAND)
 		{
-			execute_command(&(*list), (*list)->envp);
+			execute_command(list, (*list)->envp);
 		}
 		else if ((*list)->arg_type == PIPE)
 		{

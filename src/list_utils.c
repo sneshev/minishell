@@ -40,7 +40,7 @@ void print_line(t_list *list)
 {
 	while (list)
 	{
-		if (list->arg_type == COMMAND)
+		if (list->arg_type == COMMAND || list->arg_type == BUILTIN)
 		{
 			printf(GREEN "%s " DEFAULT, list->arg); fflush(NULL);
 			list = list->next;
