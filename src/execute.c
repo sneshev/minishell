@@ -50,8 +50,12 @@ void	child_process(t_list **list, char **envp)
 void	execute_command(t_list **list, char **envp)
 {
 	int	pid;
-	// int	status;
+	int	pip[2];
+	int	status;
 
+	if (pipe(pip) == -1)
+		error_message("pipe error", 1);
+	close(pip[READ]);
 	pid = fork();
 	if (pid == -1)
 		error_message("fork fail", -1);
