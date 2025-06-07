@@ -8,6 +8,7 @@ git merge my-branch          -> merges local branch "my-branch" to current branc
 git merge origin/my-branch   -> merges non-local branch "my-branch" to current branch (main)
 git reset --hard origin/main -> hard merges main (overwrites current branch)
 
+git push -f                  -> git push --force    
 
 
 stef  -> working on signals
