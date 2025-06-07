@@ -42,11 +42,9 @@ void	minishell(char *line, char **envp)
 
 int main(int argc, char *argv[], char *envp[])
 {
-	// (void)argv;
-	(void)argc;
-	// char *line = "ls -l -la";
-	// if (argc != 1)
-	// 	return (1);
+	(void)argv;
+	if (argc != 1)
+		return (1);
 	// enable_signals();
 	minishell(argv[1], envp);
 	return (0);
