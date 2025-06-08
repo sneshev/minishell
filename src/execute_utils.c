@@ -17,7 +17,7 @@ int	flag_count(t_list **list)
 	t_list	*temp;
 	int		flagc;
 
-	flagc = 1;
+	flagc = 0;
 	temp = (*list)->next;
 	while (temp && temp->arg_type != REDIRECTION && temp->arg_type != PIPE)
 	{
@@ -27,42 +27,26 @@ int	flag_count(t_list **list)
 	return (flagc);
 }
 
-// int	main(int argc, char *argv[], char *envp[])
-// {
-// 	t_list *list = NULL;
-// 	list = create_list(&list, argv, argc - 1, envp);
-// 	print_list(list);
-// 	printf("flagc: %d\n", flag_count(&list));
-// 	return (0);
-
-// }
-
+//this will returns flags, but the list pointer is still pointing to the last flag
 char	**get_flags(int flagc, t_list **list)
 {
 	char	**flags;
 	int		i;
 
-	flags = malloc(sizeof(char *) * (flagc + 1));
+	//we will also put the command in here thats why
+	flags = malloc(sizeof(char *) * (flagc + 1 + 1));
 	if (!flags)
 		return (NULL);
 	i = 0;
 	while (i < flagc)
 	{
-		if (i == 0)
-		{
-			flags[i] = ft_strdup((*list)->arg);
-			if (!flags[i])
-				return (free_arr(flags), error_message("malloc error\n", -1), NULL);
-		}
-		else
-		{
-			flags[i] = ft_strdup((*list)->arg);
-			if (!flags[i])
-				return (free_arr(flags), error_message("malloc error\n", -1), NULL);
-		}
+		flags[i] = ft_strdup((*list)->arg);
+		if (!flags[i])
+			return (free_arr(flags), error_message("malloc error\n", -1), NULL);
 		*list = (*list)->next;
 		i++;
 	}
 	flags[i] = NULL;
 	return (flags);
 }
+

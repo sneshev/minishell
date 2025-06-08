@@ -26,6 +26,8 @@ typedef struct	s_list
 	char			*arg;
 	int				arg_type;
 	int				index;
+	int				pip[2];
+	char			**flags;
 	char			**envp;
 	struct s_list	*prev;
 	struct s_list	*next;
@@ -73,8 +75,15 @@ void	free_arr(char **arr);
 void	error_message(char const *s, int exit_code);
 
 //execute
-void	execute_command(t_list **node, char **envp);
+// void	execute_command(t_list **node, char **envp);
 int		execute(t_list **list);
+void	execute_command(t_list **list, char **envp);
+void	execute_pipe(t_list **list, char **envp);
+void	child_process_pipe_out(t_list **list, char **flags, char **envp);
+void	handle_pipe_read(t_list **list);
+void	child_process_pipe_in(t_list **list, char **flags, char **envp);
+void	handle_pipe_write(t_list **list);
+void	put_flags(t_list **list);
 
 //execute utils
 char	**get_flags(int flagc, t_list **node);

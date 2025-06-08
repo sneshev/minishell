@@ -24,6 +24,9 @@ t_list	*new_node(char *arg, int index, char **envp)
 		return (NULL);
 	node->arg_type = find_arg_type(arg);
 	node->index = index;
+	node->pip[0] = -1;
+	node->pip[1] = -1;
+	node->flags = NULL;
 	node->envp = envp;
 	node->prev = NULL;
 	node->next = NULL;
