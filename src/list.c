@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_list	*new_node(char *arg, int index, char **envp)
+t_list	*new_node(char *arg, char **envp)
 {
 	t_list	*node;
 
@@ -23,10 +23,8 @@ t_list	*new_node(char *arg, int index, char **envp)
 	if (!node->arg)
 		return (NULL);
 	node->arg_type = find_arg_type(arg);
-	node->index = index;
-	node->pip[0] = -1;
-	node->pip[1] = -1;
-	node->flags = NULL;
+	node->pip[READ] = -1;
+	node->pip[WRITE] = -1;
 	node->envp = envp;
 	node->prev = NULL;
 	node->next = NULL;
@@ -58,7 +56,7 @@ t_list	*create_list(t_list **list, char **args, int wordc, char **envp)
 	index = 0;
 	while (index < wordc)
 	{
-		new = new_node(args[index], index + 1, envp);
+		new = new_node(args[index], envp);
 		if (!new)
 			return (free_list(list), NULL);
 		if (*list == NULL)

@@ -21,4 +21,5 @@ TO DO;
 .do execution
 .nandle errors
 .handle signals in working processes
+should we handle "> outfile" (we will have to write input)
 .
