@@ -50,3 +50,24 @@ char	**get_flags(int flagc, t_list **list)
 	return (flags);
 }
 
+char	**put_flags(t_list **list)
+{
+	char	*cmd;
+	int		flagc;
+	char	**flags;
+
+	cmd = get_cmd((*list)->arg);
+	if (!cmd)
+		error_message("malloc error", 1);
+	(*list)->arg = cmd;
+	flagc = flag_count(list);
+	flags = get_flags(flagc, list);
+	if (!flags)
+	{
+		free(cmd);
+		error_message("malloc error", 1);
+	}
+	if (access(cmd, X_OK) == -1)
+		error_message("access execute error", 126);
+	return (flags);
+}
