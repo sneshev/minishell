@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/10 13:42:20 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:11:33 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	child_process(t_list **list, char **envp)
 	int		flagc;
 	char	**flags;
 
+	reset_signals();
 	cmd = get_cmd((*list)->arg, envp);
 	if (!cmd)
 		error_message("malloc error", 1);
