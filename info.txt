@@ -23,4 +23,6 @@ TO DO;
 .do execution
 .nandle errors
 .handle signals in working processes
-.
+.start $minishell prompt on a new line always
+.remove quotes from string tokens ("a" should be a)
+.running minishell inside of minishell double frees 

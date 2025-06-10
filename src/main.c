@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/10 13:36:02 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/06/10 13:42:45 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	execute_line(char *line)
 {
 	(void)line;
-	printf("valid input\n");
+	// printf("valid input\n");
 }
 
 void	minishell(char *envp[])

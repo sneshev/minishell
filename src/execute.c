@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/05 12:28:42 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/10 13:42:20 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	execute(t_list **list)
 		}
 		else if ((*list)->arg_type == COMMAND)
 		{
-			print_list((*list));
+			// print_list((*list));
 			execute_command(&(*list), (*list)->envp);
 		}
 		else if ((*list)->arg_type == PIPE)
