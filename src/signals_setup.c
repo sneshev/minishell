@@ -9,19 +9,7 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
-
-// Ctrl + c (only outside of process)
-void receive_SIGINT()
-{
-    g_signal = 0;
-    ft_putstr_fd("\n", STDERR_FILENO);
-    rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-
-void enable_SIGINT()
+void redirect_SIGINT()
 {
     struct sigaction	sa;
 
@@ -31,8 +19,19 @@ void enable_SIGINT()
 	sigaction(SIGINT, &sa, NULL);
 }
 
+void disable_SIGQUIT()
+{
+    struct sigaction	sa;
+
+    ft_bzero(&sa, sizeof(sa));
+    sa.sa_handler = SIG_IGN;
+    sigemptyset(&sa.sa_mask);
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
 
 void enable_signals(void)
 {
-    enable_SIGINT();
+    redirect_SIGINT();
+    disable_SIGQUIT();
 }
