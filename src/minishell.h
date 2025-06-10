@@ -8,6 +8,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 #define BUILTIN 1
 #define COMMAND 2
@@ -25,7 +27,7 @@ typedef struct	s_list
 {
 	char			*arg;
 	int				arg_type;
-	int				pip[2];
+	int				old_pip[2];
 	char			**envp;
 	struct s_list	*prev;
 	struct s_list	*next;
@@ -75,11 +77,13 @@ void	error_message(char const *s, int exit_code);
 
 //execute
 void	handle_pipe(t_list **list);
-void	handle_pipe_read(t_list **list);
-void	handle_pipe_write(t_list **list);
-void	child_process(t_list **list, char **flags);
-void	execute_command(t_list **list);
+// void	handle_pipe_read(t_list **list);
+// void	handle_pipe_write(t_list **list);
+// void	child_process(t_list **list, char **flags);
+// void	execute_command(t_list **list);
 int		execute(t_list **list);
+void	execute_command(t_list **list);
+void	child_process(t_list **list, int *new_pip);
 
 
 //execute utils

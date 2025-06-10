@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/04 16:26:23 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:13:08 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_list	*new_node(char *arg, char **envp)
 	if (!node->arg)
 		return (NULL);
 	node->arg_type = find_arg_type(arg);
-	node->pip[READ] = -1;
-	node->pip[WRITE] = -1;
+	node->old_pip[READ] = -1;
+	node->old_pip[WRITE] = -1;
 	node->envp = envp;
 	node->prev = NULL;
 	node->next = NULL;
