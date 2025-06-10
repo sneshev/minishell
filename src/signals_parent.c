@@ -29,6 +29,16 @@ void redirect_SIGINT()
 	sigaction(SIGINT, &sa, NULL);
 }
 
+void	disable_SIGINT(void)
+{
+    struct sigaction	sa;
+
+    ft_bzero(&sa, sizeof(sa));
+    sa.sa_handler = SIG_IGN;
+    sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+}
+
 void disable_SIGQUIT()
 {
     struct sigaction	sa;

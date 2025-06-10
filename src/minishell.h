@@ -69,6 +69,7 @@ t_list	*create_list(t_list **list, char **args, int wordc, char **envp);
 //	signals
 extern volatile sig_atomic_t	g_signal;
 void	enable_signals(void);
+void	disable_SIGINT(void);
 void	receive_SIGINT();
 void	reset_signals(void);
 

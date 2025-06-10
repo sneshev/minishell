@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/10 16:11:33 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:21:53 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,12 @@ void	execute_command(t_list **list, char **envp)
 	// waitpid(pid, &status, 0);
 	// if (WIFEXITED(status))
 	// 	return (WEXITSTATUS(status));
+	else
+	{
+	disable_SIGINT();
 	wait(NULL);
+	enable_signals();
+	}
 }
 
 int	execute(t_list **list)
