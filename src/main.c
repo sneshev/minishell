@@ -22,7 +22,7 @@ void	minishell(char **envp)
 	{
 		char	*line;
 		// line = readline("minishell$ ");
-		line = "cat info.txt | wc -l";
+		line = "wc -l info.txt";
 		if (!line || ft_strncmp(line, "exit", 5) == 0)
 		{
 			write(1, "exit\n", 5);

@@ -18,12 +18,13 @@ int	flag_count(t_list **list)
 	int		flagc;
 
 	flagc = 0;
-	temp = (*list)->next;
+	temp = *list;
 	while (temp && temp->arg_type != REDIRECTION && temp->arg_type != PIPE)
 	{
 		flagc++;
 		temp = temp->next;
 	}
+	printf("flagc: %d\n", flagc);
 	return (flagc);
 }
 
@@ -33,20 +34,24 @@ char	**get_flags(int flagc, t_list **list)
 	char	**flags;
 	int		i;
 
+	printf("listpointer: %s\n", (*list)->arg);
 	//we will also put the command in here thats why
-	flags = malloc(sizeof(char *) * (flagc + 1 + 1));
+	flags = malloc(sizeof(char *) * (flagc  + 1));
 	if (!flags)
 		return (NULL);
 	i = 0;
-	while (i < flagc)
+	while (i < flagc - 1)
 	{
 		flags[i] = ft_strdup((*list)->arg);
 		if (!flags[i])
-			return (free_arr(flags), error_message("malloc error\n", -1), NULL);
+			return (free_arr(flags), error_message("malloc error", 1), NULL);
 		*list = (*list)->next;
 		i++;
+
 	}
-	flags[i] = NULL;
+	//now our pointer is on the last command
+	flags[i] = ft_strdup((*list)->arg);
+	flags[flagc] = NULL;
 	return (flags);
 }
 

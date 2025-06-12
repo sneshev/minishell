@@ -76,14 +76,18 @@ void	free_arr(char **arr);
 void	error_message(char const *s, int exit_code);
 
 //execute
-void	handle_pipe(t_list **list);
-// void	handle_pipe_read(t_list **list);
-// void	handle_pipe_write(t_list **list);
-// void	child_process(t_list **list, char **flags);
+// void	handle_pipe(t_list **list);
+// // void	handle_pipe_read(t_list **list);
+// // void	handle_pipe_write(t_list **list);
+// // void	child_process(t_list **list, char **flags);
+// // void	execute_command(t_list **list);
+// int		execute(t_list **list);
 // void	execute_command(t_list **list);
+// void	child_process(t_list **list, int *new_pip);
+
 int		execute(t_list **list);
-void	execute_command(t_list **list);
-void	child_process(t_list **list, int *new_pip);
+void	execute_command(t_list **list, int *prev_pipe);
+void	child_process(t_list **list, int *new_pipe, int *old_pipe);
 
 
 //execute utils

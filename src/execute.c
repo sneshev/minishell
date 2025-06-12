@@ -12,132 +12,226 @@
 
 #include "minishell.h"
 
-//in here we update the pipe
-void	handle_pipe(t_list **list)
-{
-	//should we handle case where pipe is last argument?
-	if ((*list)->next && (*list)->prev)
-	{
-		(*list)->old_pip[READ] = (*list)->prev->old_pip[READ];
-		(*list)->old_pip[WRITE] = (*list)->prev->old_pip[WRITE];
-	}
-}
-
-// //list exists for sure cause we havent changed pointer since pointing to last flag
-// void	handle_pipe_read(t_list **list)
+// in here we update the pipe
+// void	handle_pipe(t_list **list)
 // {
-// 	//should we close write end again?
-// 	dup2((*list)->pip[READ], STDIN_FILENO);
-// 	close ((*list)->pip[READ]);
-// }
-
-// void	handle_pipe_write(t_list **list)
-// {
-// 	int	pip[2];
-
-// 	if (pipe(pip) == -1)
-// 		error_message("pipe error", 1);
-// 	close(pip[READ]);
-// 	dup2(pip[WRITE], STDOUT_FILENO);
-// 	close(pip[WRITE]);
-// 	//we write to the pipe(or redirect?)
-// 	(*list)->next->pip[READ] = pip[0];
-// 	(*list)->next->pip[WRITE] = pip[1];
-// }
-
-// //pointer is now at the last flag
-// void	child_process(t_list **list, char **flags)
-// {
-// 	int	pid;
-
-// 	pid = fork();
-// 	if (pid == 0)
+// 	//should we handle case where pipe is last argument?
+// 	if ((*list)->next && (*list)->prev)
 // 	{
-// 		//when we have pipe we will update the pipe to next command
-// 		if ((*list)->pip[READ] != -1 && (*list)->pip[WRITE] != -1)
-// 			handle_pipe_read(list);
-// 		//idk if its better to always write to pipe and then we can always redirect to terminal
-// 		if ((*list)->next)//should we specifically check for command or maybe we also use this for redirect
-// 			handle_pipe_write(list);
-// 		if (execve(flags[0], flags, (*list)->envp) == -1)
-// 			error_message("execve error", 127);
+// 		(*list)->old_pip[READ] = (*list)->prev->old_pip[READ];
+// 		(*list)->old_pip[WRITE] = (*list)->prev->old_pip[WRITE];
+// 		printf("listpointer pipe: %s\n", (*list)->arg);
 // 	}
 // }
 
-// void	execute_command(t_list **list)
+// void	child_process(t_list **list, int *new_pip)
 // {
 // 	char	**flags;
+
+// 	close(new_pip[READ]);
+// 	if ((*list)->prev)
+// 	{
+// 		close((*list)->prev->old_pip[WRITE]);
+// 		dup2((*list)->prev->old_pip[READ], STDIN_FILENO);
+// 		close((*list)->prev->old_pip[READ]);
+// 	}
 // 	flags = put_flags(list);
 // 	if (!flags)
 // 		error_message("malloc error", 1);
-// 	child_process(list, flags);
-// 	free_arr(flags);
+// 	print_arr(flags);
+// 	if ((*list)->next)
+// 		dup2(new_pip[WRITE], STDOUT_FILENO);
+// 	close(new_pip[WRITE]);
+// 	execve(flags[0], flags, (*list)->envp);
+// 	error_message("execve error", 1);
+// 	perror("execve: ");
+// 	exit(1);
+// }
+
+// int	execute(t_list **list)
+// {
+// 	while ((*list))
+// 	{
+// 		if ((*list)->arg_type == BUILTIN)
+// 		{
+// 			// 	// execute_builtin(&(*list));
+// 		}
+// 		else if ((*list)->arg_type == COMMAND)
+// 		{
+// 			execute_command(list);
+// 		}
+// 		else if ((*list)->arg_type == PIPE)
+// 		{
+// 			handle_pipe(list);
+// 		}
+// 		else if ((*list)->arg_type == REDIRECTION)
+// 		{
+// 			// 	// execute_direction();
+// 		}
+// 		*list = (*list)->next;
+// 	}
+// 	// wait(NULL);
+// 	return (0);
 // }
 
 
-void	child_process(t_list **list, int *new_pip)
+// void	execute_command(t_list **list)
+// {
+// 	int	new_pip[2];
+// 	int	pid;
+
+// 	if (pipe(new_pip) == -1)
+// 		error_message("pipe error", 1);
+// 	pid = fork();
+// 	if (pid == -1)
+// 		error_message ("fork error", 1);
+// 	if (pid == 0)
+// 		child_process(list, new_pip);
+// 	if ((*list)->prev)
+// 		close((*list)->prev->old_pip[READ]);
+// 	(*list)->old_pip[READ] = new_pip[READ];
+// 	(*list)->old_pip[WRITE] = new_pip[WRITE];
+// 	close(new_pip[WRITE]);
+
+// }
+// void	child_process(t_list *node, int *prev_pipe, int *new_pipe)
+// {
+// 	char **flags;
+
+// 	if (prev_pipe) {
+// 		close(prev_pipe[WRITE]);
+// 		dup2(prev_pipe[READ], STDIN_FILENO);
+// 		close(prev_pipe[READ]);
+// 	}
+// 	if (new_pipe) {
+// 		close(new_pipe[READ]);
+// 		dup2(new_pipe[WRITE], STDOUT_FILENO);
+// 		close(new_pipe[WRITE]);
+// 	}
+// 	flags = put_flags(&node);
+// 	if (!flags)
+// 		error_message("malloc error", 1);
+// 	execve(flags[0], flags, node->envp);
+// 	error_message("execve error", 1);
+// }
+
+// void	execute_command(t_list *node, int *prev_pipe)
+// {
+// 	int new_pipe[2];
+// 	int *curr_pipe = NULL;
+// 	int pid;
+
+// 	if (node->next && node->next->arg_type == COMMAND) {
+// 		curr_pipe = new_pipe;
+// 		if (pipe(new_pipe) == -1)
+// 			error_message("pipe error", 1);
+// 	}
+
+// 	pid = fork();
+// 	if (pid == -1)
+// 		error_message("fork error", 1);
+
+// 	if (pid == 0)
+// 		child_process(node, prev_pipe, curr_pipe);
+
+// 	// parent
+// 	if (prev_pipe) {
+// 		close(prev_pipe[READ]);
+// 		close(prev_pipe[WRITE]);
+// 	}
+// 	if (curr_pipe) {
+// 		// keep read end for next command
+// 		node->old_pip[READ] = curr_pipe[READ];
+// 		node->old_pip[WRITE] = curr_pipe[WRITE]; // may not need WRITE
+// 		close(curr_pipe[WRITE]); // parent doesn't write
+// 	}
+// }
+
+void	child_process(t_list **list, int *new_pipe, int *old_pipe)
 {
 	char	**flags;
-
-	close(new_pip[READ]);
-	if ((*list)->prev)
+	if (old_pipe[READ] != -1)
 	{
-		close((*list)->prev->old_pip[WRITE]);
-		dup2((*list)->prev->old_pip[READ], STDIN_FILENO);
-		close((*list)->prev->old_pip[READ]);
+		close(old_pipe[WRITE]);
+		dup2(old_pipe[READ], STDIN_FILENO);
+		close(old_pipe[READ]);
 	}
 	flags = put_flags(list);
 	if (!flags)
 		error_message("malloc error", 1);
-	if ((*list)->next)
-		dup2(new_pip[WRITE], STDOUT_FILENO);
-	close(new_pip[WRITE]);
-	execve(flags[0], flags, (*list)->envp);
-	error_message("execve error", 1);
+	print_arr(flags);
+	if (new_pipe[WRITE] != -1)
+	{
+		close(new_pipe[READ]);
+		if ((*list)->next)
+			dup2(new_pipe[WRITE], STDOUT_FILENO);
+		close(new_pipe[WRITE]);
+	}
+	if (execve(flags[0], flags, (*list)->envp) == -1)
+		error_message("execve error", 1);
+	perror("execve:");
 }
 
-void	execute_command(t_list **list)
+void	execute_command(t_list **list, int *prev_pipe)
 {
-	int	new_pip[2];
-	int	pid;
+	int		new_pipe[2] = {-1, -1};
+	pid_t	pid;
 
-	if (pipe(new_pip) == -1)
-		error_message("pipe error", 1);
+	if (prev_pipe[WRITE] != -1)
+		close(prev_pipe[WRITE]);
+	if ((*list)->next)
+	{
+		if (pipe(new_pipe) == -1)
+			error_message("pipe error", 1);
+	}
 	pid = fork();
 	if (pid == -1)
-		error_message ("fork error", 1);
+		error_message("fork error", 1);
 	if (pid == 0)
-		child_process(list, new_pip);
-	if ((*list)->prev)
-		close((*list)->prev->old_pip[READ]);
-	(*list)->old_pip[READ] = new_pip[READ];
-	(*list)->old_pip[WRITE] = new_pip[WRITE];
-	close(new_pip[WRITE]);
-
+		child_process(list, new_pipe, prev_pipe);
+	if (prev_pipe[READ] != -1)
+		close(prev_pipe[READ]);	
+	(*list)->old_pip[READ] = new_pipe[READ];
+	(*list)->old_pip[WRITE] = new_pipe[WRITE];
 }
+
 
 int	execute(t_list **list)
 {
-	while ((*list))
+	int	prev_pipe[2] = {-1, -1};
+
+	while (*list)
 	{
-		if ((*list)->arg_type == BUILTIN)
+		if ((*list)->arg_type == COMMAND)
 		{
-		// 	// execute_builtin(&(*list));
-		}
-		else if ((*list)->arg_type == COMMAND)
-		{
-			execute_command(list);
-		}
-		else if ((*list)->arg_type == PIPE)
-		{
-			handle_pipe(list);
-		}
-		else if ((*list)->arg_type == REDIRECTION)
-		{
-		// 	// execute_direction();
+			execute_command(list, prev_pipe);
+			prev_pipe[READ] = (*list)->old_pip[READ];
+			prev_pipe[WRITE] = (*list)->old_pip[WRITE];
 		}
 		*list = (*list)->next;
 	}
-	// wait(NULL);
+	wait(NULL);
 	return (0);
 }
+
+// int	execute(t_list **list)
+// {
+// 	t_list *curr = *list;
+// 	int *prev_pipe = NULL;
+
+// 	while (curr)
+// 	{
+// 		if (curr->arg_type == COMMAND)
+// 		{
+// 			execute_command(curr, prev_pipe);
+// 			prev_pipe = curr->old_pip; // pass for next command
+// 		}
+// 		else if (curr->arg_type == PIPE)
+// 		{
+// 			// optional depending on your design
+// 		}
+// 		curr = curr->next;
+// 	}
+// 	while (wait(NULL) > 0) {}
+// 	return (0);
+// }
