@@ -27,7 +27,7 @@ typedef struct	s_list
 {
 	char			*arg;
 	int				arg_type;
-	int				old_pip[2];
+	int				pipe[2];
 	char			**envp;
 	struct s_list	*prev;
 	struct s_list	*next;
@@ -86,8 +86,8 @@ void	error_message(char const *s, int exit_code);
 // void	child_process(t_list **list, int *new_pip);
 
 int		execute(t_list **list);
-void	execute_command(t_list **list, int *prev_pipe);
-void	child_process(t_list **list, int *new_pipe, int *old_pipe);
+void	execute_command(t_list **list);
+void	child_process(t_list **list, int *new_pipe, t_list *prev);
 
 
 //execute utils
