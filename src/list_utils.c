@@ -4,16 +4,13 @@ void	free_node(t_list **node_ptr)
 {
 	t_list	*node;
 
-	if (!node_ptr)
+	if (!node_ptr || !*node_ptr)
 		return ;
 	node = *node_ptr;
-	if (node)
-	{
-		if (node->arg)
-			free(node->arg);
-		free(node);
-		node = NULL;
-	}
+	if (node->arg)
+		free(node->arg);
+	free(node);
+	node = NULL;
 }
 
 void	free_list(t_list **list)

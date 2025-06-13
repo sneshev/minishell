@@ -23,15 +23,23 @@
 #define READ 0
 #define WRITE 1
 
-
-typedef struct 
+typedef struct	s_env
 {
-	cmd 
-	arguments 
-	redirection 
-	pipe
-};
+	char	*name;
+	char	*value;
+	char	*next;
+}				t_env;
 
+
+typedef struct s_list
+{
+	char	*cmd;
+	char	**args;
+	int		pipe[2];
+	int		redirection;
+	t_env	env;
+
+};
 
 typedef struct	s_list
 {
