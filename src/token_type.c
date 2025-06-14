@@ -42,15 +42,6 @@ bool	is_command(char *str)
 	return (true);
 }
 
-/*
-	⬇️	this was the function before	⬇️
-	
-	return values did not match boolean and there was a leak
-	if you tried to return full_cmd. But maybe the function 
-	can be used to execute the commands too, thats why i did 
-	not delete it but left it commented out
-*/
-
 bool is_redirect(char *str)
 {
 	if (!(*str))
