@@ -22,7 +22,7 @@ t_list	*new_node(char *arg, char **envp)
 	node->arg = ft_strdup(arg);
 	if (!node->arg)
 		return (NULL);
-	node->arg_type = find_arg_type(arg);
+	node->arg_type = find_token_type(arg);
 	node->pipe[READ] = -1;
 	node->pipe[WRITE] = -1;
 	node->envp = envp;
@@ -71,17 +71,17 @@ t_list	*create_list(t_list **list, char **args, int wordc, char **envp)
 t_list	*get_list(char *line, char **envp)
 {
 	t_list	*list;
-	char	**args;
-	int		arg_count;
+	char	**tokens;
+	int		token_count;
 
-	args = get_tokens(line);
-	if (!args)
-		return (free_arr(args), NULL);
-	arg_count = count_tokens(line);
+	tokens = get_tokens(line);
+	if (!tokens)
+		return (free_arr(tokens), NULL);
+	token_count = count_tokens(line);
 	list = NULL;
-	create_list(&list, args, arg_count, envp);
+	create_list(&list, tokens, token_count, envp);
 	if (!list)
 		return (NULL);
-	free_arr(args);
+	free_arr(tokens);
 	return (list);
 }

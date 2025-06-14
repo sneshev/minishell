@@ -81,7 +81,7 @@ bool	is_pipe(char *str)
 	return (false);
 }
 
-int	find_arg_type(char *arg)
+int	find_token_type(char *arg)
 {
 	if (is_builtin(arg))
 		return (BUILTIN);

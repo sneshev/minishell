@@ -79,7 +79,7 @@ int count_tokens(char *str)
     return (count);
 }
 
-void add_arg(char **arr, int index,char *str)
+void add_token(char **arr, int index,char *str)
 {
     int j;
     int arg_len;
@@ -115,7 +115,7 @@ char **get_tokens(char *str)
     {
         while (is_space(*str))
             str++;
-        add_arg(arr, index, str);
+        add_token(arr, index, str);
         str += find_token_len(str);
         if (!arr[index])
         {

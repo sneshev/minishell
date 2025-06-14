@@ -69,7 +69,7 @@ char	*get_cmd(char *cmd);
 
 //	arg_types
 bool	is_builtin(char *str);
-int		find_arg_type(char *arg);
+int		find_token_type(char *arg);
 bool	is_command(char *str);
 bool	is_redirect(char *str);
 bool	is_pipe(char *str);

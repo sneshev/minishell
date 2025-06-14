@@ -35,7 +35,7 @@ void	minishell(char **envp)
 		if (!list)
 			error_message("malloc error", 1);
 		print_line(list);
-		// execute(&list);
+		execute(&list);
 		// else
 		// 	handle_invalid_input();
 	}
