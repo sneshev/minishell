@@ -30,15 +30,22 @@ typedef struct	s_env
 	char	*next;
 }				t_env;
 
-
-// typedef struct s_list
+// typedef struct s_cmd
 // {
+// 	int		type;
 // 	char	*cmd;
 // 	char	**args;
 // 	int		pipe[2];
 // 	int		redirection;
 // 	t_env	env;
-// };
+// }	t_cmd;
+
+// typedef struct s_file
+// {
+// 	int		type;
+// 	char	*filename;
+// 	int		redirection;
+// }	t_file;
 
 typedef struct	s_list
 {
