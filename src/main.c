@@ -22,7 +22,7 @@ void	minishell(char **envp)
 	{
 		char	*line;
 		// line = readline("minishell$ ");
-		line = "cat info.txt ";
+		line = "cat<<|<><inf>outf||<<>\"hello world\"wq";
 		if (!line || ft_strncmp(line, "exit", 5) == 0)
 		{
 			write(1, "exit\n", 5);
@@ -35,7 +35,7 @@ void	minishell(char **envp)
 		if (!list)
 			error_message("malloc error", 1);
 		print_line(list);
-		execute(&list);
+		// execute(&list);
 		// else
 		// 	handle_invalid_input();
 	}

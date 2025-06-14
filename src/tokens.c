@@ -18,6 +18,31 @@ bool is_space(char c)
         return (false);
 }
 
+static int redir(char *str)
+{
+	if (!(*str))
+		return (-1);
+	if (*str == '<')
+	{
+		str++;
+		if (*str != '<')
+			return (1);
+		if (*str == '<')
+			return (2);
+	}
+	else if (*str == '>')
+	{
+		str++;
+		if (*str != '>')
+			return (1);
+		if (*str == '>')
+			return (2);
+	}
+	else if (*str == '|')
+		return (1);
+    return (0);
+}
+
 // return (-2); for unclosed brackets
 int find_token_len(char *str)
 {
@@ -27,26 +52,26 @@ int find_token_len(char *str)
     count = 0;
     while (is_space(*str))
         str++;
-
-    if (*str)
+    if (redir(str))
+        return (redir(str));
+    while(*str && !is_space(*str))
     {
-        while(*str && !is_space(*str))
+        count++;
+        if (is_quote(*str))
         {
-            count++;
-            if (is_quote(*str))
+            quote_type = *str;
+            while (*(++str))
             {
-                quote_type = *str;
-                while (*(++str))
-                {
-                    count++;
-                    if (*str == quote_type)
-                        break ;
-                    if (*(str + 1) == '\0')
-                        return (-2);
-                }
+                count++;
+                if (*str == quote_type)
+                    break ;
+                if (*(str + 1) == '\0')
+                    return (-2);
             }
-            str++;
         }
+        str++;
+        if (redir(str))
+            break ;
     }
     return (count);
 }
