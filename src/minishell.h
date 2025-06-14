@@ -67,9 +67,9 @@ bool	is_space(char c);
 char	**get_paths(char *cmd);
 char	*get_cmd(char *cmd);
 
-//	arg_types
-bool	is_builtin(char *str);
+//	token_types
 int		find_token_type(char *arg);
+bool	is_builtin(char *str);
 bool	is_command(char *str);
 bool	is_redirect(char *str);
 bool	is_pipe(char *str);

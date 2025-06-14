@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 bool is_quote(char c)
 {
     if (c == '\'')
@@ -58,7 +57,7 @@ int find_token_len(char *str)
 int count_tokens(char *str)
 {
     int count;
-    int arg_len;
+    int token_len;
 
     if (!str)
         return (-1);
@@ -69,11 +68,11 @@ int count_tokens(char *str)
             str++;
         if (*str)
         {
-            arg_len = find_token_len(str);
-            if (arg_len < 0)
-                return (arg_len);
+            token_len = find_token_len(str);
+            if (token_len < 0)
+                return (token_len);
             count++;
-            str += arg_len;
+            str += token_len;
         }
     }
     return (count);
@@ -82,15 +81,15 @@ int count_tokens(char *str)
 void add_token(char **arr, int index,char *str)
 {
     int j;
-    int arg_len;
+    int token_len;
 
-    arg_len = find_token_len(str);
-    arr[index] = (char *)malloc((arg_len + 1) * sizeof(char));
+    token_len = find_token_len(str);
+    arr[index] = (char *)malloc((token_len + 1) * sizeof(char));
     if (!arr[index])
         return ;
     
     j = 0;
-    while(j < arg_len)
+    while(j < token_len)
     {
         arr[index][j] = str[j];
         j++;
