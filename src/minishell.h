@@ -59,7 +59,7 @@ void	print_line(t_list *list);
 
 //	get_tokens
 char	**get_tokens(char *str);
-int		find_arg_len(char *str);
+int		find_token_len(char *str);
 int		count_tokens(char *str);
 bool	is_space(char c);
 

@@ -20,7 +20,7 @@ bool is_space(char c)
 }
 
 // return (-2); for unclosed brackets
-int find_arg_len(char *str)
+int find_token_len(char *str)
 {
     int count;
     int quote_type;
@@ -69,7 +69,7 @@ int count_tokens(char *str)
             str++;
         if (*str)
         {
-            arg_len = find_arg_len(str);
+            arg_len = find_token_len(str);
             if (arg_len < 0)
                 return (arg_len);
             count++;
@@ -84,7 +84,7 @@ void add_arg(char **arr, int index,char *str)
     int j;
     int arg_len;
 
-    arg_len = find_arg_len(str);
+    arg_len = find_token_len(str);
     arr[index] = (char *)malloc((arg_len + 1) * sizeof(char));
     if (!arr[index])
         return ;
@@ -116,7 +116,7 @@ char **get_tokens(char *str)
         while (is_space(*str))
             str++;
         add_arg(arr, index, str);
-        str += find_arg_len(str);
+        str += find_token_len(str);
         if (!arr[index])
         {
             free_arr(arr);
