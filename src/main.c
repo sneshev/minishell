@@ -38,7 +38,6 @@ void	minishell(char **envp)
 		execute(&list);
 		// else
 		// 	handle_invalid_input();
-		// break ;
 	}
 }
 

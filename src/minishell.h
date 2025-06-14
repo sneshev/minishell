@@ -31,15 +31,14 @@ typedef struct	s_env
 }				t_env;
 
 
-typedef struct s_list
-{
-	char	*cmd;
-	char	**args;
-	int		pipe[2];
-	int		redirection;
-	t_env	env;
-
-};
+// typedef struct s_list
+// {
+// 	char	*cmd;
+// 	char	**args;
+// 	int		pipe[2];
+// 	int		redirection;
+// 	t_env	env;
+// };
 
 typedef struct	s_list
 {
@@ -56,7 +55,7 @@ typedef struct	s_list
 void	print_arr(char **arr);
 void	print_type(int type);
 void	print_list(t_list *list);
-void	 print_line(t_list *list);
+void	print_line(t_list *list);
 
 //	get_args
 bool	is_space(char c);
