@@ -55,7 +55,7 @@ int find_arg_len(char *str)
 
 
 // return (-2); for unclosed brackets
-int count_args(char *str)
+int count_tokens(char *str)
 {
     int count;
     int arg_len;
@@ -101,17 +101,17 @@ void add_arg(char **arr, int index,char *str)
 char **get_tokens(char *str)
 {
     char **arr = NULL;
-    int total_args;
+    int total_tokens;
     int index;
 
-    total_args = count_args(str);
-    if (total_args < 0)
+    total_tokens = count_tokens(str);
+    if (total_tokens < 0)
         return (printf("unclosed quotes\n"), NULL);
-    arr = (char **)malloc((total_args + 1) * sizeof(char *));
+    arr = (char **)malloc((total_tokens + 1) * sizeof(char *));
     if (!arr)
         return (NULL);
     index = 0;
-    while (index < total_args)
+    while (index < total_tokens)
     {
         while (is_space(*str))
             str++;
