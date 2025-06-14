@@ -98,7 +98,7 @@ void add_arg(char **arr, int index,char *str)
     arr[index][j] = '\0';
 }
 
-char **get_args(char *str)
+char **get_tokens(char *str)
 {
     char **arr = NULL;
     int total_args;

@@ -57,11 +57,11 @@ void	print_type(int type);
 void	print_list(t_list *list);
 void	print_line(t_list *list);
 
-//	get_args
-bool	is_space(char c);
+//	get_tokens
+char	**get_tokens(char *str);
 int		find_arg_len(char *str);
 int		count_args(char *str);
-char	**get_args(char *str);
+bool	is_space(char c);
 
 //	path
 char	**get_paths(char *cmd);

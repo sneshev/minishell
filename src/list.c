@@ -74,7 +74,7 @@ t_list	*get_list(char *line, char **envp)
 	char	**args;
 	int		arg_count;
 
-	args = get_args(line);
+	args = get_tokens(line);
 	if (!args)
 		return (free_arr(args), NULL);
 	arg_count = count_args(line);
