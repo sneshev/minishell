@@ -19,6 +19,7 @@
 #define SQUOTE 6
 #define DQUOTE 7
 
+
 #define	TRUE 0
 #define READ 0
 #define WRITE 1
