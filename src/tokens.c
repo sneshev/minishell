@@ -51,8 +51,6 @@ int find_token_len(char *str)
     return (count);
 }
 
-
-
 // return (-2); for unclosed brackets
 int count_tokens(char *str)
 {
