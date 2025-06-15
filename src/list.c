@@ -80,8 +80,6 @@ t_list	*get_list(char *line, char **envp)
 	token_count = count_tokens(line);
 	list = NULL;
 	create_list(&list, tokens, token_count, envp);
-	if (!list)
-		return (NULL);
 	free_arr(tokens);
 	return (list);
 }

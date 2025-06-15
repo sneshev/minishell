@@ -26,9 +26,9 @@
 
 typedef struct	s_env
 {
-	char	*name;
-	char	*value;
-	char	*next;
+	char			*name;
+	char			*value;
+	struct s_env	*next;
 }				t_env;
 
 // typedef struct s_cmd
@@ -59,54 +59,71 @@ typedef struct	s_list
 }					t_list;
 
 
-//temporary
+// temporary
 void	print_arr(char **arr);
 void	print_type(int type);
 void	print_list(t_list *list);
 void	print_line(t_list *list);
 
-//	get_tokens
+//	tokens
 char	**get_tokens(char *str);
+void 	add_token(char **arr, int index,char *str);
 int		find_token_len(char *str);
 int		count_tokens(char *str);
 bool	is_space(char c);
+bool 	is_quote(char c);
 
 //	path
 char	**get_paths(char *cmd);
 char	*get_cmd(char *cmd);
 
-//	token_types
+// token_types
 int		find_token_type(char *arg);
 bool	is_builtin(char *str);
 bool	is_command(char *str);
 bool	is_redirect(char *str);
 bool	is_pipe(char *str);
 
-//	list
-void	free_node(t_list **node);
-void	free_list(t_list **list);
+// list
 t_list	*new_node(char *arg, char **envp);
 void	add_node_back(t_list **list, t_list *current);
 t_list	*create_list(t_list **list, char **args, int wordc, char **envp);
 t_list	*get_list(char *line, char **envp);
+
+// list utils
+void	free_node(t_list **node);
+void	free_list(t_list **list);
+void	free_env_node(t_env **env_ptr);
+void	free_env_list(t_env **env);
 
 //	signals
 extern volatile sig_atomic_t	g_signal;
 void	enable_signals(void);
 void	receive_SIGINT();
 
-//	utils
+// utils
 int		word_count(char const *s);
 void	free_arr(char **arr);
 void	error_message(char const *s, int exit_code);
 
-//execute
+// execute
 int		execute(t_list **list);
 void	execute_command(t_list **list);
 void	child_process(t_list **list, int *new_pipe, t_list *prev);
 
+// env
+t_env	*new_env_node(char *name, char *value);
+void	add_env_node_back(t_env **env, t_env *current);
+t_env	*create_env(t_env **env, char **envs);
+t_env	*get_env(char **envp);
 
-//execute utils
+// env_utils
+int		name_length(const char *s);
+int		arr_length(char **arr);
+char	*get_env_value(char *env);
+char	**arr_dup(char **arr);
+
+// execute utils
 int		flag_count(t_list **list);
 char	**get_flags(int flagc, t_list **list);
 char	**put_flags(t_list **list);
