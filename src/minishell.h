@@ -31,29 +31,33 @@ typedef struct	s_env
 	char	*next;
 }				t_env;
 
-// typedef struct s_cmd
-// {
-// 	int		type;
-// 	char	*cmd;
-// 	char	**args;
-// 	int		pipe[2];
-// 	int		redirection;
-// 	t_env	env;
-// }	t_cmd;
+typedef struct s_cmd
+{
+	char	*cmd;
+	char	**args;
+	int		pipe[2];
+}	t_cmd;
 
-// typedef struct s_file
-// {
-// 	int		type;
-// 	char	*filename;
-// 	int		redirection;
-// }	t_file;
+typedef enum e_redir_type {
+	REDIR_IN,        // <
+	REDIR_HEREDOC,   // <<
+	REDIR_OUT,       // >
+	REDIR_APPEND,     // >>
+	NONE
+}	t_redir_type;
+
+typedef struct s_file
+{
+	t_redir_type	type;
+	char			*filename;
+	struct s_file	*next;
+}	t_file;
 
 typedef struct	s_list
 {
-	char			*arg;
-	int				arg_type;
-	int				pipe[2];
-	char			**envp;
+	t_cmd			cmd;
+	t_file			*infiles;
+	t_file			*outfiles;
 	struct s_list	*prev;
 	struct s_list	*next;
 }					t_list;
@@ -83,9 +87,10 @@ bool	is_redirect(char *str);
 bool	is_pipe(char *str);
 
 //	list
+void	free_file_node(t_file **node_ptr);
 void	free_node(t_list **node);
 void	free_list(t_list **list);
-t_list	*new_node(char *arg, char **envp);
+t_list	*new_node(char **tokens, int *index_ptr);
 void	add_node_back(t_list **list, t_list *current);
 t_list	*create_list(t_list **list, char **args, int wordc, char **envp);
 t_list	*get_list(char *line, char **envp);
@@ -96,6 +101,7 @@ void	enable_signals(void);
 void	receive_SIGINT();
 
 //	utils
+char	**ft_realloc(char **old, size_t new_size);
 int		word_count(char const *s);
 void	free_arr(char **arr);
 void	error_message(char const *s, int exit_code);

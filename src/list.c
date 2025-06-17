@@ -12,24 +12,7 @@
 
 #include "minishell.h"
 
-t_list	*new_node(char *token, char **envp)
-{
-	t_list	*node;
 
-	node = malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
-	node->arg = ft_strdup(token);
-	if (!node->arg)
-		return (NULL);
-	node->arg_type = find_token_type(token);
-	node->pipe[READ] = -1;
-	node->pipe[WRITE] = -1;
-	node->envp = envp;
-	node->prev = NULL;
-	node->next = NULL;
-	return (node);
-}
 
 void	add_node_back(t_list **list, t_list *current)
 {
@@ -49,6 +32,7 @@ void	add_node_back(t_list **list, t_list *current)
 
 t_list	*create_list(t_list **list, char **tokens, int wordc, char **envp)
 {
+	(void)envp;
 	t_list	*new;
 	int		index;
 
@@ -56,20 +40,20 @@ t_list	*create_list(t_list **list, char **tokens, int wordc, char **envp)
 	index = 0;
 	while (index < wordc)
 	{
-		new = new_node(tokens[index], envp);
+		new = new_node(tokens, &index);
 		if (!new)
 			return (free_list(list), NULL);
 		if (*list == NULL)
 			*list = new;
 		else
 			add_node_back(list, new);
-		index++;
 	}
 	return (*list);
 }
 
 t_list	*get_list(char *line, char **envp)
 {
+	(void)envp;
 	t_list	*list;
 	char	**tokens;
 	int		token_count;
