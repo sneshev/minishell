@@ -27,19 +27,25 @@ void print_line(t_list *list)
 		int i = 0;
 		while (list->infiles)
 		{
+			if (list->infiles->type == REDIR_IN)
+				write(1, "< ", 2);
+			else if (list->infiles->type == REDIR_HEREDOC)
+				write(1, "<< ", 3);
 			printf(ORANGE "%s " DEFAULT, list->infiles->filename);
 			list->infiles = list->infiles->next;
-			if (list->infiles == NULL)
-				break ;
 		}
 		printf(GREEN "%s " YELLOW, list->cmd.cmd); fflush(NULL);
 		while (list->cmd.args[i])
 		{
-			printf(YELLOW "%s " DEFAULT, list->cmd.args[i]);
+			printf(YELLOW "%s " DEFAULT, list->cmd.args[i]); fflush(NULL);
 			i++;
 		}
 		while (list->outfiles)
 		{
+			if (list->outfiles->type == REDIR_OUT)
+				write(1, "> ", 2);
+			else if (list->outfiles->type == REDIR_APPEND)
+				write(1, ">> ", 3);
 			printf(ORANGE "%s " DEFAULT, list->outfiles->filename);
 			list->outfiles = list->outfiles->next;
 		}

@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-
-
 void	add_node_back(t_list **list, t_list *current)
 {
 	t_list	*temp;
@@ -43,10 +41,7 @@ t_list	*create_list(t_list **list, char **tokens, int wordc, char **envp)
 		new = new_node(tokens, &index);
 		if (!new)
 			return (free_list(list), NULL);
-		if (*list == NULL)
-			*list = new;
-		else
-			add_node_back(list, new);
+		add_node_back(list, new);
 	}
 	return (*list);
 }
@@ -60,7 +55,7 @@ t_list	*get_list(char *line, char **envp)
 
 	tokens = get_tokens(line);
 	if (!tokens)
-		return (free_arr(tokens), NULL);
+		return (NULL);
 	token_count = count_tokens(line);
 	list = NULL;
 	create_list(&list, tokens, token_count, envp);

@@ -18,11 +18,11 @@ void	minishell(char **envp)
 	t_list	*list;
 
 	list = NULL;
-	// while (1)
+	while (1)
 	{
 		char	*line;
-		// line = readline("minishell$ ");
-		line = "cat infil infile2e < infile > outfile | > outfile23 grep \"hello\"";
+		line = readline("minishell$ ");
+		// line = "cat infil infile2e < infile > outfile | > outfile23 grep \"hello\"";
 		if (!line || ft_strncmp(line, "exit", 5) == 0)
 		{
 			write(1, "exit\n", 5);

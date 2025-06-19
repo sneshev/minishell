@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+
+
 int	word_count(char const *s)
 {
 	int	i;

@@ -158,16 +158,19 @@ t_list	*new_node(char **tokens, int *index)
 	if (!node)
 		return (NULL);
 	fill_new_node(&node);
+
     while (is_redirection(tokens[*index]) != NONE)
 	{
 		if (add_redirection(tokens, index, &node) == -1)
             return (free_node(&node), NULL);
 	}
+    
     if (add_cmd(tokens[*index], &node) == -1)
     {
         return (free_node(&node), NULL);
     }
     (*index) += 1;
+    
     if (count_args(tokens, *index) > 0)
     {
         node->cmd.args = (char **)malloc((count_args(tokens, *index) + 1) * sizeof(char *));
@@ -175,6 +178,7 @@ t_list	*new_node(char **tokens, int *index)
             return (free_node(&node), NULL);
         node->cmd.args = NULL;
     }
+
     while (tokens[*index] && !is_pipe(tokens[*index]))
 	{
         if (is_redirection(tokens[*index]) != NONE)
@@ -188,9 +192,11 @@ t_list	*new_node(char **tokens, int *index)
                 return (free_node(&node), NULL);
         }
 	}
+    
     if (tokens[*index] && is_pipe(tokens[*index]))
     {
         *index += 1;
     }
-	return (node);
+	
+    return (node);
 }
