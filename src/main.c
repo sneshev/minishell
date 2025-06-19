@@ -41,14 +41,14 @@ void	minishell(char **envp)
 	}
 }
 
-int main(int argc, char *argv[], char *envp[])
-{
-	(void)argc;
-	(void)argv;
-	// char *line = "ls -la";
-	// if (argc != 1)
-	// 	return (1);
-	// enable_signals();
-	minishell(envp);
-	return (0);
-}
+// int main(int argc, char *argv[], char *envp[])
+// {
+// 	(void)argc;
+// 	(void)argv;
+// 	// char *line = "ls -la";
+// 	// if (argc != 1)
+// 	// 	return (1);
+// 	// enable_signals();
+// 	minishell(envp);
+// 	return (0);
+// }
