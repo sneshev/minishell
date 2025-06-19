@@ -26,11 +26,35 @@ bool    validate_syntax(char **tokens)
 	return (true);
 }
 
-int main(int argc, char *argv[])
+bool	validate_files(char **tokens, char **envp)
 {
+	
+}
+
+void	validation(char *s)
+{
+	char	**tokens = NULL;
+	t_list	*list = NULL;
+
+	tokens = get_tokens(s);
+	if (!tokens)
+		error_message("malloc error", 1);
+	if (!validate_syntax(tokens))
+		error_message("invalid syntax", 1);
+	create_list(&list, tokens, count_tokens(s), envp);
+	print_list(list);
+	validate_files();
+
+	
+}
+
+int main(int argc, char *argv[], char *envp[])
+{
+	// (void)argc;
+	// (void)argv;
 	if (argc != 2)
 		return (1);
-	// char *s = " cat | ";
+	// char *s = "cat | > outfile cat < infile | cat";
 	char **tokens = get_tokens(argv[1]);
 	if (!tokens)
 		return (0);
@@ -38,5 +62,9 @@ int main(int argc, char *argv[])
 		printf("true\n");
 	else
 		printf("false\n");
+	t_list	*list = NULL;
+	create_list(&list, tokens, count_tokens(argv[1]), envp);
+	print_list(list);
+	validate_files(&list);
 	return (0);
 }

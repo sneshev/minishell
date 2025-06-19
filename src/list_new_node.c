@@ -147,6 +147,8 @@ void fill_new_node(t_list **node_ptr)
     node = *node_ptr;
     node->cmd.cmd = NULL;
     node->cmd.args = NULL;
+    node->cmd.input = -1;
+    node->cmd.output = -1;
 }
 
 

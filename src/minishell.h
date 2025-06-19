@@ -10,6 +10,7 @@
 # include <stdbool.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 #define BUILTIN 1
 #define COMMAND 2
@@ -33,10 +34,11 @@ typedef struct	s_env
 
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	**args;
-	int		pipe[2];
-}	t_cmd;
+	char			*cmd;
+	char			**args;
+	int				input;
+	int				output;
+}				t_cmd;
 
 typedef enum e_redir_type {
 	REDIR_IN,        // <
@@ -44,7 +46,7 @@ typedef enum e_redir_type {
 	REDIR_OUT,       // >
 	REDIR_APPEND,     // >>
 	NONE
-}	t_redir_type;
+}			t_redir_type;
 
 typedef struct s_file
 {

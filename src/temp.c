@@ -101,15 +101,45 @@ void print_type(int type)
 // 	printf("\n");
 }
 
+// void	print_list(t_list *list)
+// {
+	// (void)list;
+	// while (list)
+	// {
+	// 	printf("list->line: %s\n", list->arg);
+	// 	printf("list->arg_type: %d ", list->arg_type);
+	// 	print_type(list->arg_type);
+	// 	printf("-----------------------\n");
+	// 	list = list->next;
+	// }
+// }
+
+void	print_cmd(t_cmd *cmd)
+{
+		printf("cmd: %s\n", cmd->cmd);
+		print_arr(cmd->args);
+		if (cmd->pipe[0] != -1)
+			printf("pipe\n");
+}
+
+void	print_files(t_file *file)
+{
+	while (file)
+	{
+		printf("filetype: %d\n", file->type);
+		printf("filename: %s\n", file->filename);
+		file = file->next;
+	}
+}
+
 void	print_list(t_list *list)
 {
-	(void)list;
-// 	while (list)
-// 	{
-// 		printf("list->line: %s\n", list->arg);
-// 		printf("list->arg_type: %d ", list->arg_type);
-// 		print_type(list->arg_type);
-// 		printf("-----------------------\n");
-// 		list = list->next;
-// 	}
+	while (list)
+	{
+		print_cmd(&list->cmd);
+		print_files(list->infiles);
+		print_files(list->outfiles);
+		printf("--------------------------\n");
+		list = list->next;
+	}
 }
