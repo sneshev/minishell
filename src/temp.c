@@ -50,7 +50,8 @@ void print_line(t_list *list)
 			list->outfiles = list->outfiles->next;
 		}
 		list = list->next;
-
+		if (list)
+			printf("| ");
 
 		// if (list->arg_type == COMMAND || list->arg_type == BUILTIN)
 		// {
@@ -78,7 +79,6 @@ void print_line(t_list *list)
 		// 	list = list->next;
 		// }
 	}
-	printf("\n"); fflush(NULL);
 }
 
 void print_type(int type)
@@ -117,9 +117,7 @@ void print_type(int type)
 void	print_cmd(t_cmd *cmd)
 {
 		printf("cmd: %s\n", cmd->cmd);
-		print_arr(cmd->args);
-		if (cmd->pipe[0] != -1)
-			printf("pipe\n");
+		print_arr(cmd->args);	
 }
 
 void	print_files(t_file *file)

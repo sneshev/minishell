@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arg_type.c                                         :+:      :+:    :+:   */
+/*   token_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/03 15:44:59 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:27:31 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,15 @@ bool	is_pipe(char *str)
 	return (false);
 }
 
-int	find_token_type(char *arg)
-{
-	if (is_builtin(arg))
-		return (BUILTIN);
-	if (is_command(arg))
-		return (COMMAND);
-	if (is_pipe(arg))
-		return (PIPE);
-	if (is_redirect(arg))
-		return (REDIRECTION);
-	return (UNDEFINED);
-}
+// int	find_token_type(char *arg)
+// {
+// 	if (is_builtin(arg))
+// 		return (BUILTIN);
+// 	if (is_command(arg))
+// 		return (COMMAND);
+// 	if (is_pipe(arg))
+// 		return (PIPE);
+// 	if (is_redirect(arg))
+// 		return (REDIRECTION);
+// 	return (UNDEFINED);
+// }
