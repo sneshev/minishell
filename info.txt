@@ -13,7 +13,10 @@ stef  -> working on signals
 stef2 -> working on is_valid
 
 
-
+how to force merge:
+	git fetch origin
+	git reset --hard origin/main
+	git push --force
 
 
 
