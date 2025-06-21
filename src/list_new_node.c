@@ -152,53 +152,60 @@ void fill_new_node(t_list **node_ptr)
 }
 
 
-t_list	*new_node(char **tokens, int *index)
-{
-	t_list	*node;
+// t_list	*new_node(char **tokens, int *index)
+// {
+// 	t_list	*node;
 
-	node = malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
-	fill_new_node(&node);
+// 	node = malloc(sizeof(t_list));
+// 	if (!node)
+// 		return (NULL);
+// 	fill_new_node(&node);
 
-    while (is_redirection(tokens[*index]) != NONE)
-	{
-		if (add_redirection(tokens, index, &node) == -1)
-            return (free_node(&node), NULL);
-	}
+//     while (is_redirection(tokens[*index]) != NONE)
+// 	{
+// 		if (add_redirection(tokens, index, &node) == -1)
+//             return (free_node(&node), NULL);
+// 	}
     
-    if (add_cmd(tokens[*index], &node) == -1)
-    {
-        return (free_node(&node), NULL);
-    }
-    (*index) += 1;
+//     if (add_cmd(tokens[*index], &node) == -1)
+//     {
+//         return (free_node(&node), NULL);
+//     }
+//     (*index) += 1;
     
-    if (count_args(tokens, *index) > 0)
-    {
-        node->cmd.args = (char **)malloc((count_args(tokens, *index) + 1) * sizeof(char *));
-	    if (!node->cmd.args)
-            return (free_node(&node), NULL);
-        node->cmd.args = NULL;
-    }
+//     if (count_args(tokens, *index) > 0)
+//     {
+//         node->cmd.args = (char **)malloc((count_args(tokens, *index) + 1) * sizeof(char *));
+// 	    if (!node->cmd.args)
+//             return (free_node(&node), NULL);
+//         node->cmd.args = NULL;
+//     }
 
-    while (tokens[*index] && !is_pipe(tokens[*index]))
-	{
-        if (is_redirection(tokens[*index]) != NONE)
-        {
-            if (add_redirection(tokens, index, &node) == -1)
-                return (free_node(&node), NULL);
-        }
-        else
-        {
-            if (add_arg(tokens[*index], index, &node) == -1)
-                return (free_node(&node), NULL);
-        }
-	}
+//     while (tokens[*index] && !is_pipe(tokens[*index]))
+// 	{
+//         if (is_redirection(tokens[*index]) != NONE)
+//         {
+//             if (add_redirection(tokens, index, &node) == -1)
+//                 return (free_node(&node), NULL);
+//         }
+//         else
+//         {
+//             if (add_arg(tokens[*index], index, &node) == -1)
+//                 return (free_node(&node), NULL);
+//         }
+// 	}
     
-    if (tokens[*index] && is_pipe(tokens[*index]))
-    {
-        *index += 1;
-    }
+//     if (tokens[*index] && is_pipe(tokens[*index]))
+//     {
+//         *index += 1;
+//     }
 	
-    return (node);
-}
+//     return (node);
+// }
+
+
+// WE NEED:
+
+// 1. function that assigns the tokentype according to position
+// 2. for this function we put redirection files and command arguments (including the command) in two seperate string arrays, so we need functions that calculate for how many of these (files/args) we need to malloc
+// 3. we need a function that checks the infiles/creates the outfiles and then set the input and output. ofcourse if there are no invalid files. however, if this is the case, we delete the entire node (and need to make sure to not return error as this will terminate the whole process, we only need to terminate this single node and continue to after a possible pipe)
