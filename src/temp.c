@@ -118,6 +118,8 @@ void	print_cmd(t_cmd *cmd)
 {
 		printf("cmd: %s\n", cmd->cmd);
 		print_arr(cmd->args);
+		printf("input: %d\n", cmd->input);
+		printf("output: %d\n", cmd->output);
 }
 
 void	print_files(t_file *file)

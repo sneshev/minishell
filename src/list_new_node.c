@@ -20,16 +20,16 @@ static t_redir_type find_redir_type(char *str)
 	}
 }
 
-static void	add_filenode_back(t_file **list, t_file *current)
+static void	add_filenode_back(t_file **file, t_file *current)
 {
 	t_file	*temp;
 
-	if (*list == NULL)
+	if (*file == NULL)
 	{
-		*list = current;
+		*file = current;
 		return ;
 	}
-	temp = *list;
+	temp = *file;
 	while (temp->next)
 		temp = temp->next;
 	temp->next = current;
@@ -224,7 +224,9 @@ t_file	*new_file_node(char *redir_type, char *filename)
 {
 	t_file	*node;
 
-	node = NULL;
+	node = malloc(sizeof(t_file));
+	if (!node)
+		return (NULL);
 	node->type = find_redir_type(redir_type);
 	node->filename = ft_strdup(filename);
 	if (!node->filename)
@@ -246,6 +248,7 @@ t_file	*put_redir_files(t_file **file, char **files)
 		if (!new)
 			return (free_file(file), NULL);
 		add_filenode_back(file, new);
+		i += 2;
 	}
 	return (*file);
 }
@@ -283,16 +286,19 @@ t_file	*create_files(t_cmd **cmd, t_file **file)
 	return (*file);
 }
 
-t_cmd	*set_cmd(t_cmd **cmd, char **tokens, int index)
+t_cmd	*set_cmd(t_cmd **cmd, char **tokens, int *index)
 {
 	char	**args;
 	char	**files;
 	t_file	*file;
 
-	args = get_cmd_args(tokens, index);
+	args = get_cmd_args(tokens, &index);
 	if (!args)
 		return (NULL);
-	files = get_redir_files(tokens, index);
+	(*cmd)->cmd = args[0];
+	(*cmd)->args = args;
+	files = get_redir_files(tokens, &index);
+	file = NULL;
 	put_redir_files(&file, files);
 	if (!file)
 		return (free_arr(args), NULL);
@@ -307,21 +313,9 @@ int	main(void)
 	char **tokens = get_tokens(s);
 	if (!tokens)
 		return (0);
-	// print_arr(tokens);
-	// int	arg_count = count_args(tokens, 0);
-	// printf("args: %d\n", arg_count);
-	// int	file_count = count_redir_files(tokens, 0);
-	// printf("files: %d\n", file_count);
-	char ** args = get_cmd_args(tokens, 0);
-	if (!args)
-		return (0);
-	char **files = get_redir_files(tokens, 0);
-	if (!tokens)
-		return (0);
-	print_arr(args);
-	print_arr(files);
-	free_arr(args);
-	free(files);
+	t_cmd *cmd = malloc(sizeof(t_cmd));
+	set_cmd(&cmd, tokens, 0);
+	print_cmd(cmd);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/13 16:44:50 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:34:36 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,21 @@ t_list	*create_list(t_list **list, char **tokens, int wordc, char **envp)
 		add_node_back(list, new);
 	}
 	return (*list);
+}
+
+t_list	*new_node(char **tokens, int *index)
+{
+	t_list	*list;
+	t_cmd	*cmd;
+
+	list = malloc(sizeof(t_list));
+	if (!list)
+		return (NULL);
+	cmd = NULL;
+	list->cmd = set_cmd(&cmd, tokens, &index);
+	if (!list->cmd)
+		return (NULL);
+
 }
 
 t_list	*get_list(char *line, char **envp)

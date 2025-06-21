@@ -67,6 +67,7 @@ void	print_arr(char **arr);
 void	print_type(int type);
 void	print_list(t_list *list);
 void	print_line(t_list *list);
+void	print_cmd(t_cmd *cmd);
 
 //	get_tokens
 char	**get_tokens(char *str);
