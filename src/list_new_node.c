@@ -191,12 +191,10 @@ char	**get_cmd_args(char **tokens, int index)
 
 char	**get_redir_files(char **tokens, int index)
 {
-	int		file_count;
 	char	**files;
 	int		i;
 
-	file_count = count_redir_files(tokens, index);
-	files = malloc(sizeof(char *) * (file_count + 1));
+	files = malloc(sizeof(char *) * (count_redir_files(tokens, index) + 1));
 	if (!files)
 		return (NULL);
 	i = 0;
