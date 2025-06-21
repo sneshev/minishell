@@ -49,11 +49,12 @@ bool    validate_syntax(char **tokens)
 
 // int main(int argc, char *argv[], char *envp[])
 // {
+// 	(void)envp;
 // 	// (void)argc;
 // 	// (void)argv;
 // 	if (argc != 2)
 // 		return (1);
-// 	// char *s = "cat | > outfile cat < infile | cat";
+// 	// char *s = "cat err.log <";
 // 	char **tokens = get_tokens(argv[1]);
 // 	if (!tokens)
 // 		return (0);
@@ -61,9 +62,5 @@ bool    validate_syntax(char **tokens)
 // 		printf("true\n");
 // 	else
 // 		printf("false\n");
-// 	t_list	*list = NULL;
-// 	create_list(&list, tokens, count_tokens(argv[1]), envp);
-// 	print_list(list);
-// 	validate_files(&list);
 // 	return (0);
 // }

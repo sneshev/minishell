@@ -58,7 +58,8 @@ typedef struct s_file
 typedef struct	s_list
 {
 	t_cmd			cmd;
-	t_file			*redir_files;
+	t_file			*infiles;
+	t_file			*outfiles;
 	struct s_list	*prev;
 	struct s_list	*next;
 }					t_list;
