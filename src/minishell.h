@@ -27,9 +27,9 @@
 
 typedef struct	s_env
 {
-	char	*name;
-	char	*value;
-	char	*next;
+	char			*name;
+	char			*value;
+	struct s_env	*next;
 }				t_env;
 
 typedef struct s_cmd
@@ -77,7 +77,7 @@ int		find_token_len(char *str);
 int		count_tokens(char *str);
 bool	is_space(char c);
 
-//	path
+//	get command
 char	**get_paths(char *cmd);
 char	*get_cmd(char *cmd);
 
@@ -118,5 +118,18 @@ void	child_process(t_list **list, int *new_pipe, t_list *prev);
 int		flag_count(t_list **list);
 char	**get_flags(int flagc, t_list **list);
 char	**put_flags(t_list **list);
+
+// environment
+t_env	*new_env_node(char *name, char *value);
+void	free_env_node(t_env **env_ptr);
+void	free_env_list(t_env **env);
+void	add_env_node_back(t_env **env, t_env *current);
+t_env	*create_env(t_env **env, char **envs);
+t_env	*get_env(char **envp);
+int		name_length(const char *s);
+int		arr_length(char **arr);
+char	*get_env_name(char *env);
+char	*get_env_value(char *env);
+char	**arr_dup(char **arr);
 
 #endif

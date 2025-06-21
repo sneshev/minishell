@@ -4,6 +4,7 @@
 		"stdio.h": "c",
 		"stdbool.h": "c",
 		"compare": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"typeinfo": "c"
 	}
 }

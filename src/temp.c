@@ -118,8 +118,6 @@ void	print_cmd(t_cmd *cmd)
 {
 		printf("cmd: %s\n", cmd->cmd);
 		print_arr(cmd->args);
-		if (cmd->pipe[0] != -1)
-			printf("pipe\n");
 }
 
 void	print_files(t_file *file)

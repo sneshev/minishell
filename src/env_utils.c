@@ -1,0 +1,87 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/21 11:26:03 by mmisumi           #+#    #+#             */
+/*   Updated: 2025/06/21 11:28:11 by mmisumi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	name_length(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '=')
+		{
+			i++;
+			break;
+		}
+		i++;
+	}
+	//cause we also want to include the =
+	return (i);
+}
+
+int	arr_length(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
+}
+
+char	*get_env_name(char *env)
+{
+	char	*name;
+	int		name_len;
+
+	name_len = name_length(env);
+	name = ft_substr(env, 0, name_len);
+	return (name);
+}
+
+
+char	*get_env_value(char *env)
+{
+	char	*value;
+	int		name_len;
+	int		env_len;
+
+	name_len = name_length(env);
+	env_len = ft_strlen(env);
+	value = ft_substr(env, name_len, env_len);
+	return (value);
+}
+
+
+char	**arr_dup(char **arr)
+{
+	char	**dup;
+	int		arr_len;
+	int		index;
+
+	arr_len = arr_length(arr);
+	dup = malloc(sizeof(char *) *(arr_len + 1));
+	if (!dup)
+		return (NULL);
+	index = 0;
+	while (arr[index])
+	{
+		dup[index] = ft_strdup(arr[index]);
+		if (!dup[index])
+			return (free_arr(dup), NULL);
+		index++;
+	}
+	dup[index] = NULL;
+	return (dup);
+}
