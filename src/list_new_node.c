@@ -1,26 +1,23 @@
 #include "minishell.h"
 
-static t_redir_type is_redirection(char *str)
+static t_redir_type find_redir_type(char *str)
 {
-	if (!(*str))
-		return (NONE);
 	if (*str == '<')
 	{
 		str++;
 		if (*str != '<')
 			return (REDIR_IN);
-		if (*str == '<')
+		else
 			return (REDIR_HEREDOC);
 	}
-	else if (*str == '>')
+	else
 	{
 		str++;
 		if (*str != '>')
 			return (REDIR_OUT);
-		if (*str == '>')
+		else
 			return (REDIR_APPEND);
 	}
-    return (NONE);
 }
 
 static void	add_filenode_back(t_file **list, t_file *current)
@@ -76,40 +73,40 @@ int add_arg(char *arg, int *index, t_list **node_ptr)
     return (1);
 }
 
-int add_redirection(char **tokens, int *index, t_list **node_ptr)
-{
-	t_list	        *node;
-    t_file          *new_file;
+// int add_redirection(char **tokens, int *index, t_list **node_ptr)
+// {
+// 	t_list	        *node;
+//     t_file          *new_file;
 
-    if (!tokens[*index] || !tokens[*index][0]
-        || !tokens[*index + 1] || !tokens [*index + 1][0])
-        return (-1);
+//     if (!tokens[*index] || !tokens[*index][0]
+//         || !tokens[*index + 1] || !tokens [*index + 1][0])
+//         return (-1);
 
-    new_file = (t_file *)malloc(sizeof(t_file));
-    if (!new_file)
-        return (-1);
-    new_file->next = NULL;
-    new_file->type = is_redirection(tokens[*index]);
-    (*index) += 1;
-    new_file->filename = ft_strdup(tokens[*index]);
-    if (new_file->type == NONE || !(new_file->filename))
-        return (free_file_node(&new_file), -1);
-    (*index) += 1;
+//     new_file = (t_file *)malloc(sizeof(t_file));
+//     if (!new_file)
+//         return (-1);
+//     new_file->next = NULL;
+//     new_file->type = is_redirection(tokens[*index]);
+//     (*index) += 1;
+//     new_file->filename = ft_strdup(tokens[*index]);
+//     if (new_file->type == NONE || !(new_file->filename))
+//         return (free_file_node(&new_file), -1);
+//     (*index) += 1;
 
-    node = *node_ptr;
+//     node = *node_ptr;
 
-    if (new_file->type == REDIR_IN || new_file->type == REDIR_HEREDOC)
-    {
-        add_filenode_back(&(node->infiles), new_file);
-    }
-    else if (new_file->type == REDIR_OUT || new_file->type == REDIR_APPEND)
-    {
-        add_filenode_back(&(node->outfiles), new_file);
-    }
-    else
-        return (free_file_node(&new_file), -1);
-    return (1);
-}
+//     if (new_file->type == REDIR_IN || new_file->type == REDIR_HEREDOC)
+//     {
+//         add_filenode_back(&(node->infiles), new_file);
+//     }
+//     else if (new_file->type == REDIR_OUT || new_file->type == REDIR_APPEND)
+//     {
+//         add_filenode_back(&(node->outfiles), new_file);
+//     }
+//     else
+//         return (free_file_node(&new_file), -1);
+//     return (1);
+// }
 
 int add_cmd(char *str, t_list **node_ptr)
 {
@@ -223,9 +220,17 @@ char	**get_redir_files(char **tokens, int index)
 	return (files);
 }
 
-t_file	*new_file_node(t_file **file, char *redir_type, char *filename)
+t_file	*new_file_node(char *redir_type, char *filename)
 {
-	// put enumtype and filename in node
+	t_file	*node;
+
+	node = NULL;
+	node->type = find_redir_type(redir_type);
+	node->filename = ft_strdup(filename);
+	if (!node->filename)
+		return (NULL);
+	node->next = NULL;
+	return node;
 }
 
 t_file	*put_redir_files(t_file **file, char **files)
@@ -237,15 +242,22 @@ t_file	*put_redir_files(t_file **file, char **files)
 	i = 0;
 	while (files[i] && files[i + 1])
 	{
-		new = new_file_node(file, files[i], files[i + 1]);
+		new = new_file_node(files[i], files[i + 1]);
 		if (!new)
-			return (free_list(files), NULL);
+			return (free_file(file), NULL);
 		add_filenode_back(file, new);
 	}
 	return (*file);
 }
 
-void	create_files(t_file **file)
+int	handle_heredoc(t_file **file)
+{
+	(void)file;
+	printf("heredoc\n");
+	return (0);
+}
+
+t_file	*create_files(t_cmd **cmd, t_file **file)
 {
 	t_file	*temp;
 	int		infile;
@@ -255,29 +267,23 @@ void	create_files(t_file **file)
 	while (temp)
 	{
 		if (temp->type == REDIR_IN)
-		{
-
-		}
+			infile = open(temp->filename, O_RDONLY);
 		else if (temp->type == REDIR_HEREDOC)
-		{
-
-		}
+			handle_heredoc(&temp);
 		else if (temp->type == REDIR_OUT)
-		{
-
-		}
+			outfile = open(temp->filename, O_TRUNC, O_WRONLY, O_CREAT);
 		else if (temp->type == REDIR_APPEND)
-		{
-
-		}
-		else
-		{
-
-		}
+			outfile = open(temp->filename, O_WRONLY, O_CREAT);
+		if (outfile == -1 || infile == -1)
+			return (NULL);
+		temp = temp->next;
 	}
+	(*cmd)->input = infile;
+	(*cmd)->output = outfile;
+	return (*file);
 }
 
-t_cmd	*set_cmd(char **tokens, int index)
+t_cmd	*set_cmd(t_cmd **cmd, char **tokens, int index)
 {
 	char	**args;
 	char	**files;
@@ -291,8 +297,8 @@ t_cmd	*set_cmd(char **tokens, int index)
 	if (!file)
 		return (free_arr(args), NULL);
 	free_arr(files);
-	create_files(file);
-	return (NULL);
+	create_files(cmd, &file);
+	return (*cmd);
 }
 
 int	main(void)
@@ -332,51 +338,53 @@ void fill_new_node(t_list **node_ptr)
 
 t_list	*new_node(char **tokens, int *index)
 {
-	t_list	*node;
+	t_list	*node = NULL;
 
-	node = malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
-	fill_new_node(&node);
+	(void)tokens;
+	(void)index;
+	// node = malloc(sizeof(t_list));
+	// if (!node)
+	// 	return (NULL);
+	// fill_new_node(&node);
 
-    while (is_redirection(tokens[*index]) != NONE)
-	{
-		if (add_redirection(tokens, index, &node) == -1)
-            return (free_node(&node), NULL);
-	}
+    // while (is_redirection(tokens[*index]) != NONE)
+	// {
+	// 	if (add_redirection(tokens, index, &node) == -1)
+    //         return (free_node(&node), NULL);
+	// }
     
-    if (add_cmd(tokens[*index], &node) == -1)
-    {
-        return (free_node(&node), NULL);
-    }
-    (*index) += 1;
+    // if (add_cmd(tokens[*index], &node) == -1)
+    // {
+    //     return (free_node(&node), NULL);
+    // }
+    // (*index) += 1;
     
-    if (count_cmd_args(tokens, *index) > 0)
-    {
-        node->cmd.args = (char **)malloc((count_cmd_args(tokens, *index) + 1) * sizeof(char *));
-	    if (!node->cmd.args)
-            return (free_node(&node), NULL);
-        node->cmd.args = NULL;
-    }
+    // if (count_cmd_args(tokens, *index) > 0)
+    // {
+    //     node->cmd.args = (char **)malloc((count_cmd_args(tokens, *index) + 1) * sizeof(char *));
+	//     if (!node->cmd.args)
+    //         return (free_node(&node), NULL);
+    //     node->cmd.args = NULL;
+    // }
 
-    while (tokens[*index] && !is_pipe(tokens[*index]))
-	{
-        if (is_redirection(tokens[*index]) != NONE)
-        {
-            if (add_redirection(tokens, index, &node) == -1)
-                return (free_node(&node), NULL);
-        }
-        else
-        {
-            if (add_arg(tokens[*index], index, &node) == -1)
-                return (free_node(&node), NULL);
-        }
-	}
+    // while (tokens[*index] && !is_pipe(tokens[*index]))
+	// {
+    //     if (is_redirection(tokens[*index]) != NONE)
+    //     {
+    //         if (add_redirection(tokens, index, &node) == -1)
+    //             return (free_node(&node), NULL);
+    //     }
+    //     else
+    //     {
+    //         if (add_arg(tokens[*index], index, &node) == -1)
+    //             return (free_node(&node), NULL);
+    //     }
+	// }
     
-    if (tokens[*index] && is_pipe(tokens[*index]))
-    {
-        *index += 1;
-    }
+    // if (tokens[*index] && is_pipe(tokens[*index]))
+    // {
+    //     *index += 1;
+    // }
 	
     return (node);
 }

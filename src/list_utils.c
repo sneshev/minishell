@@ -39,22 +39,44 @@ void	free_file_node(t_file **node_ptr)
 	free(node);
 }
 
-void	free_node(t_list **node_ptr) // hella leaks for now.
+void	free_file(t_file **file)
 {
-	t_list	*node;
+	t_file	*temp;
 
-	if (!node_ptr || !*node_ptr)
+	while (*file)
+	{
+		temp = *file;
+		*file = (*file)->next;
+		free_file_node(&temp);
+	}
+	*file = NULL;
+}
+
+void	free_cmd_node(t_cmd **cmd_ptr)
+{
+	t_cmd	*node;
+
+	if (!cmd_ptr || !*cmd_ptr)
 		return ;
-	node = *node_ptr;
-	if (node->cmd.cmd)
-		free(node->cmd.cmd);
-	if (node->cmd.args)
-		free_arr(node->cmd.args);
-	// if (node->cmd.pipe)
-		// free(node->cmd.pipe);
-	//need to free the infiles and outfiles	
-	free(node);
+	node = *cmd_ptr;
+	if (node->cmd)
+		free(node->cmd);
+	if (node->args)
+		free_arr(node->args);
 	node = NULL;
+}
+
+void	free_list_node(t_list **list_ptr)
+{
+	(void)list_ptr;
+	// t_list	*node;
+
+	// if (!list_ptr || !*list_ptr)
+	// 	return ;
+	// node = *list_ptr;
+	// if (&node->cmd)
+	// 	free_cmd_node(&node->cmd);
+	// node = NULL;
 }
 
 void	free_list(t_list **list)
@@ -64,10 +86,11 @@ void	free_list(t_list **list)
 	{
 		temp = *list;
 		*list = (*list)->next;
-		free_node(&temp);
+		free_list_node(&temp);
 	}
 	*list = NULL;
 }
+
 
 void	free_env_node(t_env **env_ptr)
 {
@@ -84,7 +107,7 @@ void	free_env_node(t_env **env_ptr)
 	node = NULL;
 }
 
-void	free_env_list(t_env **env)
+void	free_env(t_env **env)
 {
 	t_env	*temp;
 

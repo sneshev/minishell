@@ -22,34 +22,34 @@ void	print_arr(char **arr)
 void print_line(t_list *list)
 {
 	(void)list;
-	while (list)
-	{
-		int i = 0;
-		while (list->infiles)
-		{
-			if (list->infiles->type == REDIR_IN)
-				write(1, "< ", 2);
-			else if (list->infiles->type == REDIR_HEREDOC)
-				write(1, "<< ", 3);
-			printf(ORANGE "%s " DEFAULT, list->infiles->filename);
-			list->infiles = list->infiles->next;
-		}
-		printf(GREEN "%s " YELLOW, list->cmd.cmd); fflush(NULL);
-		while (list->cmd.args[i])
-		{
-			printf(YELLOW "%s " DEFAULT, list->cmd.args[i]); fflush(NULL);
-			i++;
-		}
-		while (list->outfiles)
-		{
-			if (list->outfiles->type == REDIR_OUT)
-				write(1, "> ", 2);
-			else if (list->outfiles->type == REDIR_APPEND)
-				write(1, ">> ", 3);
-			printf(ORANGE "%s " DEFAULT, list->outfiles->filename);
-			list->outfiles = list->outfiles->next;
-		}
-		list = list->next;
+	// while (list)
+	// {
+	// 	int i = 0;
+	// 	while (list->files)
+	// 	{
+	// 		if (list->files->type == REDIR_IN)
+	// 			write(1, "< ", 2);
+	// 		else if (list->infiles->type == REDIR_HEREDOC)
+	// 			write(1, "<< ", 3);
+	// 		printf(ORANGE "%s " DEFAULT, list->infiles->filename);
+	// 		list->infiles = list->infiles->next;
+	// 	}
+	// 	printf(GREEN "%s " YELLOW, list->cmd.cmd); fflush(NULL);
+	// 	while (list->cmd.args[i])
+	// 	{
+	// 		printf(YELLOW "%s " DEFAULT, list->cmd.args[i]); fflush(NULL);
+	// 		i++;
+	// 	}
+	// 	while (list->outfiles)
+	// 	{
+	// 		if (list->outfiles->type == REDIR_OUT)
+	// 			write(1, "> ", 2);
+	// 		else if (list->outfiles->type == REDIR_APPEND)
+	// 			write(1, ">> ", 3);
+	// 		printf(ORANGE "%s " DEFAULT, list->outfiles->filename);
+	// 		list->outfiles = list->outfiles->next;
+	// 	}
+	// 	list = list->next;
 
 
 		// if (list->arg_type == COMMAND || list->arg_type == BUILTIN)
@@ -77,7 +77,7 @@ void print_line(t_list *list)
 		// 	printf(ORANGE "%s " DEFAULT, list->arg); fflush(NULL);
 		// 	list = list->next;
 		// }
-	}
+	// }
 	printf("\n"); fflush(NULL);
 }
 
@@ -135,8 +135,6 @@ void	print_list(t_list *list)
 	while (list)
 	{
 		print_cmd(&list->cmd);
-		print_files(list->infiles);
-		print_files(list->outfiles);
 		printf("--------------------------\n");
 		list = list->next;
 	}

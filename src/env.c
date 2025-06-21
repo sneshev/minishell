@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:00 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/21 11:52:50 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/21 15:44:13 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_env	*create_env(t_env **env, char **envs)
 			return (free(name), NULL);
 		new = (new_env_node(name, value));
 		if (!new)
-			return (free_env_list(env), NULL);
+			return (free_env(env), NULL);
 		add_env_node_back(env, new);
 		i++;
 	}
