@@ -268,13 +268,13 @@ t_file	*create_files(t_cmd **cmd, t_file **file)
 	while (temp)
 	{
 		if (temp->type == REDIR_IN)
-			infile = open(temp->filename, O_RDONLY);
+			infile = open(temp->filename, O_RDONLY, 0400);
 		else if (temp->type == REDIR_HEREDOC)
 			handle_heredoc(&temp);
 		else if (temp->type == REDIR_OUT)
-			outfile = open(temp->filename, O_TRUNC, O_WRONLY, O_CREAT);
+			outfile = open(temp->filename, O_TRUNC | O_WRONLY | O_CREAT, 0200);
 		else if (temp->type == REDIR_APPEND)
-			outfile = open(temp->filename, O_WRONLY, O_CREAT);
+			outfile = open(temp->filename, O_WRONLY | O_CREAT, 0200);
 		if (outfile == -1 || infile == -1)
 			return (NULL);
 		temp = temp->next;
@@ -284,18 +284,18 @@ t_file	*create_files(t_cmd **cmd, t_file **file)
 	return (*file);
 }
 
-t_cmd	*set_cmd(t_cmd **cmd, char **tokens, int *index)
+t_cmd	*set_cmd(t_cmd **cmd, char **tokens, int index)
 {
 	char	**args;
 	char	**files;
 	t_file	*file;
 
-	args = get_cmd_args(tokens, &index);
+	args = get_cmd_args(tokens, index);
 	if (!args)
 		return (NULL);
 	(*cmd)->cmd = args[0];
 	(*cmd)->args = args;
-	files = get_redir_files(tokens, &index);
+	files = get_redir_files(tokens, index);
 	file = NULL;
 	put_redir_files(&file, files);
 	if (!file)
@@ -305,13 +305,24 @@ t_cmd	*set_cmd(t_cmd **cmd, char **tokens, int *index)
 	return (*cmd);
 }
 
+void	initialize_cmd(t_cmd **cmd)
+{
+	(*cmd)->cmd = NULL;
+	(*cmd)->args = NULL;
+	(*cmd)->input = -1;
+	(*cmd)->output = -1; 
+}
+
 int	main(void)
 {
-	char *s = "< infile1 cmd1 arg1 arg2 > outfile1 > outfile2     arg3  >outfile3  < infile2<infile3 arg4 arg5 arg6|arg7>outfile4";
+	char *s = " cmd1 arg1 arg2 > outfile1 > outfile2    < invalid arg3  >outfile3   arg4 arg5 arg6|arg7>outfile4";
 	char **tokens = get_tokens(s);
 	if (!tokens)
 		return (0);
 	t_cmd *cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (1);
+	initialize_cmd(&cmd);
 	set_cmd(&cmd, tokens, 0);
 	print_cmd(cmd);
 	return (0);
@@ -328,7 +339,7 @@ void fill_new_node(t_list **node_ptr)
     node->cmd.output = -1;
 }
 
-t_list	*new_node(char **tokens, int *index)
+t_list	*new_node(char **tokens, int index)
 {
 	t_list	*node = NULL;
 

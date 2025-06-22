@@ -38,7 +38,7 @@ t_list	*create_list(t_list **list, char **tokens, int wordc, char **envp)
 	index = 0;
 	while (index < wordc)
 	{
-		new = new_node(tokens, &index);
+		new = new_node(tokens, index);
 		if (!new)
 			return (free_list(list), NULL);
 		add_node_back(list, new);
@@ -46,20 +46,20 @@ t_list	*create_list(t_list **list, char **tokens, int wordc, char **envp)
 	return (*list);
 }
 
-t_list	*new_node(char **tokens, int *index)
-{
-	t_list	*list;
-	t_cmd	*cmd;
+// t_list	*new_node(char **tokens, int *index)
+// {
+// 	t_list	*list;
+// 	t_cmd	*cmd;
 
-	list = malloc(sizeof(t_list));
-	if (!list)
-		return (NULL);
-	cmd = NULL;
-	list->cmd = set_cmd(&cmd, tokens, &index);
-	if (!list->cmd)
-		return (NULL);
+// 	list = malloc(sizeof(t_list));
+// 	if (!list)
+// 		return (NULL);
+// 	cmd = NULL;
+// 	list->cmd = set_cmd(&cmd, tokens, &index);
+// 	if (!list->cmd)
+// 		return (NULL);
 
-}
+// }
 
 t_list	*get_list(char *line, char **envp)
 {

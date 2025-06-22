@@ -102,7 +102,7 @@ void	free_file_node(t_file **node_ptr);
 
 
 // new node
-t_list	*new_node(char **tokens, int *index);
+t_list	*new_node(char **tokens, int index);
 int		count_cmd_args(char **tokens, int index);
 int	count_redir_files(char **tokens, int index);
 char	**get_cmd_args(char **tokens, int index);
