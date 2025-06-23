@@ -114,14 +114,6 @@ void print_type(int type)
 	// }
 // }
 
-void	print_cmd(t_cmd *cmd)
-{
-		printf("cmd: %s\n", cmd->cmd);
-		print_arr(cmd->args);
-		printf("input: %d\n", cmd->input);
-		printf("output: %d\n", cmd->output);
-}
-
 void	print_files(t_file *file)
 {
 	while (file)
@@ -136,7 +128,10 @@ void	print_list(t_list *list)
 {
 	while (list)
 	{
-		print_cmd(&list->cmd);
+		printf("cmd: %s\n", list->cmd);
+		print_arr(list->args);
+		printf("input: %d\n", list->input);
+		printf("output: %d\n", list->output);
 		printf("--------------------------\n");
 		list = list->next;
 	}

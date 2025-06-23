@@ -32,13 +32,15 @@ typedef struct	s_env
 	struct s_env	*next;
 }				t_env;
 
-typedef struct s_cmd
+typedef struct	s_list
 {
 	char			*cmd;
 	char			**args;
 	int				input;
 	int				output;
-}				t_cmd;
+	struct s_list	*prev;
+	struct s_list	*next;
+}				t_list;
 
 typedef enum e_redir_type {
 	REDIR_IN,        // <
@@ -54,96 +56,69 @@ typedef struct s_file
 	struct s_file	*next;
 }	t_file;
 
-typedef struct	s_list
-{
-	t_cmd			cmd;
-	struct s_list	*prev;
-	struct s_list	*next;
-}					t_list;
-
-
-//temporary
+// temporary
 void	print_arr(char **arr);
-void	print_type(int type);
 void	print_list(t_list *list);
-void	print_line(t_list *list);
-void	print_cmd(t_cmd *cmd);
 
-//	get_tokens
-char	**get_tokens(char *str);
-int		find_token_len(char *str);
-int		count_tokens(char *str);
-bool	is_space(char c);
-
-//	get command
-char	**get_paths(char *cmd);
-char	*get_cmd(char *cmd);
-
-//	token_types
-int		find_token_type(char *arg);
-bool	is_builtin(char *str);
-bool	is_command(char *str);
-bool	is_redirect(char *str);
-bool	is_pipe(char *str);
+// main
+int		main(int argc, char *argv[], char *envp[]);
+void	minishell(char **envp);
+bool    validate_syntax(char **tokens);
 
 // list
+t_list	*get_list(t_list *list, char *line, char **envp);
+t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp);
+t_list	*new_node(int fd[2], char **tokens, int index);
+int		validate_files(int fd[2], char **tokens, int index);
 void	add_node_back(t_list **list, t_list *current);
-t_list	*create_list(t_list **list, char **args, int wordc, char **envp);
-t_list	*get_list(char *line, char **envp);
 
-// list_utils
-void	free_env(t_env **env);
-void	free_env_node(t_env **env_ptr);
-void	free_list_node(t_list **node_ptr);
-void	free_list(t_list **list);
-void	free_cmd_node(t_cmd **cmd_ptr);
-void	free_file(t_file **file);
-void	free_file_node(t_file **node_ptr);
-
-
-// new node
-t_list	*new_node(char **tokens, int index);
-int		count_cmd_args(char **tokens, int index);
-int	count_redir_files(char **tokens, int index);
+// list utils
+int		create_files(int fd[2], t_file *file);
+int		handle_heredoc(t_file **file);
+t_file	*put_redir_files(t_file *file, char **files);
+t_file	*new_file_node(char *redir_type, char *filename);
 char	**get_cmd_args(char **tokens, int index);
 char	**get_redir_files(char **tokens, int index);
-t_file	*new_file_node(char *redir_type, char *filename);
-t_file	*put_redir_files(t_file **file, char **files);
-int	handle_heredoc(t_file **file);
-t_file	*create_files(t_cmd **cmd, t_file **file);
-t_cmd	*set_cmd(t_cmd **cmd, char **tokens, int index);
+int		count_redir_files(char **tokens, int index);
+int		count_cmd_args(char **tokens, int index);
+void	add_filenode_back(t_file **file, t_file *current);
+t_redir_type find_redir_type(char *str);
 
-//	signals
-extern volatile sig_atomic_t	g_signal;
-void	enable_signals(void);
-void	receive_SIGINT();
+// list free
+void	free_env(t_env **env);
+void	free_env_node(t_env **prev_env);
+void	free_list(t_list **list);
+void	free_list_node(t_list **prev_list);
+void	free_file(t_file **file);
+void	free_file_node(t_file **prev_file);
 
-//	utils
-char	**ft_realloc(char **old, size_t new_size);
-int		word_count(char const *s);
-void	free_arr(char **arr);
+// tokens
+char	**get_tokens(char *str);
+void	 add_token(char **arr, int index,char *str);
+int		count_tokens(char *str);
+int		find_token_len(char *str);
+bool	 is_space(char c);
+bool	is_quote(char c);
+
+// token type
+int		find_token_type(char *arg);
+bool	is_pipe(char *str);
+bool 	is_redirect(char *str);
+bool is_builtin(char *str);//some of these are also 2 (recognized by access) so what are they?;
+
+// utils
 void	error_message(char const *s, int exit_code);
+void	free_arr(char **arr);
+int		word_count(char const *s);
 
-//execute
-int		execute(t_list **list);
-void	execute_command(t_list **list);
-void	child_process(t_list **list, int *new_pipe, t_list *prev);
+// get command
+char	*get_cmd(char *cmd);
+char	**get_paths(char *cmd);
 
-
-//execute utils
-int		flag_count(t_list **list);
-char	**get_flags(int flagc, t_list **list);
-char	**put_flags(t_list **list);
-
-// environment
-t_env	*new_env_node(char *name, char *value);
-void	add_env_node_back(t_env **env, t_env *current);
-t_env	*create_env(t_env **env, char **envs);
+// env
 t_env	*get_env(char **envp);
-int		name_length(const char *s);
-int		arr_length(char **arr);
-char	*get_env_name(char *env);
-char	*get_env_value(char *env);
-char	**arr_dup(char **arr);
+t_env	*create_env(t_env **env, char **envs);
+void	add_env_node_back(t_env **env, t_env *current);
+t_env	*new_env_node(char *name, char *value);
 
 #endif

@@ -28,43 +28,76 @@ void	add_node_back(t_list **list, t_list *current)
 	current->prev = temp;
 }
 
-t_list	*create_list(t_list **list, char **tokens, int wordc, char **envp)
+int	validate_files(int fd[2], char **tokens, int index)
+{
+	t_file	*file;
+	char	**files;
+	int		file_status;
+
+	files = get_redir_files(tokens, index);
+	if (!files)
+		return (-1);
+	file = NULL;
+	file = put_redir_files(file, files);
+	if (!file)
+		return (free_arr(files), -1);
+	file_status = create_files(fd, file);
+	if (file_status == -1)
+		return (free_arr(files), free_file(&file), -1);
+	if (file_status == 1)
+		return (free_arr(files), free_file(&file), 1);
+	return (0);
+}
+
+t_list	*new_node(int fd[2], char **tokens, int index)
+{
+	t_list	*node;
+	char	**args;
+
+	node = malloc(sizeof(t_list));
+	if (!node)
+		return (NULL);
+	args = get_cmd_args(tokens, index);
+	if (!args)
+		return (NULL);
+	node->cmd = args[0];
+	node->args = args;
+	node->input = fd[0];
+	node->output = fd[1];
+	return (node);
+}
+
+t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp)
 {
 	(void)envp;
 	t_list	*new;
 	int		index;
+	int		fd[2];
+	int		file_status;
 
-	new = NULL;
 	index = 0;
 	while (index < wordc)
 	{
-		new = new_node(tokens, index);
-		if (!new)
-			return (free_list(list), NULL);
-		add_node_back(list, new);
+		file_status = validate_files(fd, tokens, index);
+		if (file_status == -1)
+			return (free_list(&list), NULL);
+		else if (file_status == 0)
+		{
+			new = new_node(fd, tokens, index);
+			if (!new)
+				return (free_list(&list), NULL);
+			add_node_back(&list, new);
+		}
+		else if (file_status == 1)
+			printf("no valid node\n");
+		break ;
 	}
-	return (*list);
+	return (list);
 }
 
-// t_list	*new_node(char **tokens, int *index)
-// {
-// 	t_list	*list;
-// 	t_cmd	*cmd;
-
-// 	list = malloc(sizeof(t_list));
-// 	if (!list)
-// 		return (NULL);
-// 	cmd = NULL;
-// 	list->cmd = set_cmd(&cmd, tokens, &index);
-// 	if (!list->cmd)
-// 		return (NULL);
-
-// }
-
-t_list	*get_list(char *line, char **envp)
+t_list	*get_list(t_list *list, char *line, char **envp)
 {
 	(void)envp;
-	t_list	*list;
 	char	**tokens;
 	int		token_count;
 
@@ -72,10 +105,7 @@ t_list	*get_list(char *line, char **envp)
 	if (!tokens)
 		return (NULL);
 	token_count = count_tokens(line);
-	list = NULL;
-	create_list(&list, tokens, token_count, envp);
-	if (!list)
-		return (NULL);
+	list = create_list(list, tokens, token_count, envp);
 	free_arr(tokens);
 	return (list);
 }

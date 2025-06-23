@@ -12,6 +12,30 @@
 
 #include "minishell.h"
 
+bool    validate_syntax(char **tokens)
+{
+    int i;
+
+    i = 0;
+	if (is_pipe(tokens[i]))
+		return (false);
+	while (tokens[i])
+	{
+		if (is_pipe(tokens[i]) && is_pipe(tokens[i + 1]))
+			return (false);
+		if (is_redirect(tokens[i]) && is_redirect(tokens[i + 1]))
+			return (false);
+		// im not sure if were supposed to take care of uncomplete commands
+		if (tokens[i + 1] == NULL)
+		{
+			if (is_pipe(tokens[i]) || is_redirect(tokens[i]))
+				return (false);
+		}
+		i++;
+	}
+	return (true);
+}
+
 // void	minishell(char *envp[])
 void	minishell(char **envp)
 {
@@ -22,7 +46,7 @@ void	minishell(char **envp)
 	{
 		char	*line;
 		// line = readline("minishell$ ");
-		line = "cat info.txt ";
+		line = "cat < info.txt > outfile1 >outfile2 < err.log > outfile3";
 		if (!line || ft_strncmp(line, "exit", 5) == 0)
 		{
 			write(1, "exit\n", 5);
@@ -31,10 +55,10 @@ void	minishell(char **envp)
 		// if (g_signal == SIGINT)
 		// 	receive_SIGINT();
 
-		list = get_list(line, envp);
+		list = get_list(list, line, envp);
 		if (!list)
-			error_message("malloc error", 1);
-		print_line(list);
+			error_message("mMlloc error", -1);
+		// print_line(list);
 		
 		// execute(&list);
 		// else
@@ -43,14 +67,14 @@ void	minishell(char **envp)
 	}
 }
 
-// int main(int argc, char *argv[], char *envp[])
-// {
-// 	(void)argc;
-// 	(void)argv;
-// 	// char *line = "ls -la";
-// 	// if (argc != 1)
-// 	// 	return (1);
-// 	// enable_signals();
-// 	minishell(envp);
-// 	return (0);
-// }
+int main(int argc, char *argv[], char *envp[])
+{
+	(void)argc;
+	(void)argv;
+	// char *line = "ls -la";
+	// if (argc != 1)
+	// 	return (1);
+	// enable_signals();
+	minishell(envp);
+	return (0);
+}

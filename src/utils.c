@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-
-
 int	word_count(char const *s)
 {
 	int	i;
@@ -47,6 +45,6 @@ void	error_message(char const *s, int exit_code)
 {
 	printf("%s\n", s);
 	(void)exit_code;
-	// exit (exit_code);
+	exit (exit_code);
 	return ;
 }

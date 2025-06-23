@@ -26,3 +26,8 @@ TO DO;
 .handle signals in working processes
 should we handle "> outfile" (we will have to write input)
 .
+
+WHAT TO DO:
+instead of returning 1 for invalid node due to invalid fiel, i put a error_type enum struct
+which will say if every file is valid or invalid. this will be in list if im correct. 
+i need to change new node's return to a t_list

@@ -31,16 +31,16 @@ bool is_builtin(char *str)//some of these are also 2 (recognized by access) so w
 	return (false);
 }
 
-bool	is_command(char *str)
-{
-	char	*cmd;
+// bool	is_command(char *str)
+// {
+// 	char	*cmd;
 
-	cmd = get_cmd(str);
-	if (!cmd)
-		return (false);
-	free(cmd);
-	return (true);
-}
+// 	cmd = get_cmd(str);
+// 	if (!cmd)
+// 		return (false);
+// 	free(cmd);
+// 	return (true);
+// }
 
 bool is_redirect(char *str)
 {
@@ -78,8 +78,8 @@ int	find_token_type(char *arg)
 {
 	if (is_builtin(arg))
 		return (BUILTIN);
-	if (is_command(arg))
-		return (COMMAND);
+	// if (is_command(arg))
+	// 	return (COMMAND);
 	if (is_pipe(arg))
 		return (PIPE);
 	if (is_redirect(arg))
