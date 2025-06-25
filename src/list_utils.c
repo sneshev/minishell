@@ -71,30 +71,32 @@ int	count_redir_files(char **tokens, int index)
 	return (count);
 }
 
-char	**get_cmd_args(char **tokens, int index)
+char	**get_cmd_args(char **tokens, int *index)
 {
 	int		arg_count;
 	char	**args;
 	int		i;
 
-	arg_count = count_cmd_args(tokens, index);
+	arg_count = count_cmd_args(tokens, *index);
 	args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!args)
 		return (NULL);
 	i = 0;
-	while (tokens[index] && !is_pipe(tokens[index]))
+	while (tokens[*index] && !is_pipe(tokens[*index]))
 	{
-		if (is_redirect(tokens[index]) && tokens[index + 1])
-			index += 2;
+		if (is_redirect(tokens[*index]) && tokens[*index + 1])
+			*index += 2;
 		else
 		{
-			args[i] = ft_strdup(tokens[index]);
+			args[i] = ft_strdup(tokens[*index]);
 			if (!args[i])
 				return (free_arr(args), NULL);
 			i++;
-			index++;
+			(*index)++;
 		}
 	}
+	printf("index before pipe: %d\n", *index);
+	(*index)++;
 	args[i] = NULL;
 	return (args);
 }

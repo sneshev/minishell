@@ -68,7 +68,7 @@ bool    validate_syntax(char **tokens);
 // list
 t_list	*get_list(t_list *list, char *line, char **envp);
 t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp);
-t_list	*new_node(int fd[2], char **tokens, int index);
+t_list	*new_node(int fd[2], char **tokens, int *index);
 int		validate_files(int fd[2], char **tokens, int index);
 void	add_node_back(t_list **list, t_list *current);
 
@@ -77,7 +77,7 @@ int		create_files(int fd[2], t_file *file);
 int		handle_heredoc(t_file **file);
 t_file	*put_redir_files(t_file *file, char **files);
 t_file	*new_file_node(char *redir_type, char *filename);
-char	**get_cmd_args(char **tokens, int index);
+char	**get_cmd_args(char **tokens, int *index);
 char	**get_redir_files(char **tokens, int index);
 int		count_redir_files(char **tokens, int index);
 int		count_cmd_args(char **tokens, int index);

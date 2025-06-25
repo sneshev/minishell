@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+void    execute(t_list *list)
+{
+    
+}
+
 // void	child_process(t_list **list, int *new_pipe, t_list *prev)
 // {
 // 	char	**flags;

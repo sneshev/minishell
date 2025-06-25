@@ -46,7 +46,7 @@ void	minishell(char **envp)
 	{
 		char	*line;
 		// line = readline("minishell$ ");
-		line = "cat < info.txt > outfile1 >outfile2 < err.log > outfile3";
+		line = "cat < info.txt > outfile1 | cat err.log < infile2 > outfile2 ";
 		if (!line || ft_strncmp(line, "exit", 5) == 0)
 		{
 			write(1, "exit\n", 5);
@@ -58,9 +58,8 @@ void	minishell(char **envp)
 		list = get_list(list, line, envp);
 		if (!list)
 			error_message("mMlloc error", -1);
-		// print_line(list);
-		
-		// execute(&list);
+		print_list(list);
+		execute(list);
 		// else
 		// 	handle_invalid_input();
 		// break ;

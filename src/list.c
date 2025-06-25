@@ -49,7 +49,7 @@ int	validate_files(int fd[2], char **tokens, int index)
 	return (0);
 }
 
-t_list	*new_node(int fd[2], char **tokens, int index)
+t_list	*new_node(int fd[2], char **tokens, int *index)
 {
 	t_list	*node;
 	char	**args;
@@ -83,13 +83,14 @@ t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp)
 			return (free_list(&list), NULL);
 		else if (file_status == 0)
 		{
-			new = new_node(fd, tokens, index);
+			new = new_node(fd, tokens, &index);
 			if (!new)
 				return (free_list(&list), NULL);
 			add_node_back(&list, new);
 		}
 		else if (file_status == 1)
 			printf("no valid node\n");
+		printf("index: %d\n", index);
 		break ;
 	}
 	return (list);
