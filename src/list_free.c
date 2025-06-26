@@ -6,6 +6,7 @@ void	free_file_node(t_file **prev_file)
 		return ;
 	if ((*prev_file)->filename)
 		free((*prev_file)->filename);
+	free(*prev_file);
 	*prev_file = NULL;
 }
 
@@ -30,6 +31,8 @@ void	free_list_node(t_list **prev_list)
 		free((*prev_list)->cmd);
 	if ((*prev_list)->args)
 		free_arr((*prev_list)->args);
+	free(*prev_list);
+	*prev_list = NULL;
 }
 
 void	free_list(t_list **list)
@@ -53,6 +56,8 @@ void	free_env_node(t_env **prev_env)
 		free((*prev_env)->name);
 	if ((*prev_env)->value)
 		free((*prev_env)->value);
+	free(*prev_env);
+	*prev_env = NULL;
 }
 
 void	free_env(t_env **env)

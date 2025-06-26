@@ -59,12 +59,14 @@ t_list	*new_node(int fd[2], char **tokens, int *index)
 		return (NULL);
 	args = get_cmd_args(tokens, index);
 	if (!args)
-		return (NULL);
-	node->cmd = args[0];
+		return (free(node), NULL);
+	node->cmd = get_cmd(args[0]);
+	if (!node->cmd)
+		return (free_arr(args), free(node), NULL);
 	node->args = args;
 	node->input = fd[0];
 	node->output = fd[1];
-	return (node);
+	return (free_arr(args), node);
 }
 
 t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp)
@@ -90,8 +92,6 @@ t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp)
 		}
 		else if (file_status == 1)
 			printf("no valid node\n");
-		printf("index: %d\n", index);
-		break ;
 	}
 	return (list);
 }

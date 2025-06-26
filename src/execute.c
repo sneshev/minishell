@@ -12,110 +12,69 @@
 
 #include "minishell.h"
 
-void    execute(t_list *list)
+// get the amount of commandnodes so we know the amount we need to fork
+int count_pids(t_list *list)
 {
-    
+    int count;
+
+    count = 0;
+    while (list)
+    {
+        list = list->next;
+        count++;
+    }
+    return (count);
 }
 
-// void	child_process(t_list **list, int *new_pipe, t_list *prev)
-// {
-// 	char	**flags;
-// 	if (prev && prev->pipe[READ] != -1)
-// 	{
-// 		close(prev->pipe[WRITE]);
-// 		dup2(prev->pipe[READ], STDIN_FILENO);
-// 		close(prev->pipe[READ]);
-// 	}
-// 	flags = put_flags(list);
-// 	if (!flags)
-// 		error_message("malloc error", 1);
-// 	print_arr(flags);
-// 	if (new_pipe[WRITE] != -1)
-// 	{
-// 		close(new_pipe[READ]);
-// 		if ((*list)->next)
-// 			dup2(new_pipe[WRITE], STDOUT_FILENO);
-// 		close(new_pipe[WRITE]);
-// 	}
-// 	if (execve(flags[0], flags, (*list)->envp) == -1)
-// 		error_message("execve error", 1);
-// 	perror("execve:");
-// }
+// close read of pipe and set stdin to prevpip 
+void    child_process(t_list *list, int *pip, int pip_input)
+{
+        dup2(pip_input, STDIN_FILENO);
+        close(pip_input);
+		if (list->next)
+		{
+			close(pip[READ]);
+			dup2(pip[WRITE], STDOUT_FILENO);
+			close(pip[WRITE]);
+		}
+}
 
-// void	execute_command(t_list **list)
-// {
-// 	t_list	*prev;
-// 	int		new_pipe[2] = {-1, -1};
-// 	pid_t	pid;
+void    execute(t_list *list)
+{
+    int     pid_count = count_pids(list);
+    pid_t   pid[pid_count];
+    int     pip[2];
+    int     pip_input;
+    int     i;
 
-// 	prev = (*list)->prev;
-// 	if (prev && prev->pipe[WRITE] != -1)
-// 		close(prev->pipe[WRITE]);
-// 	if ((*list)->next)
-// 	{
-// 		if (pipe(new_pipe) == -1)
-// 			error_message("pipe error", 1);
-// 	}
-// 	pid = fork();
-// 	if (pid == -1)
-// 		error_message("fork error", 1);
-// 	if (pid == 0)
-// 		child_process(list, new_pipe, prev);
-// 	if (prev && prev->pipe[READ] != -1)
-// 		close(prev->pipe[READ]);	
-// 	(*list)->pipe[READ] = new_pipe[READ];
-// 	(*list)->pipe[WRITE] = new_pipe[WRITE];
-// }
+    pip_input = -1;
+    i = 0;
+    while (i < pid_count)
+    {
+        if (list->next && pipe(pip) == -1)
+                error_message("pipe_error", -1);
+        pid[pid_count] = fork();
+        if (pid[i] == -1)
+            error_message("fork error", -1);
+        if (pid[i] == 0)
+            child_process(list, pip, pip_input);
+    }
+}
 
 
-
-// int	execute(t_list **list)
-// {
-// 	while (*list)
-// 	{
-// 		if ((*list)->arg_type == COMMAND)
-// 		{
-// 			// we are at the command now
-// 			execute_command(list);
-// 			// for the flag
-// 			*list = (*list)->next;
-// 			// for the pipe
-// 			*list = (*list)->next;
-// 		}
-// 		// for the next command
-// 		*list = (*list)->next;
-// 	}
-// 	wait(NULL);
-// 	return (0);
-// }
-
-// int	count_childs(t_list **list)
-// {
-// 	t_list	*temp;
-// 	int		count;
-
-// 	temp = *list;
-// 	count = 0;
-// 	while (temp)
-// 	{
-// 		if (temp->type == T_COMMAND)
-// 			count++;
-// 		temp = temp->next;
-// 	}
-// 	return (count);
-// }
-
-// int	execute(t_list **list)
-// {
-// 	// the amount of commands (for execve) and also pipes
-// 	int	pid[child_count(list)];
-// 	while (*list)
-// 	{
-// 		if ((*list)->type == T_COMMAND)
-// 			execute_command(list);
-// 		else if ((*list)->type == T_FILE)
-// 			execute_redir;
-// 	}
-
-
-// }
+int main(int argc, char *argv[], char *envp[])
+{
+    (void)argc;
+    (void)argv;
+    t_list *list = NULL;
+    char *s = " cat err.log > outfile > outfile2 | cat err.log > outfile3 | cat err.log > outfile4 | cat err.log > outfile5";
+    list = get_list(list, s, envp);
+    if (!list)
+    {
+        printf("no list\\n");
+        return (0);
+    }
+    print_list(list);
+    printf("pid_count: %d\n", count_pids(list));
+    return (0);
+}

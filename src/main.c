@@ -59,21 +59,21 @@ void	minishell(char **envp)
 		if (!list)
 			error_message("mMlloc error", -1);
 		print_list(list);
-		execute(list);
+		// execute(list);
 		// else
 		// 	handle_invalid_input();
 		// break ;
 	}
 }
 
-int main(int argc, char *argv[], char *envp[])
-{
-	(void)argc;
-	(void)argv;
-	// char *line = "ls -la";
-	// if (argc != 1)
-	// 	return (1);
-	// enable_signals();
-	minishell(envp);
-	return (0);
-}
+// int main(int argc, char *argv[], char *envp[])
+// {
+// 	(void)argc;
+// 	(void)argv;
+// 	// char *line = "ls -la";
+// 	// if (argc != 1)
+// 	// 	return (1);
+// 	// enable_signals();
+// 	minishell(envp);
+// 	return (0);
+// }
