@@ -28,30 +28,6 @@ void	add_node_back(t_list **list, t_list *current)
 	current->prev = temp;
 }
 
-t_file	*get_file_list(t_file *file, char **tokens, int index)
-{
-	char	**files;
-
-	files = get_redir_files(tokens, index);
-	if (!files)
-		return (NULL);
-	// print_arr(files);
-	file = create_file_list(file, files);
-	if (!file)
-		return (free_arr(files), NULL);
-	return (file);
-}
-
-// if fd == -1 we will not pipe/close the pipe and the computer will read this as empty input
-void	check_cmd_access(int fd[2], char *cmd)
-{
-	if (access(cmd, F_OK) == -1 || access(cmd, X_OK == -1))
-	{
-		fd[0] = -1;
-		fd[1] = -1;
-	}
-}
-
 t_list	*new_node(int fd[2], char **tokens, int index)
 {
 	t_list	*node;

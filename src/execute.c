@@ -63,13 +63,12 @@ void    execute(t_list *list)
     }
 }
 
-
 int main(int argc, char *argv[], char *envp[])
 {
     (void)argc;
     (void)argv;
     t_list *list = NULL;
-    char *s = " cat err.log > outfile  | wc -l > outfile2 ";
+    char *s = " cat err.log > outfile  | wc -l > outfile2 | echo hello > yolo > yolo2 ";
     list = get_list(list, s, envp);
     if (!list)
     {
@@ -77,6 +76,6 @@ int main(int argc, char *argv[], char *envp[])
         return (0);
     }
     print_list(list);
-    printf("pid_count: %d\n", count_pids(list));
+    // printf("pid_count: %d\n", count_pids(list));
     return (0);
 }
