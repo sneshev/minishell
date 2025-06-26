@@ -68,22 +68,23 @@ bool    validate_syntax(char **tokens);
 // list
 t_list	*get_list(t_list *list, char *line, char **envp);
 t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp);
-t_list	*new_node(int fd[2], char **tokens, int *index);
-int		validate_files(int fd[2], char **tokens, int index);
+t_list	*new_node(int fd[2], char **tokens, int index);
 void	add_node_back(t_list **list, t_list *current);
+void	update_index(char **tokens, int *index);
 
 // list utils
-void	create_files(int fd[2], t_file *file);
-int		handle_heredoc(t_file **file);
-t_file	*create_file_list(t_file *file, char **files);
-t_file	*get_file_list(t_file *file, char **tokens, int index);
-t_file	*new_file_node(char *redir_type, char *filename);
-char	**get_cmd_args(char **tokens, int *index);
-char	**get_redir_files(char **tokens, int index);
-int		count_redir_files(char **tokens, int index);
-int		count_cmd_args(char **tokens, int index);
-void	add_filenode_back(t_file **file, t_file *current);
+void		create_files(int fd[2], t_file *file);
+int			handle_heredoc(t_file **file);
+t_file		*create_file_list(t_file *file, char **files);
+t_file		*get_file_list(t_file *file, char **tokens, int index);
+t_file		*new_file_node(char *redir_type, char *filename);
+char		**get_cmd_args(char **tokens, int index);
+char		**get_redir_files(char **tokens, int index);
+int			count_redir_files(char **tokens, int index);
+int			count_cmd_args(char **tokens, int index);
+void		add_filenode_back(t_file **file, t_file *current);
 t_redir_type find_redir_type(char *str);
+void		check_cmd_access(int fd[2], char *cmd);
 
 // list free
 void	free_env(t_env **env);
@@ -105,7 +106,7 @@ bool	is_quote(char c);
 int		find_token_type(char *arg);
 bool	is_pipe(char *str);
 bool 	is_redirect(char *str);
-bool is_builtin(char *str);//some of these are also 2 (recognized by access) so what are they?;
+bool 	is_builtin(char *str);//some of these are also 2 (recognized by access) so what are they?;
 
 // utils
 void	error_message(char const *s, int exit_code);

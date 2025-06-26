@@ -35,49 +35,14 @@ t_file	*get_file_list(t_file *file, char **tokens, int index)
 	files = get_redir_files(tokens, index);
 	if (!files)
 		return (NULL);
+	// print_arr(files);
 	file = create_file_list(file, files);
 	if (!file)
 		return (free_arr(files), NULL);
 	return (file);
 }
 
-// int	validate_files(int fd[2], char **tokens, int index)
-// {
-// 	t_file	*file;
-// 	char	**files;
-
-// 	files = get_redir_files(tokens, index);
-// 	if (!files)
-// 		return (-1);
-// 	file = NULL;
-// 	file = put_redir_files(file, files);
-// 	if (!file)
-// 		return (free_arr(files), -1);
-// 	if (create_files(fd, file) == -1)
-// 		return (free(file), free_arr(files), -1);
-// 	return (0);
-// }
-
-// t_list	*new_node(int fd[2], char **tokens, int *index)
-// {
-// 	t_list	*node;
-// 	char	**args;
-
-// 	node = malloc(sizeof(t_list));
-// 	if (!node)
-// 		return (NULL);
-// 	args = get_cmd_args(tokens, index);
-// 	if (!args)
-// 		return (free(node), NULL);
-// 	node->cmd = get_cmd(args[0]);
-// 	if (!node->cmd)
-// 		return (free_arr(args), free(node), NULL);
-// 	node->args = args;
-// 	node->input = fd[0];
-// 	node->output = fd[1];
-// 	return (free_arr(args), node);
-// }
-
+// if fd == -1 we will not pipe/close the pipe and the computer will read this as empty input
 void	check_cmd_access(int fd[2], char *cmd)
 {
 	if (access(cmd, F_OK) == -1 || access(cmd, X_OK == -1))
@@ -87,7 +52,7 @@ void	check_cmd_access(int fd[2], char *cmd)
 	}
 }
 
-t_list	*new_node(int fd[2], char **tokens, int *index)
+t_list	*new_node(int fd[2], char **tokens, int index)
 {
 	t_list	*node;
 	char	**args;
@@ -104,7 +69,7 @@ t_list	*new_node(int fd[2], char **tokens, int *index)
 	if (!cmd)
 		return (free(node), free_arr(args), NULL);
 	file = NULL;
-	file = get_file_list(file, tokens, *index);
+	file = get_file_list(file, tokens, index);
 	if (!file)
 		return (free(node), free(args), free(cmd), NULL);
 	create_files(fd, file);
@@ -116,6 +81,17 @@ t_list	*new_node(int fd[2], char **tokens, int *index)
 	return (node);
 }
 
+void	update_index(char **tokens, int *index)
+{
+	// printf("index before: %d  %s\n", *index, tokens[*index]);
+	while(tokens[*index] && !is_pipe(tokens[*index]))
+		(*index)++;
+	// set to after the pipe
+	if (tokens[*index] && is_pipe(tokens[*index]))
+		(*index)++;
+	// printf("index after: %d\n", *index); fflush(NULL);
+}
+
 t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp)
 {
 	(void)envp;
@@ -124,12 +100,16 @@ t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp)
 	int		fd[2];
 
 	index = 0;
+	// printf("wordcount: %d\n", wordc);
 	while (index < wordc)
 	{
-		new = new_node(fd, tokens, &index);
+		// printf("index: %d\n", index);
+		new = new_node(fd, tokens, index);
 		if (!new)
 			return (free_list(&list), NULL);
 		add_node_back(&list, new);
+		update_index(tokens, &index);
+		// printf("index: %d\n", index);
 	}
 	return (list);
 }

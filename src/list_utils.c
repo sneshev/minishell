@@ -71,31 +71,44 @@ int	count_redir_files(char **tokens, int index)
 	return (count);
 }
 
-char	**get_cmd_args(char **tokens, int *index)
+t_file	*get_file_list(t_file *file, char **tokens, int index)
+{
+	char	**files;
+
+	files = get_redir_files(tokens, index);
+	if (!files)
+		return (NULL);
+	// print_arr(files);
+	file = create_file_list(file, files);
+	if (!file)
+		return (free_arr(files), NULL);
+	return (file);
+}
+
+char	**get_cmd_args(char **tokens, int index)
 {
 	int		arg_count;
 	char	**args;
 	int		i;
 
-	arg_count = count_cmd_args(tokens, *index);
+	arg_count = count_cmd_args(tokens, index);
 	args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!args)
 		return (NULL);
 	i = 0;
-	while (tokens[*index] && !is_pipe(tokens[*index]))
+	while (tokens[index] && !is_pipe(tokens[index]))
 	{
-		if (is_redirect(tokens[*index]) && tokens[*index + 1])
-			*index += 2;
+		if (is_redirect(tokens[index]) && tokens[index + 1])
+			index += 2;
 		else
 		{
-			args[i] = ft_strdup(tokens[*index]);
+			args[i] = ft_strdup(tokens[index]);
 			if (!args[i])
 				return (free_arr(args), NULL);
 			i++;
-			(*index)++;
+			(index)++;
 		}
 	}
-	(*index)++;
 	args[i] = NULL;
 	return (args);
 }
@@ -108,6 +121,7 @@ char	**get_redir_files(char **tokens, int index)
 	files = malloc(sizeof(char *) * (count_redir_files(tokens, index) + 1));
 	if (!files)
 		return (NULL);
+	// printf("file malloc: %d\n", count_redir_files(tokens, index));
 	i = 0;
 	while (tokens[index] && !is_pipe(tokens[index]))
 	{
@@ -116,9 +130,11 @@ char	**get_redir_files(char **tokens, int index)
 			files[i] = ft_strdup(tokens[index]);
 			if (!files[i])
 				return (free_arr(files), NULL);
+			// printf("files[%d]: %s\n", i, files[i]);
 			files[i + 1] = ft_strdup(tokens[index + 1]);
 			if (!files[i + 1])
 				return (free_arr(files), NULL);
+			// printf("files[%d]: %s\n", i + 1, files[i + 1]);
 			i += 2;
 			index += 2;
 		}
@@ -126,6 +142,7 @@ char	**get_redir_files(char **tokens, int index)
 			index++;
 	}
 	files[i] = NULL;
+	// printf("files[%d]: %s\n", i, files[i]);
 	return (files);
 }
 

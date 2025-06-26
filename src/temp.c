@@ -17,6 +17,7 @@ void	print_arr(char **arr)
 		printf("arr[%d]: %s\n", i, arr[i]);
 		i++;
 	}
+	printf("arr[%d]: %s\n", i, arr[i]);
 }
 
 void print_line(t_list *list)
