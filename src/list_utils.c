@@ -95,7 +95,6 @@ char	**get_cmd_args(char **tokens, int *index)
 			(*index)++;
 		}
 	}
-	printf("index before pipe: %d\n", *index);
 	(*index)++;
 	args[i] = NULL;
 	return (args);
@@ -145,7 +144,7 @@ t_file	*new_file_node(char *redir_type, char *filename)
 	return (node);
 }
 
-t_file	*put_redir_files(t_file *file, char **files)
+t_file	*create_file_list(t_file *file, char **files)
 {
 	t_file	*new;
 	int		i;
@@ -169,7 +168,7 @@ int	handle_heredoc(t_file **file)
 	return (0);
 }
 
-int	create_files(int fd[2], t_file *file)
+void	create_files(int fd[2], t_file *file)
 {
 	int		infile;
 	int		outfile;
@@ -185,10 +184,13 @@ int	create_files(int fd[2], t_file *file)
 		else if (file->type == REDIR_APPEND)
 			outfile = open(file->filename, O_WRONLY | O_CREAT, 0644);
 		if (outfile == -1 || infile == -1)
-			return(1);
+		{
+			fd[0] = -1;
+			fd[1] = -1;
+			return ;
+		}
 		file = file->next;
 	}
 	fd[0] = infile;
 	fd[1] = outfile;
-	return (0);
 }

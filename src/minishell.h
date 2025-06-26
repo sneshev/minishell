@@ -73,9 +73,10 @@ int		validate_files(int fd[2], char **tokens, int index);
 void	add_node_back(t_list **list, t_list *current);
 
 // list utils
-int		create_files(int fd[2], t_file *file);
+void	create_files(int fd[2], t_file *file);
 int		handle_heredoc(t_file **file);
-t_file	*put_redir_files(t_file *file, char **files);
+t_file	*create_file_list(t_file *file, char **files);
+t_file	*get_file_list(t_file *file, char **tokens, int index);
 t_file	*new_file_node(char *redir_type, char *filename);
 char	**get_cmd_args(char **tokens, int *index);
 char	**get_redir_files(char **tokens, int index);
@@ -120,5 +121,12 @@ t_env	*get_env(char **envp);
 t_env	*create_env(t_env **env, char **envs);
 void	add_env_node_back(t_env **env, t_env *current);
 t_env	*new_env_node(char *name, char *value);
+
+//
+int		name_length(const char *s);
+int		arr_length(char **arr);
+char	*get_env_name(char *env);
+char	*get_env_value(char *env);
+char	**arr_dup(char **arr);
 
 #endif

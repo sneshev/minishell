@@ -67,7 +67,7 @@ bool is_redirect(char *str)
 
 bool	is_pipe(char *str)
 {
-	if (!str)
+	if (!str || !(*str))
 		return (false);
 	if (*str == '|' && *(str + 1) == '\0')
 		return (true);
