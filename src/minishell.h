@@ -83,7 +83,6 @@ char		**get_redir_files(char **tokens, int index);
 int			count_redir_files(char **tokens, int index);
 int			count_cmd_args(char **tokens, int index);
 void		add_filenode_back(t_file **file, t_file *current);
-t_redir_type find_redir_type(char *str);
 void		check_cmd_access(int fd[2], char *cmd);
 
 // list free
