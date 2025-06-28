@@ -97,7 +97,7 @@ void	free_file_node(t_file **prev_file);
 char	**get_tokens(char *str);
 void	 add_token(char **arr, int index,char *str);
 int		count_tokens(char *str);
-int		find_token_len(char *str);
+int		find_token_len(char *str, bool count_quote);
 bool	 is_space(char c);
 bool	is_quote(char c);
 

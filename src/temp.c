@@ -8,12 +8,14 @@
 void	print_arr(char **arr)
 {
 	int	i;
+	char *str;
 
 	i = 0;
 	if (!arr)
 		return ;
 	while (arr[i])
 	{
+		str = arr[i];
 		printf("arr[%d]: %s\n", i, arr[i]);
 		i++;
 	}

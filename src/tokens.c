@@ -66,7 +66,7 @@ int find_quote_len(char *str, bool count_quote) // doesnt do env vars yet
 }
 
 // return (-2); for unclosed brackets
-int find_token_len(char *str)
+int find_token_len(char *str, bool count_quote)
 {
     int count;
 
@@ -83,8 +83,8 @@ int find_token_len(char *str)
         {
             if (find_quote_len(str, 0) < 0)
                 return (find_quote_len(str, 0));
-            count += find_quote_len(str, 0);
-            str += find_quote_len(str, 1) + 2;
+            count += find_quote_len(str, count_quote);
+            str += find_quote_len(str, 1);
         }
         else
         {
@@ -110,7 +110,7 @@ int count_tokens(char *str)
             str++;
         if (*str)
         {
-            token_len = find_token_len(str);
+            token_len = find_token_len(str, 1);
             if (token_len < 0)
                 return (token_len);
             count++;
@@ -140,7 +140,7 @@ void add_token(char **arr, int index, char *str)
     int j;
     int token_len;
 
-    token_len = find_token_len(str);
+    token_len = find_token_len(str, 0);
     arr[index] = (char *)malloc((token_len + 1) * sizeof(char));
     if (!arr[index])
         return ;
@@ -163,12 +163,10 @@ void add_token(char **arr, int index, char *str)
 }
 int main()
 {
-    char *str = "bot '12\"3\"' haha ";
+    char *str = "bot";
     char **tokens = get_tokens(str);
     print_arr(tokens);
-    fflush(NULL);
     free_arr(tokens);
-
 }
 
 char **get_tokens(char *str)
@@ -189,7 +187,7 @@ char **get_tokens(char *str)
         while (is_space(*str))
             str++;
         add_token(arr, index, str);
-        str += find_token_len(str);
+        str += find_token_len(str, 1);
         if (!arr[index])
         {
             free_arr(arr);
