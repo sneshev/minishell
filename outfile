@@ -1,0 +1,19 @@
+total 144
+drwxr-xr-x@ 18 winnitytrinnity  staff    576 Jun 29 00:03 .
+drwxr-xr-x@ 11 winnitytrinnity  staff    352 Jun 20 18:00 ..
+drwxr-xr-x@ 15 winnitytrinnity  staff    480 Jun 28 23:52 .git
+-rw-r--r--@  1 winnitytrinnity  staff     54 Jun 20 18:00 .gitignore
+drwxr-xr-x@  4 winnitytrinnity  staff    128 Jun 26 12:41 .vscode
+-rw-r--r--@  1 winnitytrinnity  staff     21 Jun 26 22:58 echo.sh
+-rw-r--r--@  1 winnitytrinnity  staff      5 Jun 20 18:00 err.log
+-rw-r--r--@  1 winnitytrinnity  staff   1429 Jun 26 12:41 info.txt
+drwxr-xr-x@ 73 winnitytrinnity  staff   2336 Jun 28 23:59 libft
+-rw-r--r--@  1 winnitytrinnity  staff   1506 Jun 20 18:00 Makefile
+-rwxr-xr-x@  1 winnitytrinnity  staff  43992 Jun 29 00:03 minishell
+drwxr-xr-x@ 17 winnitytrinnity  staff    544 Jun 29 00:03 obj
+-rw-r-----@  1 winnitytrinnity  staff      0 Jun 29 00:03 outfile
+-rw-r-----@  1 winnitytrinnity  staff      0 Jun 29 00:02 outfile1
+-rw-r--r--@  1 winnitytrinnity  staff      0 Jun 29 00:02 outfile2
+-rw-r-----@  1 winnitytrinnity  staff      0 Jun 29 00:02 outfile3
+-rw-r--r--@  1 winnitytrinnity  staff   7014 Jun 20 18:00 README.md
+drwxr-xr-x@ 19 winnitytrinnity  staff    608 Jun 28 23:52 src
