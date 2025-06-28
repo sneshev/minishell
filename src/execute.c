@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/28 14:13:21 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/28 16:57:08 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,51 +26,67 @@ int count_pids(t_list *list)
     return (count);
 }
 
-void    child_process(t_list *list, int *pip, int prev_pipe, char **envp)
+int	setup_input(t_list *list, int *pip, int *prev_pipe)
 {
-	if (list->input == -1 && list->output == -1)
-		close(prev_pipe);
-	if (list->input != -1 && list->output != -1)
+	if (list->input == -2)
 	{
-		dup2(prev_pipe, STDIN_FILENO);
-		close(prev_pipe);
+		if (list->prev)
+		{
+			dup2(*prev_pipe, STDIN_FILENO);
+			close (*prev_pipe);
+		}
+		if (list->next)
+		{
+			dup2(pip[WRITE], STDOUT_FILENO);
+			close(pip[WRITE]);
+		}
 	}
-    if (list->next)
+	if (list->input >= 0)
 	{
-		close(pip[READ]);
-		dup2(pip[WRITE], STDOUT_FILENO);
-		close(pip[WRITE]);
+		dup2(list->input, STDIN_FILENO);
+		close (list->input);
 	}
-	// check access for exitcodes?
-	execve(list->cmd, list->args, envp);
-	error_message("execve fail", -1);
+
 }
 
-void	child_process(t_list *list, int *pip, int prev_pipe)
+void	child_process(t_list *list, int *pip, int *prev_pipe, char **envp)
 {
-	// if infile is stdin
+	if (list->input == -1 && list->output == -1)
+	{
+		if (list->prev)
+			close (*prev_pipe);
+		if (list->next)
+		{
+			close(pip[WRITE]);
+			close(pip[READ]);
+		}
+		exit ;
+	}
+	// SETUP_INPUT
+	if (setup_input == -1)
+		return ;
 	if (list->input >= 0)
 	{
 		dup2(list->input, STDIN_FILENO);
 		close (list->input);
 		close(pip[READ]);
 		// close prev_pipe if it exists
-		if (prev_pipe != -1)
-			close (prev_pipe);
+		if (*prev_pipe != -1)
+			close (*prev_pipe);
 	}
 	// if we have no infile as stdin
 	else if (list->input < 0)
 	{
 		// if we have a prev pipe
-		if (prev_pipe != -1)
+		if (*prev_pipe != -1)
 		{
-			dup2(prev_pipe, STDIN_FILENO);
-			close(prev_pipe);
+			dup2(*prev_pipe, STDIN_FILENO);
+			close(*prev_pipe);
 		}
 		// if we have no infile or pipe input, we simply close
 		close(pip[READ]);
 	}
-	// if theres an outfile to redirect to
+	// SETUP OUTPUT
 	if (list->output >= 0)
 	{
 		dup2(list->output, STDOUT_FILENO);
@@ -86,9 +102,8 @@ void	child_process(t_list *list, int *pip, int prev_pipe)
 		// no outfile and pipe output, we simply close and write to terminal
 		close(pip[WRITE]);
 	}
-	
-
-
+	execve(list->cmd, list->args, envp);
+	error_message("execve_fail", 127);
 }
 
 // check for invalid files -> we will then not enter the child process and go right to the next list
@@ -100,98 +115,136 @@ void	child_process(t_list *list, int *pip, int prev_pipe)
 // if we are at te last node we have to close everything:
 //	.if prev_pipe != -1 close, if (list->prev close pip[READ] && pip[WRITE])
 
+// void	execute_command(t_list *list, int *pipe_input, int *pip, int pid, char **envp)
+// {
+// 	// we pipe if there is more than one list
+// 	if (list->next && pipe(pip) == -1)
+// 		error_message("pipe error", -1);
+// 	pid = fork();
+// 	if (pid == -1)
+// 		error_message("fork error", -1);
+// 	if (pid == 0)
+// 		child_process(list, pip, pipe_input, envp);
+// 	// if we piped
+// 	if (list->prev)
+// 	{
+// 		*pipe_input = pip[READ];
+// 		close(pip[READ]);
+// 		close(pip[WRITE]);
+// 	}
+// 	// if we didnt pipe we simply do nothing, no pipe to close, no prev_pipe
+// 	// we already closed in child when calling dup2 but must be also in parent
+// 	if (list->input >= 0)
+// 		close(list->input);
+// 	if (list->output >= 0)
+// 		close(list->output);
+// }
+
+// void	execute(t_list *list, char **envp, int pid_count)
+// {
+// 	pid_t	pid[pid_count];
+// 	int		pip[2];
+// 	int		pipe_input;
+// 	int		i;
+
+// 	pipe_input = -1;
+// 	i = 0;
+// 	while (i < pid_count)
+// 	{
+// 		// check if the node is valid and we can continue executing
+// 		if (list->input != -1 && list->output != -1)
+// 			execute_command(list, &pipe_input, pip, pid[i], envp);
+// 		list = list->next;
+// 		i++;
+// 	}
+// }
+
+
+// void    execute(t_list *list, char **envp)
+// {
+//     int     pid_count = count_pids(list);
+//     pid_t   pid[pid_count];
+//     int     pip[2];
+//     int     prev_pipe;
+//     int     i;
+
+//     prev_pipe = -1;
+//     i = 0;
+//     while (i < pid_count)
+//     {
+//         if (list->next && pipe(pip) == -1)
+//                 error_message("pipe_error", -1);
+//         pid[i] = fork();
+//         if (pid[i] == -1)
+//             error_message("fork error", -1);
+// 		printf("forking pid[%d]\n", i);
+//         if (pid[i] == 0)
+//             child_process(list, pip, prev_pipe, envp);
+// 		// sets prev pipes stdin for next command, if there is one
+// 		if (list->next)
+// 		{
+// 			prev_pipe = pip[READ];
+// 			close(pip[READ]);
+// 			close(pip[WRITE]);
+// 		}
+// 		// if theres no list->next theres no pipe
+// 		if (!list->next)
+// 			close(prev_pipe);
+// 		i++;
+//     }
+// }
+
+
 void	execute(t_list *list, char **envp, int pid_count)
 {
 	pid_t	pid[pid_count];
 	int		pip[2];
-	int		prev_pipe;
+	int		pipe_input;
 	int		i;
 
-	prev_pipe = -1;
+	pipe_input = -1;
 	i = 0;
 	while (i < pid_count)
 	{
-		execute_command(list, prev_pipe, pip, pid[i], envp);
-		i++;
-	}
-}
-
-void	execute_command(t_list *list, int prev_pipe, int *pip, int pid, char **envp)
-{
-	// check if the node is valid and we can continue executing
-	if (list->input != -1 && list->output != -1)
-	{
-		// we pipe if there is more than one list
-		if (list->next && pipe(pip) == -1)
-			error_message("pipe error", -1);
-		pid = fork();
-		if (pid == -1)
+		if (list->next)
+		{
+			if (pipe(pip) == -1)
+				error_message("pipe error", -1);
+		}
+		pid[i] = fork();
+		if (pid[i] == -1)
 			error_message("fork error", -1);
-		if (pid == 0)
-			child_process();
+		if (pid[i] == 0)
+			child_process(list, pip, &pipe_input, envp);
+		if (!list->next)
+		{
+			if (list->prev)
+			{
+				close(pipe_input);
+				close(pip[READ]);
+				close(pip[WRITE]);
+			}
+		}
 		// if we piped
 		if (list->next)
 		{
-			prev_pipe = pip[READ];
-			close(pip[READ]);
+			if (list->prev)
+				close(pipe_input);
+			pipe_input = pip[READ];
 			close(pip[WRITE]);
 		}
-		// if we didnt pipe
-		if (!list->next)
-			close(prev_pipe);
-		// we already closed in child when calling dup2 but must be also in parent
-		if (list->input >= 0)
-			close(list->input);
-		if (list->output >= 0)
-			close(list->output);
+		list = list->next;
+		i++;
 	}
 }
 
-void	child_process()
-{
-
-}
-
-void    execute(t_list *list, char **envp)
-{
-    int     pid_count = count_pids(list);
-    pid_t   pid[pid_count];
-    int     pip[2];
-    int     prev_pipe;
-    int     i;
-
-    prev_pipe = -1;
-    i = 0;
-    while (i < pid_count)
-    {
-        if (list->next && pipe(pip) == -1)
-                error_message("pipe_error", -1);
-        pid[i] = fork();
-        if (pid[i] == -1)
-            error_message("fork error", -1);
-		printf("forking pid[%d]\n", i);
-        if (pid[i] == 0)
-            child_process(list, pip, prev_pipe, envp);
-		// sets prev pipes stdin for next command, if there is one
-		if (list->next)
-		{
-			prev_pipe = pip[READ];
-			close(pip[READ]);
-			close(pip[WRITE]);
-		}
-		// if theres no list->next theres no pipe
-		if (!list->next)
-			close(prev_pipe);
-		i++;
-    }
-}
 
 int main(int argc, char *argv[], char *envp[])
 {
     (void)argc;
     (void)argv;
     t_list *list = NULL;
-    char *s = " cat err.log > outfile  | wc -l > outfile2 | echo hello > yolo > yolo2 ";
+    char *s = " cat err.log < info.txt | cat > outfile2 | echo info.txt < hello | cat > outfile3";
     list = get_list(list, s, envp);
     if (!list)
     {

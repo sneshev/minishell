@@ -41,6 +41,12 @@ void	free_arr(char **arr)
 	arr = NULL;
 }
 
+void	malloc_fail(char *s, int exitcode)
+{
+	printf("%s\n", s);
+	exit(exitcode);
+}
+
 void	error_message(char const *s, int exit_code)
 {
 	printf("%s\n", s);

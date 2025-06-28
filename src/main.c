@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/21 12:20:42 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/28 15:27:54 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	minishell(char **envp)
 
 		list = get_list(list, line, envp);
 		if (!list)
-			error_message("mMlloc error", -1);
+			error_message("no list", -1);
 		print_list(list);
 		// execute(list);
 		// else

@@ -77,10 +77,10 @@ void	update_index(char **tokens, int *index);
 void		create_files(int fd[2], t_file *file);
 int			handle_heredoc(t_file **file);
 t_file		*create_file_list(t_file *file, char **files);
-t_file		*get_file_list(t_file *file, char **tokens, int index);
+t_file		*get_file_list(t_file *file, char **tokens, int index, int file_count);
 t_file		*new_file_node(char *redir_type, char *filename);
 char		**get_cmd_args(char **tokens, int index);
-char		**get_redir_files(char **tokens, int index);
+char		**get_redir_files(char **tokens, int index, int file_count);
 int			count_redir_files(char **tokens, int index);
 int			count_cmd_args(char **tokens, int index);
 void		add_filenode_back(t_file **file, t_file *current);
@@ -112,6 +112,7 @@ bool 	is_builtin(char *str);//some of these are also 2 (recognized by access) so
 void	error_message(char const *s, int exit_code);
 void	free_arr(char **arr);
 int		word_count(char const *s);
+void	malloc_fail(char *s, int exitcode);
 
 // get command
 char	*get_cmd(char *cmd);

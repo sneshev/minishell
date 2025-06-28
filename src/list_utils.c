@@ -81,11 +81,11 @@ int	count_redir_files(char **tokens, int index)
 	return (count);
 }
 
-t_file	*get_file_list(t_file *file, char **tokens, int index)
+t_file	*get_file_list(t_file *file, char **tokens, int index, int file_count)
 {
 	char	**files;
 
-	files = get_redir_files(tokens, index);
+	files = get_redir_files(tokens, index, file_count);
 	if (!files)
 		return (NULL);
 	// print_arr(files);
@@ -123,12 +123,12 @@ char	**get_cmd_args(char **tokens, int index)
 	return (args);
 }
 
-char	**get_redir_files(char **tokens, int index)
+char	**get_redir_files(char **tokens, int index, int file_count)
 {
 	char	**files;
 	int		i;
 
-	files = malloc(sizeof(char *) * (count_redir_files(tokens, index) + 1));
+	files = malloc(sizeof(char *) * (file_count + 1));
 	if (!files)
 		return (NULL);
 	// printf("file malloc: %d\n", count_redir_files(tokens, index));
@@ -207,13 +207,25 @@ void	create_files(int fd[2], t_file *file)
 	while (file)
 	{
 		if (file->type == REDIR_IN)
+		{
+			if (infile > 0)
+				close(infile);
 			infile = open(file->filename, O_RDONLY, 0400);
+		}
 		else if (file->type == REDIR_HEREDOC)
 			handle_heredoc(&file);
 		else if (file->type == REDIR_OUT)
+		{
+			if (outfile > 0)
+				close (outfile);
 			outfile = open(file->filename, O_TRUNC | O_WRONLY | O_CREAT, 0640);
+		}
 		else if (file->type == REDIR_APPEND)
+		{
+			if (outfile > 0)
+				close(outfile);
 			outfile = open(file->filename, O_WRONLY | O_CREAT, 0644);
+		}
 		if (infile == -1 || outfile == -1)
 		{
 			fd[0] = -1;
