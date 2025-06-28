@@ -163,7 +163,7 @@ void add_token(char **arr, int index, char *str)
 }
 int main()
 {
-    char *str = "bot";
+    char *str = "ech'o' \"hello world\" ";
     char **tokens = get_tokens(str);
     print_arr(tokens);
     free_arr(tokens);
