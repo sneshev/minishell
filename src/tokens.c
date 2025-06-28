@@ -21,7 +21,7 @@ bool is_space(char c)
 static int redir(char *str)
 {
 	if (!(*str))
-		return (-1);
+		return (0);
 	if (*str == '<')
 	{
 		str++;
@@ -43,11 +43,30 @@ static int redir(char *str)
     return (0);
 }
 
+int find_quote_len(char *str)
+{
+    int quote_type;
+    int count;
+
+    count = 0;
+    quote_type = *str;
+    str++;
+    while (*str)
+    {
+        if (*str == quote_type)
+            break ;
+        count++;
+        if (*(str + 1) == '\0')
+            return (-2);
+        str++;
+    }
+    return (count);
+}
+
 // return (-2); for unclosed brackets
 int find_token_len(char *str)
 {
     int count;
-    int quote_type;
 
     count = 0;
     while (is_space(*str))
@@ -56,24 +75,29 @@ int find_token_len(char *str)
         return (redir(str));
     while(*str && !is_space(*str))
     {
-        count++;
-        if (is_quote(*str))
-        {
-            quote_type = *str;
-            while (*(++str))
-            {
-                count++;
-                if (*str == quote_type)
-                    break ;
-                if (*(str + 1) == '\0')
-                    return (-2);
-            }
-        }
-        str++;
         if (redir(str))
             break ;
+        if (is_quote(*str))
+        {
+            if (find_quote_len(str) < 0)
+                return (find_quote_len(str));
+            count += find_quote_len(str);
+            str += find_quote_len(str) + 2;
+        }
+        else
+        {
+            count++;
+            str++;
+        }
     }
     return (count);
+}
+
+int main()
+{
+    char *str = "";
+    printf("quote: %s\n", str);
+    printf("token len: %d\n", find_token_len(str));
 }
 
 // return (-2); for unclosed brackets
@@ -101,7 +125,7 @@ int count_tokens(char *str)
     return (count);
 }
 
-void add_token(char **arr, int index,char *str)
+void add_token(char **arr, int index, char *str)
 {
     int j;
     int token_len;
