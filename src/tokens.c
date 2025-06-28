@@ -43,7 +43,7 @@ static int redir(char *str)
     return (0);
 }
 
-int find_quote_len(char *str)
+int find_quote_len(char *str, bool count_quote) // doesnt do env vars yet
 {
     int quote_type;
     int count;
@@ -60,6 +60,8 @@ int find_quote_len(char *str)
             return (-2);
         str++;
     }
+    if (count_quote)
+        count += 2;
     return (count);
 }
 
@@ -79,10 +81,10 @@ int find_token_len(char *str)
             break ;
         if (is_quote(*str))
         {
-            if (find_quote_len(str) < 0)
-                return (find_quote_len(str));
-            count += find_quote_len(str);
-            str += find_quote_len(str) + 2;
+            if (find_quote_len(str, 0) < 0)
+                return (find_quote_len(str, 0));
+            count += find_quote_len(str, 0);
+            str += find_quote_len(str, 1) + 2;
         }
         else
         {
@@ -91,13 +93,6 @@ int find_token_len(char *str)
         }
     }
     return (count);
-}
-
-int main()
-{
-    char *str = "";
-    printf("quote: %s\n", str);
-    printf("token len: %d\n", find_token_len(str));
 }
 
 // return (-2); for unclosed brackets
@@ -125,6 +120,21 @@ int count_tokens(char *str)
     return (count);
 }
 
+void add_quoted_sequence(char *dest, char *src, int *j) // doesnt do env vars yet
+{
+    int quote_type;
+
+    quote_type = src[*j];
+    src++;
+    while (src[*j] != quote_type)
+    {
+        // if (src[*j] == '$' && quote_type == '\"')
+            // ;
+        dest[*j] = src[*j];
+        (*j)++;
+    }
+}
+
 void add_token(char **arr, int index, char *str)
 {
     int j;
@@ -138,10 +148,27 @@ void add_token(char **arr, int index, char *str)
     j = 0;
     while(j < token_len)
     {
-        arr[index][j] = str[j];
-        j++;
+        if (is_quote(str[j]))
+        {
+            add_quoted_sequence(arr[index], str, &j);
+            str += 2;
+        }
+        else
+        {
+            arr[index][j] = str[j];
+            j++;
+        }
     }
     arr[index][j] = '\0';
+}
+int main()
+{
+    char *str = "bot '12\"3\"' haha ";
+    char **tokens = get_tokens(str);
+    print_arr(tokens);
+    fflush(NULL);
+    free_arr(tokens);
+
 }
 
 char **get_tokens(char *str)
