@@ -80,6 +80,28 @@ void	child_process(t_list *list, int *pip, int *prev_pipe, char **envp)
 	error_message("execve_fail", 127);
 }
 
+void	handle_setup_close(t_list *list, int *pip, int prev_pipe)
+{
+	// there is no next list so we close everything
+	if (!list->next)
+	{
+		if (list->prev)
+		{
+			close(prev_pipe);
+			close(pip[READ]);
+			close(pip[WRITE]);
+		}
+			// if there is a list next, obviously we are not closing everything	
+	}
+	if (list->next)
+	{
+		if (list->prev)
+			close(prev_pipe);
+		prev_pipe = pip[READ];
+		close(pip[WRITE]);
+	}
+}
+
 void	execute(t_list *list, char **envp, int pid_count)
 {
 	pid_t	pid[pid_count];
@@ -101,23 +123,8 @@ void	execute(t_list *list, char **envp, int pid_count)
 			error_message("fork error", -1);
 		if (pid[i] == 0)
 			child_process(list, pip, &pipe_input, envp);
-		if (!list->next)
-		{
-			if (list->prev)
-			{
-				close(pipe_input);
-				close(pip[READ]);
-				close(pip[WRITE]);
-			}
-		}
-		// if we piped
-		if (list->next)
-		{
-			if (list->prev)
-				close(pipe_input);
-			pipe_input = pip[READ];
-			close(pip[WRITE]);
-		}
+		handle_setup_close(list, pip, pipe_input);
+
 		list = list->next;
 		i++;
 	}
@@ -129,7 +136,7 @@ int main(int argc, char *argv[], char *envp[])
     (void)argc;
     (void)argv;
     t_list *list = NULL;
-    char *s = "ls -la > outfile| cat err.log";
+    char *s = "cat < invalid > outfile | cat err.log > outfile";
     list = get_list(list, s, envp);
     if (!list)
     {
