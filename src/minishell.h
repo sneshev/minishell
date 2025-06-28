@@ -59,6 +59,7 @@ typedef struct s_file
 // temporary
 void	print_arr(char **arr);
 void	print_list(t_list *list);
+void	print_files(t_file *file);
 
 // main
 int		main(int argc, char *argv[], char *envp[]);

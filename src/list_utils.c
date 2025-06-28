@@ -201,6 +201,9 @@ void	create_files(int fd[2], t_file *file)
 	int		infile;
 	int		outfile;
 
+	// -2 for not set up yet
+	infile = -2;
+	outfile = -2;
 	while (file)
 	{
 		if (file->type == REDIR_IN)
@@ -211,10 +214,10 @@ void	create_files(int fd[2], t_file *file)
 			outfile = open(file->filename, O_TRUNC | O_WRONLY | O_CREAT, 0640);
 		else if (file->type == REDIR_APPEND)
 			outfile = open(file->filename, O_WRONLY | O_CREAT, 0644);
-		if (outfile == -1 || infile == -1)
+		if (infile == -1 || outfile == -1)
 		{
 			fd[0] = -1;
-			fd[1] = -1;
+			fd[0] = -1;
 			return ;
 		}
 		file = file->next;

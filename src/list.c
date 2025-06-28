@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/21 16:34:36 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/28 12:03:21 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,16 @@ t_list	*new_node(int fd[2], char **tokens, int index)
 	args = get_cmd_args(tokens, index);
 	if (!args)
 		return (free(node), NULL);
+	print_arr(args);
 	cmd = get_cmd(args[0]);
 	if (!cmd)
 		return (free(node), free_arr(args), NULL);
+	printf("cmd: %s\n", args[0]);
 	file = NULL;
 	file = get_file_list(file, tokens, index);
 	if (!file)
 		return (free(node), free(args), free(cmd), NULL);
+	print_files(file);
 	create_files(fd, file);
 	check_cmd_access(fd, cmd);
 	node->cmd = cmd;
