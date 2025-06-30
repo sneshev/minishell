@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/28 16:57:08 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/30 15:45:21 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,20 +131,20 @@ void	execute(t_list *list, char **envp, int pid_count)
 }
 
 
-int main(int argc, char *argv[], char *envp[])
-{
-    (void)argc;
-    (void)argv;
-    t_list *list = NULL;
-    char *s = "cat < invalid > outfile | cat err.log > outfile";
-    list = get_list(list, s, envp);
-    if (!list)
-    {
-        printf("no list\\n");
-        return (0);
-    }
-    print_list(list);
-    printf("pid_count: %d\n", count_pids(list));
-	execute(list, envp, count_pids(list));
-    return (0);
-}
+// int main(int argc, char *argv[], char *envp[])
+// {
+//     (void)argc;
+//     (void)argv;
+//     t_list *list = NULL;
+//     char *s = "cat < invalid > outfile | cat err.log > outfile";
+//     list = get_list(list, s, envp);
+//     if (!list)
+//     {
+//         printf("no list\\n");
+//         return (0);
+//     }
+//     print_list(list);
+//     printf("pid_count: %d\n", count_pids(list));
+// 	execute(list, envp, count_pids(list));
+//     return (0);
+// }

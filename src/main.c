@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/28 15:27:54 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:01:58 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,13 @@ void	minishell(char **envp)
 	t_list	*list;
 
 	list = NULL;
-	// while (1)
+	while (1)
 	{
 		char	*line;
-		// line = readline("minishell$ ");
-		line = "cat < info.txt > outfile1 | cat err.log < infile2 > outfile2 ";
-		if (!line || ft_strncmp(line, "exit", 5) == 0)
-		{
-			write(1, "exit\n", 5);
-			exit(1);
-		}
+		line = readline("minishell$ ");
+		// line = "cat < info.txt > outfile1 | cat err.log < infile2 > outfile2 ";
+		if (!line || ft_strncmp(line, "exit", 4) == 0)
+			exit_terminal(line);
 		// if (g_signal == SIGINT)
 		// 	receive_SIGINT();
 
@@ -66,14 +63,14 @@ void	minishell(char **envp)
 	}
 }
 
-// int main(int argc, char *argv[], char *envp[])
-// {
-// 	(void)argc;
-// 	(void)argv;
-// 	// char *line = "ls -la";
-// 	// if (argc != 1)
-// 	// 	return (1);
-// 	// enable_signals();
-// 	minishell(envp);
-// 	return (0);
-// }
+int main(int argc, char *argv[], char *envp[])
+{
+	(void)argc;
+	(void)argv;
+	// char *line = "ls -la";
+	// if (argc != 1)
+	// 	return (1);
+	// enable_signals();
+	minishell(envp);
+	return (0);
+}

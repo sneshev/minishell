@@ -66,6 +66,12 @@ int		main(int argc, char *argv[], char *envp[]);
 void	minishell(char **envp);
 bool    validate_syntax(char **tokens);
 
+// exits
+void exit_terminal(char *line);
+void exit_with_code(int exit_code);
+
+
+
 // list
 t_list	*get_list(t_list *list, char *line, char **envp);
 t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp);
