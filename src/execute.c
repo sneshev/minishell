@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/30 15:45:21 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/01 17:10:21 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,11 @@ void	handle_setup_close(t_list *list, int *pip, int prev_pipe)
 	}
 }
 
+// void	wait_for_pids(pid_t *pid)
+// {
+	
+// }
+
 void	execute(t_list *list, char **envp, int pid_count)
 {
 	pid_t	pid[pid_count];
@@ -128,6 +133,7 @@ void	execute(t_list *list, char **envp, int pid_count)
 		list = list->next;
 		i++;
 	}
+	// wait_for_pids(pid);
 }
 
 
