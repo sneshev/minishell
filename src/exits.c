@@ -21,8 +21,8 @@ void exit_terminal(char *line)
 		{
 			if (ft_isdigit(*(line + 1)))
 				exit_with_code(ft_atoi(line));
-			else 
-				; // exit error
+			// else 
+				// ; // exit error
 		}
 		else if (ft_isdigit(*line))
 			exit_with_code(ft_atoi(line));
