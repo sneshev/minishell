@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 14:08:37 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/04 14:22:21 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
 	(void)argv;
-	// char *line = "ls -la";
-	// if (argc != 1)
-	// 	return (1);
-	// enable_signals();
+
 	minishell(envp);
 	return (0);
 }
