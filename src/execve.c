@@ -1,0 +1,163 @@
+#include "minishell.h"
+
+int	count_pids(t_list *list)
+{
+	int	count;
+
+	count = 0;
+	while (list)
+	{
+		list = list->next;
+		count++;
+	}
+	return (count);
+}
+
+void	setup_input(t_list *list, int *pip, int prev_pipe)
+{
+	if (list->next)
+		close(pip[READ]);
+	if (list->input == -2)
+	{
+		if (list->prev)
+		{
+			dup2(prev_pipe, STDIN_FILENO);
+			close(prev_pipe);
+		}
+	}
+	else if (list->input >= 0)
+	{
+		if (list->prev)
+			close(prev_pipe);
+		dup2(list->input, STDIN_FILENO);
+		close(list->input);
+	}
+}
+
+void	setup_output(t_list *list, int *pip)
+{
+	if (list->output == -2)
+	{
+		if (list->next)
+		{
+			dup2(pip[WRITE], STDOUT_FILENO);
+			close(pip[WRITE]);
+		}
+	}
+	else if (list->output >= 0)
+	{
+		dup2(list->output, STDOUT_FILENO);
+		close(list->output);
+		if (list->next)
+			close(pip[WRITE]);
+	}
+}
+
+void	check_invalid_file(t_list *list, int *pip, int prev_pipe)
+{
+	if (list->input == -1 && list->output == -1)
+	{
+		if (list->next)
+		{
+			close(pip[READ]);
+			close(pip[WRITE]);
+		}
+		if (list->prev)
+			close(prev_pipe);
+		exit(1);
+	}
+}
+
+void	child_process(t_list *list, int *pip, int prev_pipe, char **envp)
+{
+	check_invalid_file(list, pip, prev_pipe);
+	setup_input(list, pip, prev_pipe);
+	setup_output(list, pip);
+	if (execve(list->cmd, list->args, envp) == -1)
+		fprintf(stderr, "execve error");
+}
+
+void	handle_setup_close(t_list *list, int *pip, int *pipe_input)
+{
+	if (list->prev)
+		close(*pipe_input);
+	if (list->next)
+	{
+		*pipe_input = pip[READ];
+		close(pip[WRITE]);
+	}
+	if (!list->next && *pipe_input != -1)
+		close(*pipe_input);
+}
+
+void	wait_for_pids(pid_t *pid, int pid_count)
+{
+	int	i;
+	int	status;
+	int	exitcode;
+
+	i = 0;
+	status = 0;
+	exitcode = 0;
+	while (i < pid_count - 1)
+	{
+		waitpid(pid[i], NULL, 0);
+		i++;
+	}
+	waitpid(pid[i], &status, 0);
+	if (WEXITSTATUS(status))
+		exitcode = (WEXITSTATUS(status));
+	exit (exitcode);
+}
+
+void	close_files(t_list *list)
+{
+	if (list->input >= 0)
+		close(list->input);
+	if (list->output >= 0)
+		close(list->output);
+}
+
+void	execute(t_list *list, char **envp, int pid_count)
+{
+	pid_t	pid[pid_count];
+	int		pip[2];
+	int		pipe_input;
+	int		i;
+
+	pipe_input = -1;
+	i = 0;
+	while (i < pid_count)
+	{
+		if (list->next)
+		{
+			if (pipe(pip) == -1)
+				error_message("pipe error", -1);
+		}
+		pid[i] = fork();
+		if (pid[i] == -1)
+			error_message("fork error", -1);
+		if (pid[i] == 0)
+			child_process(list, pip, pipe_input, envp);
+		handle_setup_close(list, pip, &pipe_input);
+		close_files(list);
+
+		list = list->next;
+		i++;
+	}
+	wait_for_pids(pid, pid_count);
+}
+
+int	main(int argc, char *argv[], char *envp[])
+{
+	(void)argc;
+	(void)argv;
+	t_list	*list = NULL;
+	char	*s = "cat err.log | cat Makefile > hi < invalid";
+	list = get_list(list, s, envp);
+	if (!list)
+		return (printf("no list\n"), 0);
+	print_list(list);
+	execute(list, envp, count_pids(list));
+	return (0);
+}

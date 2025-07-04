@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/30 16:01:58 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/01 17:23:31 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ void	minishell(char **envp)
 	}
 }
 
-int main(int argc, char *argv[], char *envp[])
-{
-	(void)argc;
-	(void)argv;
-	// char *line = "ls -la";
-	// if (argc != 1)
-	// 	return (1);
-	// enable_signals();
-	minishell(envp);
-	return (0);
-}
+// int main(int argc, char *argv[], char *envp[])
+// {
+// 	(void)argc;
+// 	(void)argv;
+// 	// char *line = "ls -la";
+// 	// if (argc != 1)
+// 	// 	return (1);
+// 	// enable_signals();
+// 	minishell(envp);
+// 	return (0);
+// }
