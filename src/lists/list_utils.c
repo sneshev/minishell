@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 // if fd == -1 we will not pipe/close the pipe and the computer will read this as empty input
 void	check_cmd_access(int fd[2], char *cmd)

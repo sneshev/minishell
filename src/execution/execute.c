@@ -6,11 +6,11 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/30 15:45:21 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/04 14:26:40 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 // get the amount of commandnodes so we know the amount we need to fork
 int count_pids(t_list *list)

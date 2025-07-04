@@ -1,4 +1,4 @@
-// #include "minishell.h"
+// #include "../minishell.h"
 
 // /*
 //     Have to make CTRL-C (SIGINT) stop the running child process

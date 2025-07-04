@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 #define GREEN   "\033[0;32m"
 #define ORANGE  "\033[38;5;208m"  // or try 214 for a lighter orange

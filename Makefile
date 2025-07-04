@@ -6,16 +6,14 @@
 #    By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 16:25:11 by mmisumi           #+#    #+#              #
-#    Updated: 2025/07/04 14:20:56 by sneshev          ###   ########.fr        #
+#    Updated: 2025/07/04 14:23:01 by sneshev          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := minishell
 
-# Recursively get all .c files in src/
 SRCS := $(shell find src -name "*.c")
 
-# Mirror object file paths under obj/
 OBJDIR := obj
 OBJS := $(patsubst src/%.c, $(OBJDIR)/%.o, $(SRCS))
 

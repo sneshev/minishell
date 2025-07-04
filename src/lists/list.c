@@ -6,11 +6,11 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 12:13:18 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/04 14:26:57 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	add_node_back(t_list **list, t_list *current)
 {
