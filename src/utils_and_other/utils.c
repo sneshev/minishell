@@ -1,5 +1,13 @@
 #include "../minishell.h"
 
+bool is_space(char c)
+{
+    if (c == 32)
+        return (true);
+    else
+        return (false);
+}
+
 int	word_count(char const *s)
 {
 	int	i;

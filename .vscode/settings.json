@@ -9,6 +9,7 @@
 		"fcntl.h": "c",
 		"signal.h": "c",
 		"readline.h": "c",
-		"signals.h": "c"
+		"signals.h": "c",
+		"structs.h": "c"
 	}
 }

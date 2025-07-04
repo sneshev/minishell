@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 15:37:42 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/04 16:03:01 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ void	minishell(char **envp)
 	{
 		char	*line;
 		line = readline("minishell$ ");
-		if (g_signal == SIGINT)
-	    	receive_SIGINT();
 		// line = "cat < info.txt > outfile1 | cat err.log < infile2 > outfile2 ";
+
 		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			exit_terminal(line);
 		
@@ -73,7 +72,6 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argc;
 	(void)argv;
 
-	enable_signals();
 	minishell(envp);
 	return (0);
 }

@@ -11,14 +11,6 @@ bool is_quote(char c)
         return (false);
 }
 
-bool is_space(char c)
-{
-    if (c == 32)
-        return (true);
-    else
-        return (false);
-}
-
 int redir(char *str)
 {
 	if (!(*str))

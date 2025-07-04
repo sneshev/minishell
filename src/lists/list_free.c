@@ -1,4 +1,5 @@
 #include "../minishell.h"
+#include "list.h"
 
 void	free_file_node(t_file **prev_file)
 {
