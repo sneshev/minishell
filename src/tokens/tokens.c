@@ -65,9 +65,7 @@ void add_token(char **arr, int index,char *str)
     int token_len;
 
     token_len = find_token_len(str);
-    arr[index] = (char *)malloc((token_len + 1) * sizeof(char));
-    if (!arr[index])
-        return ;
+    arr[index] = (char *)xmalloc((token_len + 1) * sizeof(char));
     
     j = 0;
     while(j < token_len)

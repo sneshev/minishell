@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:00 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 14:26:28 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:29:36 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ t_env	*new_env_node(char *name, char *value)
 	t_env	*node;
 
 	node = xmalloc(sizeof(t_env));
-	if (!node)
-		return (NULL);
 	node->name = name;
 	node->value = value;
 	node->next = NULL;

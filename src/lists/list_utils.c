@@ -128,9 +128,7 @@ char	**get_redir_files(char **tokens, int index, int file_count)
 	char	**files;
 	int		i;
 
-	files = malloc(sizeof(char *) * (file_count + 1));
-	if (!files)
-		return (NULL);
+	files = xmalloc(sizeof(char *) * (file_count + 1));
 	// printf("file malloc: %d\n", count_redir_files(tokens, index));
 	i = 0;
 	while (tokens[index] && !is_pipe(tokens[index]))
@@ -160,9 +158,7 @@ t_file	*new_file_node(char *redir_type, char *filename)
 {
 	t_file	*node;
 
-	node = malloc(sizeof(t_file));
-	if (!node)
-		return (NULL);
+	node = xmalloc(sizeof(t_file));
 	node->type = find_redir_type(redir_type);
 	node->filename = ft_strdup(filename);
 	if (!node->filename)

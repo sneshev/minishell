@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 14:26:57 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:30:54 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ t_list	*new_node(int fd[2], char **tokens, int index)
 	t_file	*file;
 	int		file_count;
 
-	node = malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
+	node = xmalloc(sizeof(t_list));
 	args = get_cmd_args(tokens, index);
 	if (!args)
 		return (free(node), NULL);
