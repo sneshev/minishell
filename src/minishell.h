@@ -118,7 +118,7 @@ bool 	is_builtin(char *str);//some of these are also 2 (recognized by access) so
 void	error_message(char const *s, int exit_code);
 void	free_arr(char **arr);
 int		word_count(char const *s);
-void	malloc_fail(char *s, int exitcode);
+void	*xmalloc(size_t size);
 
 // get command
 char	*get_cmd(char *cmd);

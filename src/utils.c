@@ -41,10 +41,19 @@ void	free_arr(char **arr)
 	arr = NULL;
 }
 
-void	malloc_fail(char *s, int exitcode)
+void *xmalloc(size_t size)
 {
-	printf("%s\n", s);
-	exit(exitcode);
+	void *ptr;
+
+	ptr = malloc(size);
+	if (!ptr)
+	{
+		ft_putstr_fd("minishell: xmalloc: cannot allocate )", 2);
+		ft_putnbr_fd((int)size, 2);
+		ft_putstr_fd(" bytes (errno 12: Cannot allocate memory)", 2);
+		exit_with_code(1);
+	}
+	return (ptr);
 }
 
 void	error_message(char const *s, int exit_code)

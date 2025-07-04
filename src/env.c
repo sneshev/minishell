@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:00 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/21 15:44:13 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/04 14:02:38 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*new_env_node(char *name, char *value)
 {
 	t_env	*node;
 
-	node = malloc(sizeof(t_env));
+	node = xmalloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
 	node->name = name;
