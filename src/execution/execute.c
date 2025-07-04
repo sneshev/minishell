@@ -108,7 +108,7 @@ void	wait_for_pids(pid_t *pid, int pid_count)
 	waitpid(pid[i], &status, 0);
 	if (WEXITSTATUS(status))
 		exitcode = (WEXITSTATUS(status));
-	exit (exitcode);
+	// exit (exitcode);
 }
 
 void	close_files(t_list *list)

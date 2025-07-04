@@ -46,4 +46,8 @@ void	exit_terminal(char *line);
 void	exit_with_code(int exit_code);
 void	error_message(char const *s, int exit_code);
 
+//execute
+void	execute(t_list *list, char **envp, int pid_count);
+int		count_pids(t_list *list);
+
 #endif
