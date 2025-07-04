@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/28 15:41:55 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/04 12:13:18 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_list	*new_node(int fd[2], char **tokens, int index)
 	node->args = args;
 	node->input = fd[0];
 	node->output = fd[1];
+	node->prev = NULL;
+	node->next = NULL;
 	return (node);
 }
 

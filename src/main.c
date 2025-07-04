@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/06/30 16:01:58 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/04 12:23:11 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	minishell(char **envp)
 	t_list	*list;
 
 	list = NULL;
+	read_history(".minishell_history");
 	while (1)
 	{
 		char	*line;
@@ -49,18 +50,16 @@ void	minishell(char **envp)
 		// line = "cat < info.txt > outfile1 | cat err.log < infile2 > outfile2 ";
 		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			exit_terminal(line);
-		// if (g_signal == SIGINT)
-		// 	receive_SIGINT();
-
+		
 		list = get_list(list, line, envp);
 		if (!list)
 			error_message("no list", -1);
+		
+		add_history(line);
 		print_list(list);
 		// execute(list);
-		// else
-		// 	handle_invalid_input();
-		// break ;
 	}
+
 }
 
 int main(int argc, char *argv[], char *envp[])

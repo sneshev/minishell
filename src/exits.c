@@ -2,6 +2,7 @@
 
 void exit_with_code(int exit_code)
 {
+	write_history(".minishell_history");
 	write(1, "exit\n", 5);
 	exit(exit_code % 256);
 }
