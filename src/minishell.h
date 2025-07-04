@@ -10,8 +10,6 @@
 # include <stdlib.h>
 # include <stdbool.h>
 
-#define	TRUE 0
-
 #define READ 0
 #define WRITE 1
 
@@ -21,12 +19,11 @@ void	print_list(t_list *list);
 void	print_files(t_file *file);
 
 // utils
-bool	is_space(char c);
-void	error_message(char const *s, int exit_code);
-void	free_arr(char **arr);
-int		word_count(char const *s);
 void	*xmalloc(size_t size);
+void	free_arr(char **arr);
 int		ft_strcmp(char *s1, char *s2);
+int		word_count(char const *s);
+bool	is_space(char c);
 
 // list
 t_list	*get_list(t_list *list, char *line, char **envp);
@@ -46,7 +43,8 @@ t_env	*get_env(char **envp);
 char	**arr_dup(char **arr);
 
 // exits
-void exit_terminal(char *line);
-void exit_with_code(int exit_code);
+void	exit_terminal(char *line);
+void	exit_with_code(int exit_code);
+void	error_message(char const *s, int exit_code);
 
 #endif
