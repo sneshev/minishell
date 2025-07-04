@@ -102,9 +102,9 @@ char	**get_cmd_args(char **tokens, int index)
 	int		i;
 
 	arg_count = count_cmd_args(tokens, index);
-	args = malloc(sizeof(char *) * (arg_count + 1));
-	if (!args)
+	if (arg_count < 1)
 		return (NULL);
+	args = xmalloc(sizeof(char *) * (arg_count + 1));
 	i = 0;
 	while (tokens[index] && !is_pipe(tokens[index]))
 	{

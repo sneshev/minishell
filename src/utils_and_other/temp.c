@@ -129,7 +129,8 @@ void	print_list(t_list *list)
 {
 	while (list)
 	{
-		printf("cmd: %s\n", list->cmd);
+		if (list->cmd)
+			printf("cmd: %s\n", list->cmd);
 		print_arr(list->args);
 		printf("input: %d\n", list->input);
 		printf("output: %d\n", list->output);

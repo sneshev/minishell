@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 15:04:32 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:28:22 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	minishell(char **envp)
 		
 		list = get_list(list, line, envp);
 		if (!list)
-			error_message("no list", -1);
+			printf("no list\n");
 		
 		add_history(line);
 		print_list(list);

@@ -1,6 +1,15 @@
 #include "../minishell.h"
 # include <readline/history.h>
 
+void	error_message(char const *s, int exit_code)
+{
+	(void)exit_code;
+
+	printf("%s\n", s);
+	exit (exit_code);
+	return ;
+}
+
 void exit_with_code(int exit_code)
 {
 	write_history(".minishell_history");
