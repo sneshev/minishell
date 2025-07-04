@@ -12,6 +12,7 @@
 		"signals.h": "c",
 		"structs.h": "c",
 		"environment.h": "c",
-		"list.h": "c"
+		"list.h": "c",
+		"execution.h": "c"
 	}
 }

@@ -5,10 +5,9 @@
 # include "structs.h"
 
 # include <sys/types.h>
-# include <sys/wait.h>
-# include <stdio.h>
-# include <stdlib.h>
 # include <stdbool.h>
+# include <stdlib.h>
+# include <stdio.h>
 
 #define READ 0
 #define WRITE 1
