@@ -5,6 +5,8 @@
 		"stdbool.h": "c",
 		"compare": "c",
 		"type_traits": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"fcntl.h": "c",
+		"signal.h": "c"
 	}
 }

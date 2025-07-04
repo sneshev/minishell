@@ -2,14 +2,11 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include <sys/types.h>
-# include <sys/wait.h>
 # include <fcntl.h>
 
 #define BUILTIN 1

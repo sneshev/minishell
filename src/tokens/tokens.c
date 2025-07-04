@@ -1,47 +1,5 @@
 #include "../minishell.h"
-
-bool is_quote(char c)
-{
-    if (c == '\'')
-        return (true);
-    else if (c == '\"')
-        return (true);
-    else
-        return (false);
-}
-
-bool is_space(char c)
-{
-    if (c == 32)
-        return (true);
-    else
-        return (false);
-}
-
-static int redir(char *str)
-{
-	if (!(*str))
-		return (-1);
-	if (*str == '<')
-	{
-		str++;
-		if (*str != '<')
-			return (1);
-		if (*str == '<')
-			return (2);
-	}
-	else if (*str == '>')
-	{
-		str++;
-		if (*str != '>')
-			return (1);
-		if (*str == '>')
-			return (2);
-	}
-	else if (*str == '|')
-		return (1);
-    return (0);
-}
+#include "tokens.h"
 
 // return (-2); for unclosed brackets
 int find_token_len(char *str)

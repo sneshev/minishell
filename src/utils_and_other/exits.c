@@ -1,4 +1,5 @@
 #include "../minishell.h"
+# include <readline/history.h>
 
 void exit_with_code(int exit_code)
 {
@@ -11,7 +12,7 @@ void exit_terminal(char *line)
 {
 	if (!line)
 		exit_with_code(0);
-	if (strncmp(line, "exit", 4) == 0)
+	if (ft_strncmp(line, "exit", 4) == 0)
 	{
 		line += 4;
 		if (*line == '\0')

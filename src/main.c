@@ -6,11 +6,13 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 14:27:56 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:04:32 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 
 bool    validate_syntax(char **tokens)
 {
