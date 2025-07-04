@@ -1,47 +1,37 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/02 16:01:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 16:48:28 by sneshev          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 #include "execution.h"
-#include <fcntl.h>
 
-// get the amount of commandnodes so we know the amount we need to fork
-int count_pids(t_list *list)
+int	count_pids(t_list *list)
 {
-    int count;
+	int	count;
 
-    count = 0;
-    while (list)
-    {
-        list = list->next;
-        count++;
-    }
-    return (count);
+	count = 0;
+	while (list)
+	{
+		list = list->next;
+		count++;
+	}
+	return (count);
 }
 
-void	setup_input(t_list *list, int *prev_pipe)
+void	setup_input(t_list *list, int *pip, int prev_pipe)
 {
+	if (list->next)
+		close(pip[READ]);
 	if (list->input == -2)
 	{
 		if (list->prev)
 		{
-			dup2(*prev_pipe, STDIN_FILENO);
-			close (*prev_pipe);
+			dup2(prev_pipe, STDIN_FILENO);
+			close(prev_pipe);
 		}
 	}
-	if (list->input >= 0)
+	else if (list->input >= 0)
 	{
+		if (list->prev)
+			close(prev_pipe);
 		dup2(list->input, STDIN_FILENO);
-		close (list->input);
+		close(list->input);
 	}
 }
 
@@ -55,53 +45,78 @@ void	setup_output(t_list *list, int *pip)
 			close(pip[WRITE]);
 		}
 	}
-	if (list->output >= 0)
+	else if (list->output >= 0)
 	{
 		dup2(list->output, STDOUT_FILENO);
 		close(list->output);
+		if (list->next)
+			close(pip[WRITE]);
 	}
 }
 
-void	child_process(t_list *list, int *pip, int *prev_pipe, char **envp)
+void	check_invalid_file(t_list *list, int *pip, int prev_pipe)
 {
 	if (list->input == -1 && list->output == -1)
 	{
-		if (list->prev)
-			close (*prev_pipe);
 		if (list->next)
 		{
-			close(pip[WRITE]);
 			close(pip[READ]);
+			close(pip[WRITE]);
 		}
-		exit(1) ;
+		if (list->prev)
+			close(prev_pipe);
+		exit(1);
 	}
-	setup_input(list, prev_pipe);
-	setup_output(list, pip);
-
-	execve(list->cmd, list->args, envp);
-	error_message("execve_fail", 127);
 }
 
-void	handle_setup_close(t_list *list, int *pip, int prev_pipe)
+void	child_process(t_list *list, int *pip, int prev_pipe, char **envp)
 {
-	// there is no next list so we close everything
-	if (!list->next)
-	{
-		if (list->prev)
-		{
-			close(prev_pipe);
-			close(pip[READ]);
-			close(pip[WRITE]);
-		}
-			// if there is a list next, obviously we are not closing everything	
-	}
+	check_invalid_file(list, pip, prev_pipe);
+	setup_input(list, pip, prev_pipe);
+	setup_output(list, pip);
+	if (execve(list->cmd, list->args, envp) == -1)
+		fprintf(stderr, "execve error");
+}
+
+void	handle_setup_close(t_list *list, int *pip, int *pipe_input)
+{
+	if (list->prev)
+		close(*pipe_input);
 	if (list->next)
 	{
-		if (list->prev)
-			close(prev_pipe);
-		prev_pipe = pip[READ];
+		*pipe_input = pip[READ];
 		close(pip[WRITE]);
 	}
+	if (!list->next && *pipe_input != -1)
+		close(*pipe_input);
+}
+
+void	wait_for_pids(pid_t *pid, int pid_count)
+{
+	int	i;
+	int	status;
+	int	exitcode;
+
+	i = 0;
+	status = 0;
+	exitcode = 0;
+	while (i < pid_count - 1)
+	{
+		waitpid(pid[i], NULL, 0);
+		i++;
+	}
+	waitpid(pid[i], &status, 0);
+	if (WEXITSTATUS(status))
+		exitcode = (WEXITSTATUS(status));
+	exit (exitcode);
+}
+
+void	close_files(t_list *list)
+{
+	if (list->input >= 0)
+		close(list->input);
+	if (list->output >= 0)
+		close(list->output);
 }
 
 void	execute(t_list *list, char **envp, int pid_count)
@@ -124,29 +139,26 @@ void	execute(t_list *list, char **envp, int pid_count)
 		if (pid[i] == -1)
 			error_message("fork error", -1);
 		if (pid[i] == 0)
-			child_process(list, pip, &pipe_input, envp);
-		handle_setup_close(list, pip, pipe_input);
+			child_process(list, pip, pipe_input, envp);
+		handle_setup_close(list, pip, &pipe_input);
+		close_files(list);
 
 		list = list->next;
 		i++;
 	}
+	wait_for_pids(pid, pid_count);
 }
 
-
-// int main(int argc, char *argv[], char *envp[])
+// int	main(int argc, char *argv[], char *envp[])
 // {
-//     (void)argc;
-//     (void)argv;
-//     t_list *list = NULL;
-//     char *s = "cat < invalid > outfile | cat err.log > outfile";
-//     list = get_list(list, s, envp);
-//     if (!list)
-//     {
-//         printf("no list\\n");
-//         return (0);
-//     }
-//     print_list(list);
-//     printf("pid_count: %d\n", count_pids(list));
+// 	(void)argc;
+// 	(void)argv;
+// 	t_list	*list = NULL;
+// 	char	*s = "cat err.log | cat Makefile > hi < invalid";
+// 	list = get_list(list, s, envp);
+// 	if (!list)
+// 		return (printf("no list\n"), 0);
+// 	print_list(list);
 // 	execute(list, envp, count_pids(list));
-//     return (0);
+// 	return (0);
 // }

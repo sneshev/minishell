@@ -227,7 +227,7 @@ void	create_files(int fd[2], t_file *file)
 		if (infile == -1 || outfile == -1)
 		{
 			fd[0] = -1;
-			fd[0] = -1;
+			fd[1] = -1;
 			return ;
 		}
 		file = file->next;
