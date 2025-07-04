@@ -1,4 +1,5 @@
 #include "../minishell.h"
+#include "signals.h"
 
 void reset_SIGINT()
 {

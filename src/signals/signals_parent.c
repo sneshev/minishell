@@ -1,4 +1,5 @@
 #include "../minishell.h"
+#include "signals.h"
 #include <readline/readline.h>
 
 /*
@@ -46,7 +47,7 @@ void disable_SIGQUIT()
 
     ft_bzero(&sa, sizeof(sa));
     sa.sa_handler = SIG_IGN;
-    sigemptyset(&sa.sa_mask);
+    sigemptyset(&sa.sa_mask); 
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
