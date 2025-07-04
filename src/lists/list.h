@@ -6,6 +6,7 @@ t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp);
 t_list	*new_node(int fd[2], char **tokens, int index);
 void	add_node_back(t_list **list, t_list *current);
 void	update_index(char **tokens, int *index);
+char	*get_cmd(char *cmd);
 
 
 

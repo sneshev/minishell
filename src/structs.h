@@ -32,5 +32,4 @@ typedef struct s_file
 	struct s_file	*next;
 }	t_file;
 
-
 #endif

@@ -10,6 +10,8 @@
 		"signal.h": "c",
 		"readline.h": "c",
 		"signals.h": "c",
-		"structs.h": "c"
+		"structs.h": "c",
+		"environment.h": "c",
+		"list.h": "c"
 	}
 }

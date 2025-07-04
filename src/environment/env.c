@@ -6,11 +6,12 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:00 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 16:15:59 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/04 16:25:03 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "environment.h"
 
 t_env	*new_env_node(char *name, char *value)
 {

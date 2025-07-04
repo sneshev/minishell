@@ -1,6 +1,7 @@
 #include "../minishell.h"
 #include <fcntl.h>
 
+
 // for >>
 int append_to_file(char *input, char *filename)
 {
