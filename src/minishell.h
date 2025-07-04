@@ -119,6 +119,8 @@ void	error_message(char const *s, int exit_code);
 void	free_arr(char **arr);
 int		word_count(char const *s);
 void	*xmalloc(size_t size);
+int		ft_strcmp(char *s1, char *s2);
+
 
 // get command
 char	*get_cmd(char *cmd);
