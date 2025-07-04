@@ -3,8 +3,11 @@
 
 # include <signal.h>
 
-// void	enable_signals(void);
-// void	receive_SIGINT(void);
-// void	enable_SIGINT(void);
+extern volatile sig_atomic_t	g_signal;
+
+void	enable_signals(void);
+void	disable_SIGINT(void);
+void	receive_SIGINT();
+void	reset_signals(void);
 
 #endif
