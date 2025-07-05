@@ -25,14 +25,14 @@ int		word_count(char const *s);
 bool	is_space(char c);
 
 // tokens
-char	**get_tokens(char *str);
+char	**get_tokens(char *str, t_env *env);
 int		count_tokens(char *str);
 bool	is_pipe(char *str);
 bool 	is_redirect(char *str);
 bool 	is_builtin(char *str);
 
 // list
-t_list	*get_list(t_list *list, char *line, char **envp);
+t_list	*get_list(t_list *list, char *line, t_env *env);
 void	free_env(t_env **env);
 void	free_list(t_list **list);
 void	free_file(t_file **file);

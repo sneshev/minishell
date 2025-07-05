@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 16:39:54 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/05 12:54:05 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,8 @@ void	update_index(char **tokens, int *index)
 	// printf("index after: %d\n", *index); fflush(NULL);
 }
 
-t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp)
+t_list	*create_list(t_list *list, char **tokens, int wordc)
 {
-	(void)envp;
 	t_list	*new;
 	int		index;
 	int		fd[2];
@@ -100,17 +99,16 @@ t_list	*create_list(t_list *list, char **tokens, int wordc, char **envp)
 	return (list);
 }
 
-t_list	*get_list(t_list *list, char *line, char **envp)
+t_list	*get_list(t_list *list, char *line, t_env *env)
 {
-	(void)envp;
 	char	**tokens;
 	int		token_count;
 
-	tokens = get_tokens(line);
+	tokens = get_tokens(line, env);
 	if (!tokens)
 		return (NULL);
 	token_count = count_tokens(line);
-	list = create_list(list, tokens, token_count, envp);
+	list = create_list(list, tokens, token_count);
 	free_arr(tokens);
 	return (list);
 }

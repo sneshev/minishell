@@ -76,7 +76,7 @@ void add_token(char **arr, int index,char *str)
     arr[index][j] = '\0';
 }
 
-char **get_tokens(char *str)
+char **get_tokens(char *str, t_env *env)
 {
     char **arr = NULL;
     int total_tokens;
