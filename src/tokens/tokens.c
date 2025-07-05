@@ -1,28 +1,6 @@
 #include "../minishell.h"
 #include "tokens.h"
 
-int find_quote_len(char *str, bool count_quote) // doesnt do env vars yet
-{
-    int quote_type;
-    int count;
-
-    count = 0;
-    quote_type = *str;
-    str++;
-    while (*str)
-    {
-        if (*str == quote_type)
-            break ;
-        count++;
-        if (*(str + 1) == '\0')
-            return (-2);
-        str++;
-    }
-    if (count_quote)
-        count += 2;
-    return (count);
-}
-
 // return (-2); for unclosed brackets
 int find_token_len(char *str, bool count_quote)
 {
@@ -78,21 +56,6 @@ int count_tokens(char *str)
     return (count);
 }
 
-void add_quoted_sequence(char *dest, char *src, int *j) // doesnt do env vars yet
-{
-    int quote_type;
-
-    quote_type = src[*j];
-    src++;
-    while (src[*j] != quote_type)
-    {
-        // if (src[*j] == '$' && quote_type == '\"')
-            // ;
-        dest[*j] = src[*j];
-        (*j)++;
-    }
-}
-
 void add_token(char **arr, int index, char *str)
 {
     int j;
@@ -106,6 +69,8 @@ void add_token(char **arr, int index, char *str)
     j = 0;
     while(j < token_len)
     {
+        if (str[j] == '$')
+            add_env_variable(arr[index], str, &j);
         if (is_quote(str[j]))
         {
             add_quoted_sequence(arr[index], str, &j);
