@@ -1,11 +1,32 @@
 #include "../minishell.h"
 #include "tokens.h"
 
+int find_quote_len(char *str, bool count_quote) // doesnt do env vars yet
+{
+    int quote_type;
+    int count;
+
+    count = 0;
+    quote_type = *str;
+    str++;
+    while (*str)
+    {
+        if (*str == quote_type)
+            break ;
+        count++;
+        if (*(str + 1) == '\0')
+            return (-2);
+        str++;
+    }
+    if (count_quote)
+        count += 2;
+    return (count);
+}
+
 // return (-2); for unclosed brackets
-int find_token_len(char *str)
+int find_token_len(char *str, bool count_quote)
 {
     int count;
-    int quote_type;
 
     count = 0;
     while (is_space(*str))
@@ -14,22 +35,20 @@ int find_token_len(char *str)
         return (redir(str));
     while(*str && !is_space(*str))
     {
-        count++;
-        if (is_quote(*str))
-        {
-            quote_type = *str;
-            while (*(++str))
-            {
-                count++;
-                if (*str == quote_type)
-                    break ;
-                if (*(str + 1) == '\0')
-                    return (-2);
-            }
-        }
-        str++;
         if (redir(str))
             break ;
+        if (is_quote(*str))
+        {
+            if (find_quote_len(str, 0) < 0)
+                return (find_quote_len(str, 0));
+            count += find_quote_len(str, count_quote);
+            str += find_quote_len(str, 1);
+        }
+        else
+        {
+            count++;
+            str++;
+        }
     }
     return (count);
 }
@@ -49,7 +68,7 @@ int count_tokens(char *str)
             str++;
         if (*str)
         {
-            token_len = find_token_len(str);
+            token_len = find_token_len(str, 1);
             if (token_len < 0)
                 return (token_len);
             count++;
@@ -59,19 +78,44 @@ int count_tokens(char *str)
     return (count);
 }
 
-void add_token(char **arr, int index,char *str)
+void add_quoted_sequence(char *dest, char *src, int *j) // doesnt do env vars yet
+{
+    int quote_type;
+
+    quote_type = src[*j];
+    src++;
+    while (src[*j] != quote_type)
+    {
+        // if (src[*j] == '$' && quote_type == '\"')
+            // ;
+        dest[*j] = src[*j];
+        (*j)++;
+    }
+}
+
+void add_token(char **arr, int index, char *str)
 {
     int j;
     int token_len;
 
-    token_len = find_token_len(str);
-    arr[index] = (char *)xmalloc((token_len + 1) * sizeof(char));
+    token_len = find_token_len(str, 0);
+    arr[index] = (char *)malloc((token_len + 1) * sizeof(char));
+    if (!arr[index])
+        return ;
     
     j = 0;
     while(j < token_len)
     {
-        arr[index][j] = str[j];
-        j++;
+        if (is_quote(str[j]))
+        {
+            add_quoted_sequence(arr[index], str, &j);
+            str += 2;
+        }
+        else
+        {
+            arr[index][j] = str[j];
+            j++;
+        }
     }
     arr[index][j] = '\0';
 }
@@ -95,7 +139,7 @@ char **get_tokens(char *str, t_env *env)
         while (is_space(*str))
             str++;
         add_token(arr, index, str);
-        str += find_token_len(str);
+        str += find_token_len(str, 1);
         if (!arr[index])
         {
             free_arr(arr);
