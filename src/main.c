@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/05 12:55:50 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/05 15:46:30 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ void	minishell(char **envp)
 
 	list = NULL;
 	read_history(".minishell_history");
-	while (1)
-	{
+	// while (1)
+	// {
 		char	*line;
-		line = readline("minishell$ ");
-		// line = "cat < info.txt > outfile1 | cat err.log < infile2 > outfile2 ";
+		// line = readline("minishell$ ");
+		line = "cd";
 
 		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			exit_terminal(line);
@@ -61,9 +61,9 @@ void	minishell(char **envp)
 		
 		add_history(line);
 		// print_list(list);
-		execute(list, envp, count_pids(list));
+		// execute(list, get_env(envp), count_pids(list));
 		free_list(&list);
-	}
+	// }
 
 }
 

@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/05 12:54:05 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/05 15:54:23 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,21 @@ t_list	*new_node(int fd[2], char **tokens, int index)
 	t_file	*file;
 	int		file_count;
 
-	node = xmalloc(sizeof(t_list));
+	node = malloc(sizeof(t_list));
+	if (!node)
+		return (NULL);
 	args = get_cmd_args(tokens, index);
 	if (!args)
 		return (free(node), NULL);
 	// print_arr(args);
-	cmd = get_cmd(args[0]);
-	if (!cmd)
-		return (free(node), free_arr(args), NULL);
+	if (is_builtin(args[0]))
+		cmd = args[0];
+	else
+	{
+		cmd = get_cmd(args[0]);
+		if (!cmd)
+			return (free(node), free_arr(args), NULL);
+	}
 	// printf("cmd: %s\n", args[0]);
 	file_count = count_redir_files(tokens, index);
 	file = NULL;

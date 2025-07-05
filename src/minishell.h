@@ -29,7 +29,6 @@ char	**get_tokens(char *str, t_env *env);
 int		count_tokens(char *str);
 bool	is_pipe(char *str);
 bool 	is_redirect(char *str);
-bool 	is_builtin(char *str);
 
 // list
 t_list	*get_list(t_list *list, char *line, t_env *env);
@@ -47,7 +46,8 @@ void	exit_with_code(int exit_code);
 void	error_message(char const *s, int exit_code);
 
 //execute
-void	execute(t_list *list, char **envp, int pid_count);
+void	execute(t_list *list, t_env *env, int pid_count);
 int		count_pids(t_list *list);
+bool	is_builtin(char *cmd);
 
 #endif

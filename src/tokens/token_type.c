@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 16:12:12 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/05 15:01:18 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,24 @@ bool	is_pipe(char *str)
 }
 
 //some of these are also 2 (recognized by access) so what are they?
-bool is_builtin(char *str)
-{
-	// if (ft_strncmp(arg, "echo", 5) == 0) // ?	?	?
-		// return (true);
-	if (ft_strncmp(str, "cd", 3) == 0)
-		return (true);
-	if (ft_strncmp(str, "pwd", 4) == 0)
-		return (true);
-	if (ft_strncmp(str, "export", 7) == 0)
-		return (true);
-	if (ft_strncmp(str, "unset", 6) == 0)
-		return (true);
-	if (ft_strncmp(str, "env", 4) == 0)
-		return (true);
-	if (ft_strncmp(str, "exit", 5) == 0)
-		return (true);
-	return (false);
-}
+// bool is_builtin(char *str)
+// {
+// 	// if (ft_strncmp(arg, "echo", 5) == 0) // ?	?	?
+// 		// return (true);
+// 	if (ft_strncmp(str, "cd", 3) == 0)
+// 		return (true);
+// 	if (ft_strncmp(str, "pwd", 4) == 0)
+// 		return (true);
+// 	if (ft_strncmp(str, "export", 7) == 0)
+// 		return (true);
+// 	if (ft_strncmp(str, "unset", 6) == 0)
+// 		return (true);
+// 	if (ft_strncmp(str, "env", 4) == 0)
+// 		return (true);
+// 	if (ft_strncmp(str, "exit", 5) == 0)
+// 		return (true);
+// 	return (false);
+// }
 
 // bool	is_command(char *str)
 // {
