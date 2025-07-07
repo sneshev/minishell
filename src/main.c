@@ -60,8 +60,8 @@ void	minishell(char **envp)
 			printf("no list\n");
 		
 		add_history(line);
-		// print_list(list);
-		// execute(list, get_env(envp), count_pids(list));
+		print_list(list);
+		execute(list, get_env(envp), count_pids(list));
 		free_list(&list);
 	// }
 

@@ -45,8 +45,12 @@ t_list	*new_node(int fd[2], char **tokens, int index)
 	if (!args)
 		return (free(node), NULL);
 	// print_arr(args);
-	if (is_builtin(args[0]))
-		cmd = args[0];
+	if (is_builtin(args[0]) == 1 || is_builtin(args[0]) == 2)
+	{
+		cmd = ft_strdup(args[0]);
+		if (!cmd)
+			return (NULL);
+	}
 	else
 	{
 		cmd = get_cmd(args[0]);
