@@ -46,24 +46,31 @@ void	minishell(char **envp)
 
 	list = NULL;
 	read_history(".minishell_history");
-	// while (1)
-	// {
+	while (1)
+	{
 		char	*line;
-		// line = readline("minishell$ ");
-		line = "cd";
+		line = readline("minishell$ ");
+		// line = "cd src";
 
 		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			exit_terminal(line);
 		
 		list = get_list(list, line, get_env(envp));
 		if (!list)
+		{
 			printf("no list\n");
+			continue ;			
+		}
 		
 		add_history(line);
 		print_list(list);
-		execute(list, get_env(envp), count_pids(list));
+		t_env *env = get_env(envp);
+		if (!env)
+			return (free_list(&list));
+		execute(list, env, count_pids(list));
 		free_list(&list);
-	// }
+		free_env(&env);
+	}
 
 }
 

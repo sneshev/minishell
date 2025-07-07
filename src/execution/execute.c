@@ -80,9 +80,12 @@ void	child_process(t_list *list, int *pip, int prev_pipe, t_env *env)
 	setup_input(list, pip, prev_pipe);
 	setup_output(list, pip);
 	if (is_builtin(list->cmd) == 1)
+	{
 		execute_builtin(list, env);
+		exit(1);
+	}
 	else if (is_builtin(list->cmd) == 2)
-		exit (1);
+		exit(1);
 	else
 	{
 		execve(list->cmd, list->args, environment);
@@ -103,7 +106,7 @@ void	handle_setup_close(t_list *list, int *pip, int *pipe_input)
 		close(*pipe_input);
 }
 
-void	wait_for_pids(pid_t *pid, int pid_count)
+int	wait_for_pids(pid_t *pid, int pid_count)
 {
 	int	i;
 	int	status;
@@ -120,7 +123,7 @@ void	wait_for_pids(pid_t *pid, int pid_count)
 	waitpid(pid[i], &status, 0);
 	if (WEXITSTATUS(status))
 		exitcode = (WEXITSTATUS(status));
-	exit (exitcode);
+	return exitcode;
 }
 
 void	close_files(t_list *list)
@@ -141,7 +144,10 @@ void	execute(t_list *list, t_env *env, int pid_count)
 	pipe_input = -1;
 	i = 0;
 	if (!list->next && (is_builtin(list->cmd) == 1 || is_builtin(list->cmd) == 2))
+	{
 		execute_builtin(list, env);
+		return ;
+	}
 	while (i < pid_count)
 	{
 		if (list->next && pipe(pip) == -1)

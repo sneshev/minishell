@@ -18,15 +18,34 @@ void	execute_echo(t_list *list)
 	(void)list;
 	printf("echo\n");
 	free_list(&list);
-	exit(1);
+	return ;
 }
 
-void	execute_cd(t_list *list)
+void	execute_cd(t_list *list, t_env *env)
 {
-	(void)list;
-	printf("cd\n");
-	free_list(&list);
-	exit(1);
+	char	*new_dir;
+	int		i;
+
+	i = 0;
+	while (list->args[i])
+		i++;
+	if (i == 1)
+	{
+		while (env)
+		{
+			if (ft_strncmp(env->name, "HOME=", 6) == 0)
+				break ;
+			env = env->next;
+		}
+		new_dir = env->value;
+	}
+	else if (i == 2)
+		new_dir = list->args[1];
+	else
+		error_message("cd invalid arg amount", -1);
+	if (chdir(new_dir) == -1)
+		error_message("chdir error", -1);
+	return ;
 }
 
 void	execute_pwd(t_list *list)
@@ -34,7 +53,7 @@ void	execute_pwd(t_list *list)
 	(void)list;
 	printf("pwd\n");
 	free_list(&list);
-	exit(1);
+	return ;
 }
 
 void	execute_export(t_list *list, t_env *env)
@@ -44,7 +63,7 @@ void	execute_export(t_list *list, t_env *env)
 	printf("export\n");
 	free_list(&list);
 	free_env(&env);
-	exit(1);
+	return ;
 }
 
 void	execute_unset(t_list *list, t_env *env)
@@ -54,7 +73,7 @@ void	execute_unset(t_list *list, t_env *env)
 	printf("unset\n");
 	free_list(&list);
 	free_env(&env);
-	exit(1);
+	return ;
 }
 
 void	execute_env(t_list *list, t_env *env)
@@ -64,7 +83,7 @@ void	execute_env(t_list *list, t_env *env)
 	printf("env\n");
 	free_list(&list);
 	free_env(&env);
-	exit(1);
+	return ;
 }
 
 void	execute_exit(t_list *list)
@@ -72,5 +91,5 @@ void	execute_exit(t_list *list)
 	(void)list;
 	printf("exit\n");
 	free_list(&list);
-	exit(1);
+	return ;
 }
