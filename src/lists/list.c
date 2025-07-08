@@ -108,6 +108,7 @@ t_list	*get_list(t_list *list, char *line, t_env *env)
 	if (!tokens)
 		return (NULL);
 	token_count = count_tokens(line);
+	// print_arr(tokens);
 	list = create_list(list, tokens, token_count);
 	free_arr(tokens);
 	return (list);

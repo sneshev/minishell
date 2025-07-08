@@ -49,6 +49,7 @@ void	free_arr(char **arr)
 	arr = NULL;
 }
 
+//minishell: xmalloc: cannot allocate 23 bytes (errno 12: Cannot allocate memory)
 void *xmalloc(size_t size)
 {
 	void *ptr;
@@ -59,7 +60,7 @@ void *xmalloc(size_t size)
 		ft_putstr_fd("minishell: xmalloc: cannot allocate )", 2);
 		ft_putnbr_fd((int)size, 2);
 		ft_putstr_fd(" bytes (errno 12: Cannot allocate memory)", 2);
-		exit_with_code(1);
+		// exit_with_code(1);
 	}
 	return (ptr);
 }

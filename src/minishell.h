@@ -27,6 +27,7 @@ bool	is_space(char c);
 // tokens
 char	**get_tokens(char *str, t_env *env);
 int		count_tokens(char *str);
+
 bool	is_pipe(char *str);
 bool 	is_redirect(char *str);
 bool 	is_builtin(char *str);

@@ -43,9 +43,11 @@ bool    validate_syntax(char **tokens)
 void	minishell(char **envp)
 {
 	t_list	*list;
+	t_env *env;
 
 	list = NULL;
 	read_history(".minishell_history");
+	env = get_env(envp);
 	while (1)
 	{
 		char	*line;
@@ -55,7 +57,7 @@ void	minishell(char **envp)
 		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			exit_terminal(line);
 		
-		list = get_list(list, line, get_env(envp));
+		list = get_list(list, line, env);
 		if (!list)
 			printf("no list\n");
 		

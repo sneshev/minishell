@@ -20,7 +20,7 @@ OBJS := $(patsubst src/%.c, $(OBJDIR)/%.o, $(SRCS))
 LIBFT := libft/libft.a
 
 CC := cc
-CFLAGS := -Wall -Werror -Wextra -I. -Ilibft -g
+CFLAGS := -Wall -Werror -Wextra -I. -Ilibft -g -fPIE
 
 RM := rm -f 
 

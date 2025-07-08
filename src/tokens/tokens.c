@@ -2,8 +2,9 @@
 #include "tokens.h"
 
 // return (-2); for unclosed brackets
-int find_token_len(char *str, bool count_quote)
+int find_token_len(char *str, t_env *env, bool count_quote, bool expand_envvar)
 {
+    (void)expand_envvar;
     int count;
 
     count = 0;
@@ -15,12 +16,21 @@ int find_token_len(char *str, bool count_quote)
     {
         if (redir(str))
             break ;
-        if (is_quote(*str))
+        if (*str == '$')
         {
-            if (find_quote_len(str, 0) < 0)
-                return (find_quote_len(str, 0));
-            count += find_quote_len(str, count_quote);
-            str += find_quote_len(str, 1);
+            str++;
+            if (expand_envvar)
+                count += find_envvar_len(str, env);
+            else
+                count += 1 + find_varname_len(str);
+            str += find_varname_len(str);
+        }
+        else if (is_quote(*str))
+        {
+            if (find_quote_len(str, env, 0, false) < 0)
+                return (find_quote_len(str, env, 0, false));
+            count += find_quote_len(str, env, count_quote, expand_envvar);
+            str += find_quote_len(str, env, 1, false);
         }
         else
         {
@@ -46,7 +56,7 @@ int count_tokens(char *str)
             str++;
         if (*str)
         {
-            token_len = find_token_len(str, 1);
+            token_len = find_token_len(str, NULL, true, false);
             if (token_len < 0)
                 return (token_len);
             count++;
@@ -56,12 +66,12 @@ int count_tokens(char *str)
     return (count);
 }
 
-void add_token(char **arr, int index, char *str)
+void add_token(char **arr, int index, char *str, t_env *env)
 {
     int j;
     int token_len;
 
-    token_len = find_token_len(str, 0);
+    token_len = find_token_len(str, env, false, true);
     arr[index] = (char *)malloc((token_len + 1) * sizeof(char));
     if (!arr[index])
         return ;
@@ -69,17 +79,22 @@ void add_token(char **arr, int index, char *str)
     j = 0;
     while(j < token_len)
     {
-        if (str[j] == '$')
-            add_env_variable(arr[index], str, &j);
-        if (is_quote(str[j]))
+        if (*str == '$')
         {
-            add_quoted_sequence(arr[index], str, &j);
-            str += 2;
+            str++;
+            add_env_variable(arr[index], str, &j, env);
+            str += find_varname_len(str);
+        }
+        else if (is_quote(*str))
+        {
+            add_quoted_sequence(arr[index], str, &j, env); // do &str
+            str += find_quote_len(str, env, true, false);
         }
         else
         {
-            arr[index][j] = str[j];
+            arr[index][j] = *str;
             j++;
+            str++;
         }
     }
     arr[index][j] = '\0';
@@ -103,8 +118,8 @@ char **get_tokens(char *str, t_env *env)
     {
         while (is_space(*str))
             str++;
-        add_token(arr, index, str);
-        str += find_token_len(str, 1);
+        add_token(arr, index, str, env);
+        str += find_token_len(str, env, true, false);
         if (!arr[index])
         {
             free_arr(arr);

@@ -95,19 +95,19 @@ void	wait_for_pids(pid_t *pid, int pid_count)
 {
 	int	i;
 	int	status;
-	int	exitcode;
+	// int	exitcode;
 
 	i = 0;
 	status = 0;
-	exitcode = 0;
+	// exitcode = 0;
 	while (i < pid_count - 1)
 	{
 		waitpid(pid[i], NULL, 0);
 		i++;
 	}
 	waitpid(pid[i], &status, 0);
-	if (WEXITSTATUS(status))
-		exitcode = (WEXITSTATUS(status));
+	// if (WEXITSTATUS(status))
+		// exitcode = (WEXITSTATUS(status));
 	// exit (exitcode);
 }
 
