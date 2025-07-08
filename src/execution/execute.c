@@ -69,21 +69,17 @@ void	check_invalid_file(t_list *list, int *pip, int prev_pipe)
 	}
 }
 
-void	child_process(t_list *list, int *pip, int prev_pipe, t_env *env)
+void	child_process(t_list *list, int *pip, int prev_pipe, char ** environment)
 {
-	char **environment;
-
-	environment = convert_env(env);
-	if (!environment)
-		return ;
 	check_invalid_file(list, pip, prev_pipe);
 	setup_input(list, pip, prev_pipe);
 	setup_output(list, pip);
-	if (is_builtin(list->cmd) == 1)
-	{
-		execute_builtin(list, env);
-		exit(1);
-	}
+	if (ft_strncmp(list->cmd, "echo", 5) == 0)
+		execute_echo(list);
+	else if (ft_strncmp(list->cmd, "pwd", 4) == 0)
+		execute_pwd(list);
+	else if (ft_strncmp(list->cmd, "env", 4) == 0)
+		execute_env(list, environment);
 	else if (is_builtin(list->cmd) == 2)
 		exit(1);
 	else
@@ -140,12 +136,16 @@ void	execute(t_list *list, t_env *env, int pid_count)
 	int		pip[2];
 	int		pipe_input;
 	int		i;
+	char	**environment;
 
+	environment = convert_env(env);
+	if (!environment)
+		return ;
 	pipe_input = -1;
 	i = 0;
 	if (!list->next && (is_builtin(list->cmd) == 1 || is_builtin(list->cmd) == 2))
 	{
-		execute_builtin(list, env);
+		execute_builtin(list, env, environment);
 		return ;
 	}
 	while (i < pid_count)
@@ -156,7 +156,7 @@ void	execute(t_list *list, t_env *env, int pid_count)
 		if (pid[i] == -1)
 			error_message("fork error", -1);
 		if (pid[i] == CHILD)
-			child_process(list, pip, pipe_input, env);
+			child_process(list, pip, pipe_input, environment);
 		handle_setup_close(list, pip, &pipe_input);
 		close_files(list);
 

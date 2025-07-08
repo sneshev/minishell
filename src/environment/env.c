@@ -20,6 +20,7 @@ t_env	*new_env_node(char *name, char *value)
 	node = xmalloc(sizeof(t_env));
 	node->name = name;
 	node->value = value;
+	node->prev = NULL;
 	node->next = NULL;
 	return (node);
 }
@@ -37,6 +38,7 @@ void	add_env_node_back(t_env **env, t_env *current)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = current;
+	current->prev = temp;
 }
 
 t_env	*create_env(t_env **env, char **envs)

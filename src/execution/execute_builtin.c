@@ -21,7 +21,7 @@ void	execute_echo(t_list *list)
 	return ;
 }
 
-void	execute_cd(t_list *list, t_env *env)
+void	execute_cd(t_list *list)
 {
 	char	*new_dir;
 	int		i;
@@ -31,21 +31,16 @@ void	execute_cd(t_list *list, t_env *env)
 		i++;
 	if (i == 1)
 	{
-		while (env)
-		{
-			if (ft_strncmp(env->name, "HOME=", 6) == 0)
-				break ;
-			env = env->next;
-		}
-		new_dir = env->value;
+		new_dir = getenv("HOME=");
+		if (!new_dir)
+			error_message("malloc error", -1);
 	}
 	else if (i == 2)
 		new_dir = list->args[1];
 	else
-		error_message("cd invalid arg amount", -1);
+		error_message("cd has too many args", -1);
 	if (chdir(new_dir) == -1)
 		error_message("chdir error", -1);
-	return ;
 }
 
 void	execute_pwd(t_list *list)
@@ -66,24 +61,30 @@ void	execute_export(t_list *list, t_env *env)
 	return ;
 }
 
-void	execute_unset(t_list *list, t_env *env)
+void	execute_unset(t_list *list, t_env **env)
 {
-	(void)list;
-	(void)env;
-	printf("unset\n");
-	free_list(&list);
-	free_env(&env);
-	return ;
+	char	*prev;
+
+	while (*env)
+	{
+		if (ft_strncmp(list->cmd, (*env)->name, ft_strlen((*env)->name) - 1) == 0)
+			break ;
+		*env = (*env)->next;
+	}
+	if (*env)
+	{
+		if ((*env)->prev)
+			prev = (*env)->prev;
+		else
+			prev = env;
+	}
 }
 
-void	execute_env(t_list *list, t_env *env)
+void	execute_env(t_list *list, char **environment)
 {
-	(void)list;
-	(void)env;
-	printf("env\n");
-	free_list(&list);
-	free_env(&env);
-	return ;
+	if (list->args[1])
+		error_message("env too many arguments", -1);
+	print_arr(environment);
 }
 
 void	execute_exit(t_list *list)

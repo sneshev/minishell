@@ -13,7 +13,6 @@
 #define WRITE 1
 
 // temporary
-void	print_arr(char **arr);
 void	print_list(t_list *list);
 void	print_files(t_file *file);
 
@@ -23,6 +22,7 @@ void	free_arr(char **arr);
 int		ft_strcmp(char *s1, char *s2);
 int		word_count(char const *s);
 bool	is_space(char c);
+void	print_arr(char **arr);
 
 // tokens
 char	**get_tokens(char *str, t_env *env);

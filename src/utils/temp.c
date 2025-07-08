@@ -5,21 +5,6 @@
 #define YELLOW  "\033[0;33m"
 #define DEFAULT   "\033[0m"
 
-void	print_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	if (!arr)
-		return ;
-	while (arr[i])
-	{
-		printf("arr[%d]: %s\n", i, arr[i]);
-		i++;
-	}
-	printf("arr[%d]: %s\n", i, arr[i]);
-}
-
 void print_line(t_list *list)
 {
 	(void)list;
