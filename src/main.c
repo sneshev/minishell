@@ -43,35 +43,35 @@ bool    validate_syntax(char **tokens)
 void	minishell(char **envp)
 {
 	t_list	*list;
+	t_env	*env;
 
 	list = NULL;
+	env = NULL;
+	env = get_env(envp);
+	if (!env)
+		return ;
 	read_history(".minishell_history");
 	while (1)
 	{
 		char	*line;
 		line = readline("minishell$ ");
-		// line = "cd src";
+		// line = "unset mitani";
 
 		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			exit_terminal(line);
 		
-		list = get_list(list, line, get_env(envp));
+		list = get_list(list, line, env);
 		if (!list)
 		{
 			printf("no list\n");
 			continue ;			
 		}
-		
 		add_history(line);
 		print_list(list);
-		t_env *env = get_env(envp);
-		if (!env)
-			return (free_list(&list));
 		execute(list, env, count_pids(list));
 		free_list(&list);
-		free_env(&env);
 	}
-
+	free_env(&env);
 }
 
 int main(int argc, char *argv[], char *envp[])

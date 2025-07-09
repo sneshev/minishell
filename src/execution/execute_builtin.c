@@ -77,27 +77,33 @@ void	execute_export(t_list *list, t_env *env)
 	return ;
 }
 
+// WRONG	
 void	execute_unset(t_list *list, t_env **env)
 {
 	t_env	*temp;
+	t_env	*to_delete;
 	int		i;
 
+	temp = *env;
 	i = 1;
-	while (*env)
+	while (temp)
 	{
-		
+		temp = *env;
 		if (ft_strncmp(list->args[i], (*env)->name, ft_strlen((*env)->name) - 1) == 0)
 		{
-			if (!(*env)->prev)
-				temp = *env;
+			to_delete = temp;
+			if (!temp->prev)
+				*env = to_delete->next;
 			else
-				temp = (*env)->prev;
-			free_env_node(&temp);
-			*env = (*env)->next;
-			i++;
+				to_delete->prev->next = to_delete->next;
+			if (to_delete->next)
+				to_delete->next->prev = to_delete->prev;
+			free_env_node(&to_delete);
+			break ;
 		}
-		if (*env)
-			*env = (*env)->next;
+		if (temp)
+			temp = temp->next;
+		i++;
 	}
 }
 
