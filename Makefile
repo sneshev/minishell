@@ -18,13 +18,14 @@ OBJDIR := obj
 OBJS := $(patsubst src/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 LIBFT := libft/libft.a
+FT_PRINTF := ft_printf/libftprintf.a
 
 CC := cc
 CFLAGS := -Wall -Werror -Wextra -I. -Ilibft -g
 
 RM := rm -f 
 
-all: $(LIBFT) $(NAME) $(OBJDIR)
+all: $(LIBFT) $(FT_PRINTF) $(NAME) $(OBJDIR)
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
@@ -32,8 +33,11 @@ $(OBJDIR):
 $(LIBFT):
 	make -C libft
 
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+$(FT_PRINTF):
+	make -C ft_printf
+
+$(NAME): $(OBJS) $(LIBFT) $(FT_PRINTF)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(FT_PRINTF) -o $(NAME) -lreadline
 
 $(OBJDIR)/%.o: src/%.c
 	@mkdir -p $(dir $@)
@@ -43,10 +47,12 @@ clean:
 	$(RM) $(OBJS)
 	$(RM) -r $(OBJDIR)
 	make -C libft clean
+	make -C ft_printf clean
 
 fclean: clean 
 	$(RM) $(NAME)
 	make -C libft fclean
+	make -C ft_printf clean
 
 re: fclean all
 

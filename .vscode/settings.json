@@ -13,6 +13,7 @@
 		"structs.h": "c",
 		"environment.h": "c",
 		"list.h": "c",
-		"execution.h": "c"
+		"execution.h": "c",
+		"ft_printf.h": "c"
 	}
 }

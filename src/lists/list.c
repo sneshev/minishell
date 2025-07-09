@@ -30,13 +30,14 @@ void	add_node_back(t_list **list, t_list *current)
 	current->prev = temp;
 }
 
-t_list	*new_node(int fd[2], char **tokens, int index)
+t_list	*new_node(char **tokens, int index)
 {
 	t_list	*node;
 	char	**args;
 	char	*cmd;
 	t_file	*file;
 	int		file_count;
+	int		fd[2];
 
 	node = malloc(sizeof(t_list));
 	if (!node)
@@ -93,14 +94,14 @@ t_list	*create_list(t_list *list, char **tokens, int wordc)
 {
 	t_list	*new;
 	int		index;
-	int		fd[2];
+	// int		fd[2];
 
 	index = 0;
 	// printf("wordcount: %d\n", wordc);
 	while (index < wordc)
 	{
 		// printf("index: %d\n", index);
-		new = new_node(fd, tokens, index);
+		new = new_node(tokens, index);
 		if (!new)
 			return (free_list(&list), NULL);
 		add_node_back(&list, new);

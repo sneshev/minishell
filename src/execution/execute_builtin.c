@@ -15,10 +15,28 @@
 
 void	execute_echo(t_list *list)
 {
-	(void)list;
-	printf("echo\n");
-	free_list(&list);
-	return ;
+	int	i;
+	int	newline;
+
+	i = 1;
+	newline = 1;
+	if (list && (ft_strncmp(list->args[i], "-n", 3) == 0))
+	{
+		i++;
+		newline = 0;
+	}
+	if (list)
+	{
+		while (list->args[i])
+		{
+			ft_printf("%s", list->args[i]);
+			i++;
+			if (list->args[i])
+				ft_printf(" ");
+		}
+	}
+	if (newline == 1)
+		ft_printf("\n");
 }
 
 void	execute_cd(t_list *list)
@@ -35,10 +53,8 @@ void	execute_cd(t_list *list)
 		if (!new_dir)
 			error_message("malloc error", -1);
 	}
-	else if (i == 2)
-		new_dir = list->args[1];
 	else
-		error_message("cd has too many args", -1);
+		new_dir = list->args[1];
 	if (chdir(new_dir) == -1)
 		error_message("chdir error", -1);
 }
@@ -63,20 +79,25 @@ void	execute_export(t_list *list, t_env *env)
 
 void	execute_unset(t_list *list, t_env **env)
 {
-	char	*prev;
+	t_env	*temp;
+	int		i;
 
+	i = 1;
 	while (*env)
 	{
-		if (ft_strncmp(list->cmd, (*env)->name, ft_strlen((*env)->name) - 1) == 0)
-			break ;
-		*env = (*env)->next;
-	}
-	if (*env)
-	{
-		if ((*env)->prev)
-			prev = (*env)->prev;
-		else
-			prev = env;
+		
+		if (ft_strncmp(list->args[i], (*env)->name, ft_strlen((*env)->name) - 1) == 0)
+		{
+			if (!(*env)->prev)
+				temp = *env;
+			else
+				temp = (*env)->prev;
+			free_env_node(&temp);
+			*env = (*env)->next;
+			i++;
+		}
+		if (*env)
+			*env = (*env)->next;
 	}
 }
 

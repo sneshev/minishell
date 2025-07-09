@@ -69,7 +69,7 @@ void	execute_builtin(t_list *list, t_env *env, char **environment)
 	else if (ft_strncmp(list->cmd, "export", 7) == 0)
 		execute_export(list, env);
 	else if (ft_strncmp(list->cmd, "unset", 6) == 0)
-		execute_unset(list, environment);
+		execute_unset(list, &env);
 	else if (ft_strncmp(list->cmd, "env", 4) == 0)
 		execute_env(list, environment);
 	else if (ft_strncmp(list->cmd, "exit", 6) == 0)

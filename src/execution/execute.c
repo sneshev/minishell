@@ -69,7 +69,7 @@ void	check_invalid_file(t_list *list, int *pip, int prev_pipe)
 	}
 }
 
-void	child_process(t_list *list, int *pip, int prev_pipe, char ** environment)
+void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 {
 	check_invalid_file(list, pip, prev_pipe);
 	setup_input(list, pip, prev_pipe);
@@ -155,7 +155,7 @@ void	execute(t_list *list, t_env *env, int pid_count)
 		pid[i] = fork();
 		if (pid[i] == -1)
 			error_message("fork error", -1);
-		if (pid[i] == CHILD)
+		if (pid[i] != CHILD)
 			child_process(list, pip, pipe_input, environment);
 		handle_setup_close(list, pip, &pipe_input);
 		close_files(list);
