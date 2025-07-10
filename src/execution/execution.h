@@ -6,12 +6,12 @@
 
 // execution
 char	*get_cmd(char *cmd);
-void	execute(t_list *list, t_env **env, int pid_count);
+int		execute(t_list *list, t_env **env, int pid_count);
 
 // execute builtin
 void	execute_echo(t_list *list);
 void	execute_cd(t_list *list);
-void	execute_pwd(t_list *list);
+void	execute_pwd(void);
 void	execute_export(t_list *list, t_env **env);
 void	execute_unset(t_list *list, t_env **env);
 void	execute_env(t_list *list, char **environment);

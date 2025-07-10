@@ -6,7 +6,7 @@ void	error_message(char const *s, int exit_code)
 	(void)exit_code;
 
 	printf("%s\n", s);
-	exit (exit_code);
+	// exit (exit_code);
 }
 
 void exit_with_code(int exit_code)

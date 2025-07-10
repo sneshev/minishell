@@ -77,7 +77,7 @@ void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 	if (ft_strncmp(list->cmd, "echo", 5) == 0)
 		execute_echo(list);
 	else if (ft_strncmp(list->cmd, "pwd", 4) == 0)
-		execute_pwd(list);
+		execute_pwd();
 	else if (ft_strncmp(list->cmd, "env", 4) == 0)
 		execute_env(list, environment);
 	else if (is_builtin(list->cmd) == 2)
@@ -119,7 +119,7 @@ int	wait_for_pids(pid_t *pid, int pid_count)
 	waitpid(pid[i], &status, 0);
 	if (WEXITSTATUS(status))
 		exitcode = (WEXITSTATUS(status));
-	return exitcode;
+	return (exitcode);
 }
 
 void	close_files(t_list *list)
@@ -130,7 +130,7 @@ void	close_files(t_list *list)
 		close(list->output);
 }
 
-void	execute(t_list *list, t_env **env, int pid_count)
+int	execute(t_list *list, t_env **env, int pid_count)
 {
 	pid_t	pid[pid_count];
 	int		pip[2];
@@ -140,13 +140,13 @@ void	execute(t_list *list, t_env **env, int pid_count)
 
 	environment = convert_env(*env);
 	if (!environment)
-		return ;
+		return -1;
 	pipe_input = -1;
 	i = 0;
 	if (!list->next && (is_builtin(list->cmd) == 1 || is_builtin(list->cmd) == 2))
 	{
 		execute_builtin(list, env, environment);
-		return ;
+		return 0;
 	}
 	while (i < pid_count)
 	{
@@ -155,7 +155,7 @@ void	execute(t_list *list, t_env **env, int pid_count)
 		pid[i] = fork();
 		if (pid[i] == -1)
 			error_message("fork error", -1);
-		if (pid[i] != CHILD)
+		if (pid[i] == CHILD)
 			child_process(list, pip, pipe_input, environment);
 		handle_setup_close(list, pip, &pipe_input);
 		close_files(list);
@@ -163,7 +163,7 @@ void	execute(t_list *list, t_env **env, int pid_count)
 		list = list->next;
 		i++;
 	}
-	wait_for_pids(pid, pid_count);
+	return (wait_for_pids(pid, pid_count));
 }
 
 // int	main(int argc, char *argv[], char *envp[])

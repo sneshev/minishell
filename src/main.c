@@ -44,6 +44,7 @@ void	minishell(char **envp)
 {
 	t_list	*list;
 	t_env	*env;
+	int		exitcode;
 
 	list = NULL;
 	env = NULL;
@@ -62,15 +63,13 @@ void	minishell(char **envp)
 		
 		list = get_list(list, line, env);
 		if (!list)
-		{
-			printf("no list\n");
 			continue ;			
-		}
 		add_history(line);
 		print_list(list);
-		execute(list, &env, count_pids(list));
+		exitcode = execute(list, &env, count_pids(list));
 		free_list(&list);
 	}
+	printf("exitcode: %d\n", exitcode);
 	free_env(&env);
 }
 
@@ -79,13 +78,12 @@ int main(int argc, char *argv[], char *envp[])
 	(void)envp;
 	(void)argc;
 	(void)argv;
-	char *yo[] = {
-		"hello=hihihi\n",
-		"goodmorning=sunsunsun\n",
-		"binkie=cutecutecute\n",
-		NULL};
+	// char *yo[] = {
+	// 	"hello=hihihi\n",
+	// 	"goodmorning=sunsunsun\n",
+	// 	"binkie=cutecutecute\n",
+	// 	NULL};
 
-	minishell(yo);
-	free_arr(yo);
+	minishell(envp);
 	return (0);
 }

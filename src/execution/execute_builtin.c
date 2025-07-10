@@ -59,21 +59,22 @@ void	execute_cd(t_list *list)
 		error_message("chdir error", -1);
 }
 
-void	execute_pwd(t_list *list)
+void	execute_pwd(void)
 {
-	(void)list;
-	printf("pwd\n");
-	free_list(&list);
-	return ;
+	char	*dir;
+
+	dir = getcwd(NULL, 0);
+	ft_printf("%s\n", dir);
+	free(dir);
 }
 
-void	execute_export(t_list *list, t_env *env)
+void	execute_export(t_list *list, t_env **env)
 {
 	(void)list;
 	(void)env;
 	printf("export\n");
-	free_list(&list);
-	free_env(&env);
+	// free_list(&list);
+	// free_env(&env);
 	return ;
 }
 
@@ -125,7 +126,7 @@ void	execute_unset(t_list *list, t_env **env)
 void	execute_env(t_list *list, char **environment)
 {
 	if (list->args[1])
-		error_message("env too many arguments", -1);
+		error_message(" No such file or", -1);
 	print_arr(environment);
 }
 

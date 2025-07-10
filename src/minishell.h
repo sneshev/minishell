@@ -47,7 +47,7 @@ void	exit_with_code(int exit_code);
 void	error_message(char const *s, int exit_code);
 
 //execute
-void	execute(t_list *list, t_env **env, int pid_count);
+int		execute(t_list *list, t_env **env, int pid_count);
 int		count_pids(t_list *list);
 int		is_builtin(char *cmd);
 
