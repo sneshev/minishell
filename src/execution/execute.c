@@ -54,7 +54,7 @@ void	setup_output(t_list *list, int *pip)
 	}
 }
 
-void	check_invalid_file(t_list *list, int *pip, int prev_pipe)
+int	check_invalid_file(t_list *list, int *pip, int prev_pipe)
 {
 	if (list->input == -1 && list->output == -1)
 	{
@@ -65,13 +65,35 @@ void	check_invalid_file(t_list *list, int *pip, int prev_pipe)
 		}
 		if (list->prev)
 			close(prev_pipe);
-		exit(1);
+		return (-1);
 	}
+	return (0);
+}
+
+int	check_invalid_cmd(t_list *list, int *pip, int prev_pipe)
+{
+	if (access(list->cmd, F_OK) == -1 || access(list->cmd, X_OK) == -1
+	|| !is_builtin(list->cmd))
+	{
+		perror_message(list->cmd);
+		if (list->next)
+		{
+			close(pip[READ]);
+			close(pip[WRITE]);
+		}
+		if (list->prev)
+			close(prev_pipe);
+		return (-1);
+	}
+	return (0);
 }
 
 void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 {
-	check_invalid_file(list, pip, prev_pipe);
+	if (check_invalid_file(list, pip, prev_pipe) == -1)
+		exit (1);
+	else if (check_invalid_cmd(list, pip, prev_pipe) == -1)
+		exit (1);
 	setup_input(list, pip, prev_pipe);
 	setup_output(list, pip);
 	if (ft_strncmp(list->cmd, "echo", 5) == 0)
@@ -143,10 +165,14 @@ int	execute(t_list *list, t_env **env, int pid_count)
 		return -1;
 	pipe_input = -1;
 	i = 0;
-	if (!list->next && (is_builtin(list->cmd) == 1 || is_builtin(list->cmd) == 2))
+	if (!list->next && (is_builtin(list->cmd) == 0))
 	{
+		if (check_invalid_file(list, pip, pipe_input) == -1)
+			return (1);
+		else if (check_invalid_cmd(list, pip, pipe_input) == -1)
+			return (1);
 		execute_builtin(list, env, environment);
-		return 0;
+		return (0);
 	}
 	while (i < pid_count)
 	{

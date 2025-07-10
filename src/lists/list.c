@@ -45,19 +45,14 @@ t_list	*new_node(char **tokens, int index)
 	args = get_cmd_args(tokens, index);
 	if (!args)
 		return (free(node), NULL);
-	// print_arr(args);
-	if (is_builtin(args[0]) == 1 || is_builtin(args[0]) == 2)
+	cmd = get_cmd(args[0]);
+	if (!cmd)
 	{
 		cmd = ft_strdup(args[0]);
 		if (!cmd)
-			return (NULL);
-	}
-	else
-	{
-		cmd = get_cmd(args[0]);
-		if (!cmd)
 			return (free(node), free_arr(args), NULL);
 	}
+	// print_arr(args);
 	// printf("cmd: %s\n", args[0]);
 	file_count = count_redir_files(tokens, index);
 	file = NULL;
@@ -65,11 +60,10 @@ t_list	*new_node(char **tokens, int index)
 	{
 		file = get_file_list(file, tokens, index, file_count);
 		if (!file)
-			return (free(node), free(args), free(cmd), NULL);
+			return (free(node), free_arr(args), free(cmd), NULL);
 		// print_files(file);
 	}
 	create_files(fd, file);
-	check_cmd_access(fd, cmd);
 	node->cmd = cmd;
 	node->args = args;
 	node->input = fd[0];

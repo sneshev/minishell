@@ -25,7 +25,10 @@ bool    validate_syntax(char **tokens)
 	while (tokens[i])
 	{
 		if (is_pipe(tokens[i]) && is_pipe(tokens[i + 1]))
+		{
+			perror_message(tokens[i]);
 			return (false);
+		}
 		if (is_redirect(tokens[i]) && is_redirect(tokens[i + 1]))
 			return (false);
 		// im not sure if were supposed to take care of uncomplete commands

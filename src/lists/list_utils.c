@@ -3,14 +3,7 @@
 #include <fcntl.h>
 
 // if fd == -1 we will not pipe/close the pipe and the computer will read this as empty input
-void	check_cmd_access(int fd[2], char *cmd)
-{
-	if (!is_builtin(cmd) && (access(cmd, F_OK) == -1 || access(cmd, X_OK == -1)))
-	{
-		fd[0] = -1;
-		fd[1] = -1;
-	}
-}
+
 
 t_redir_type find_redir_type(char *str)
 {
@@ -226,6 +219,7 @@ void	create_files(int fd[2], t_file *file)
 		}
 		if (infile == -1 || outfile == -1)
 		{
+			perror_message(file->filename);
 			fd[0] = -1;
 			fd[1] = -1;
 			return ;

@@ -56,7 +56,7 @@ void	execute_cd(t_list *list)
 	else
 		new_dir = list->args[1];
 	if (chdir(new_dir) == -1)
-		error_message("chdir error", -1);
+		perror_message(new_dir);
 }
 
 void	execute_pwd(void)
@@ -74,7 +74,9 @@ void	execute_export(t_list *list, t_env **env)
 	i = 1;
 	// we should print export variables
 	if (!list->args[i])
-		return ;
+	{
+		
+	}
 	while (list->args[i])
 	{
 		create_var_node(list->args[i], env);

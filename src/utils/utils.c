@@ -89,3 +89,9 @@ void	print_arr(char **arr)
 		i++;
 	}
 }
+
+void	perror_message(char *s)
+{
+	ft_printf("minishell: %s: ", s);
+	perror("");
+}
