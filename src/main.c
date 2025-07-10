@@ -68,7 +68,7 @@ void	minishell(char **envp)
 		}
 		add_history(line);
 		print_list(list);
-		execute(list, env, count_pids(list));
+		execute(list, &env, count_pids(list));
 		free_list(&list);
 	}
 	free_env(&env);
@@ -76,9 +76,16 @@ void	minishell(char **envp)
 
 int main(int argc, char *argv[], char *envp[])
 {
+	(void)envp;
 	(void)argc;
 	(void)argv;
+	char *yo[] = {
+		"hello=hihihi\n",
+		"goodmorning=sunsunsun\n",
+		"binkie=cutecutecute\n",
+		NULL};
 
-	minishell(envp);
+	minishell(yo);
+	free_arr(yo);
 	return (0);
 }

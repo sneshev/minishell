@@ -77,33 +77,48 @@ void	execute_export(t_list *list, t_env *env)
 	return ;
 }
 
-// WRONG	
 void	execute_unset(t_list *list, t_env **env)
 {
+	t_env	*cur;
+	t_env	*prev;
 	t_env	*temp;
-	t_env	*to_delete;
 	int		i;
+	int		name_len;
 
-	temp = *env;
+	cur = *env;
+	prev = NULL;
 	i = 1;
-	while (temp)
+
+	while (cur && list->args[i])
 	{
-		temp = *env;
-		if (ft_strncmp(list->args[i], (*env)->name, ft_strlen((*env)->name) - 1) == 0)
+		name_len = ft_strlen(cur->name);
+		// printf("name_len: %d\n", name_len);
+		// print_arr(list->args);
+		// printf("cur->name: %s\n", cur->name);
+		// printf("char: %c\n", cur->name[name_len - 1]);
+		if (ft_strncmp(list->args[i], cur->name, (name_len - 1)) == 0
+		&& cur->name[name_len - 1] == '=')
 		{
-			to_delete = temp;
-			if (!temp->prev)
-				*env = to_delete->next;
+			printf("MATCH\n");
+			if (prev)
+			{
+				prev->next = cur->next;
+				temp = cur;
+				cur = cur->next;
+				free_env_node(&temp);
+			}
 			else
-				to_delete->prev->next = to_delete->next;
-			if (to_delete->next)
-				to_delete->next->prev = to_delete->prev;
-			free_env_node(&to_delete);
-			break ;
+			{
+				*env = cur->next;
+				temp = cur;
+				cur = *env;
+				free_env_node(&temp);
+			}
+			i++;
+			continue ;
 		}
-		if (temp)
-			temp = temp->next;
-		i++;
+		prev = cur;
+		cur = cur->next;
 	}
 }
 

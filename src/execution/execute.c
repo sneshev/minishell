@@ -130,7 +130,7 @@ void	close_files(t_list *list)
 		close(list->output);
 }
 
-void	execute(t_list *list, t_env *env, int pid_count)
+void	execute(t_list *list, t_env **env, int pid_count)
 {
 	pid_t	pid[pid_count];
 	int		pip[2];
@@ -138,7 +138,7 @@ void	execute(t_list *list, t_env *env, int pid_count)
 	int		i;
 	char	**environment;
 
-	environment = convert_env(env);
+	environment = convert_env(*env);
 	if (!environment)
 		return ;
 	pipe_input = -1;

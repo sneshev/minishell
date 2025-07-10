@@ -21,6 +21,8 @@ char	**convert_env(t_env *env)
 	char	**environment;
 	int		i;
 
+	if (!env)
+		return (NULL);
 	vars = count_env_vars(env);
 	environment = malloc(sizeof(char *) * (vars + 1));
 	if (!environment)
@@ -58,7 +60,7 @@ int	is_builtin(char *cmd)
 		return (-1);
 }
 
-void	execute_builtin(t_list *list, t_env *env, char **environment)
+void	execute_builtin(t_list *list, t_env **env, char **environment)
 {
 	if (ft_strncmp(list->cmd, "echo", 5) == 0)
 		execute_echo(list);
@@ -69,7 +71,7 @@ void	execute_builtin(t_list *list, t_env *env, char **environment)
 	else if (ft_strncmp(list->cmd, "export", 7) == 0)
 		execute_export(list, env);
 	else if (ft_strncmp(list->cmd, "unset", 6) == 0)
-		execute_unset(list, &env);
+		execute_unset(list, env);
 	else if (ft_strncmp(list->cmd, "env", 4) == 0)
 		execute_env(list, environment);
 	else if (ft_strncmp(list->cmd, "exit", 6) == 0)
