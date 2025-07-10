@@ -58,7 +58,7 @@ t_env	*create_env(t_env **env, char **envs)
 		value = get_env_value(envs[i]);
 		if (!value)
 			return (free(name), NULL);
-		new = (new_env_node(name, value));
+		new = new_env_node(name, value);
 		if (!new)
 			return (free_env(env), NULL);
 		add_env_node_back(env, new);

@@ -1,6 +1,28 @@
 #include "../minishell.h"
 #include "execution.h"
 
+t_env	*create_var_node(char *var, t_env **env)
+{
+	char	*name;
+	char	*value;
+	t_env	*new;
+
+	name = NULL;
+	value = NULL;
+	new = NULL;
+	name = get_env_name(var);
+	if (!name)
+		return (NULL);
+	value = get_env_value(var);
+	if (!value)
+		return (free(name), NULL);
+	new = new_env_node(name, value);
+	if (!new)
+		return (free(name), free(value), NULL);
+	add_env_node_back(env, new);
+	// printf("name: %s, value: %s\n", new->name, new->value);
+	return (new);
+}
 
 int	count_env_vars(t_env *env)
 {

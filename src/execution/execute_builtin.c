@@ -65,17 +65,21 @@ void	execute_pwd(void)
 
 	dir = getcwd(NULL, 0);
 	ft_printf("%s\n", dir);
-	free(dir);
 }
 
 void	execute_export(t_list *list, t_env **env)
 {
-	(void)list;
-	(void)env;
-	printf("export\n");
-	// free_list(&list);
-	// free_env(&env);
-	return ;
+	int		i;
+
+	i = 1;
+	// we should print export variables
+	if (!list->args[i])
+		return ;
+	while (list->args[i])
+	{
+		create_var_node(list->args[i], env);
+		i++;
+	}
 }
 
 void	execute_unset(t_list *list, t_env **env)
@@ -126,7 +130,7 @@ void	execute_unset(t_list *list, t_env **env)
 void	execute_env(t_list *list, char **environment)
 {
 	if (list->args[1])
-		error_message(" No such file or", -1);
+		error_message("env too many arguments", -1);
 	print_arr(environment);
 }
 
