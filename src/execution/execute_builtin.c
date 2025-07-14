@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/14 19:11:04 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/14 20:58:31 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,28 +100,22 @@ void	execute_unset(t_list *list, t_env **env)
 	while (cur && list->args[i])
 	{
 		name_len = ft_strlen(cur->name);
-		// printf("name_len: %d\n", name_len);
-		// print_arr(list->args);
-		// printf("cur->name: %s\n", cur->name);
-		// printf("char: %c\n", cur->name[name_len - 1]);
 		if (ft_strncmp(list->args[i], cur->name, (name_len - 1)) == 0
 		&& cur->name[name_len - 1] == '=')
 		{
-			printf("MATCH\n");
 			if (prev)
 			{
 				prev->next = cur->next;
 				temp = cur;
 				cur = cur->next;
-				free_env_node(&temp);
 			}
 			else
 			{
 				*env = cur->next;
 				temp = cur;
 				cur = *env;
-				free_env_node(&temp);
 			}
+			free_env_node(&temp);
 			i++;
 			continue ;
 		}
