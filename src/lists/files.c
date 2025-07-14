@@ -106,7 +106,7 @@ void	create_files(int fd[2], t_file *file)
 		{
 			if (outfile > 0)
 				close(outfile);
-			outfile = open(file->filename, O_WRONLY | O_CREAT, 0644);
+			outfile = open(file->filename, O_APPEND | O_WRONLY | O_CREAT, 0644);
 		}
 		if (infile == -1 || outfile == -1)
 		{
