@@ -92,6 +92,6 @@ void	print_arr(char **arr)
 
 void	perror_message(char *s)
 {
-	ft_printf("minishell: %s: ", s);
+	printf("minishell: %s: ", s);
 	perror("");
 }

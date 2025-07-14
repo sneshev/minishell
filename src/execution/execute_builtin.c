@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/05 16:07:45 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/14 12:19:08 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ void	execute_echo(t_list *list)
 	{
 		while (list->args[i])
 		{
-			ft_printf("%s", list->args[i]);
+			printf("%s", list->args[i]);
 			i++;
 			if (list->args[i])
-				ft_printf(" ");
+				printf(" ");
 		}
 	}
 	if (newline == 1)
-		ft_printf("\n");
+		printf("\n");
 }
 
 void	execute_cd(t_list *list)
@@ -64,7 +64,7 @@ void	execute_pwd(void)
 	char	*dir;
 
 	dir = getcwd(NULL, 0);
-	ft_printf("%s\n", dir);
+	printf("%s\n", dir);
 }
 
 void	execute_export(t_list *list, t_env **env)
