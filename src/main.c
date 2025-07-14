@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/14 19:40:29 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/14 20:03:47 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	minishell(char **envp)
 	{
 		char	*line;
 		line = readline("minishell$ ");
-		// line = "cd src";
+		// line = "ls";
 
 		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			exit_terminal(line);

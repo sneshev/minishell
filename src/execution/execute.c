@@ -109,8 +109,6 @@ void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 		execute_pwd();
 	else if (ft_strncmp(list->cmd, "env", 4) == 0)
 		execute_env(list, environment);
-	else if (!is_builtin(list->cmd))
-		exit(1);
 	else
 	{
 		execve(list->cmd, list->args, environment);

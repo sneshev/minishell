@@ -41,5 +41,5 @@ HOW IM GONNA MAKE EXECUTING
 	dup2 current pipe as stdout
 	child process
 	close the write end of stdout pipe and make prev_fd the read end
-!! if theres no pipe yet (== -1) we pipe, if its the last command we print to terminal and close prev_fd 
+!! if theres no pipe yet (== -1) we pipe, if its the last command we print to terminal and close prev_fd
 Also: we assign evey child with own pid[cmd_number]
