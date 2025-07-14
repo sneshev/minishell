@@ -3,32 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/05 15:54:23 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/14 13:02:52 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "list.h"
 #include <fcntl.h>
-
-void	add_node_back(t_list **list, t_list *current)
-{
-	t_list	*temp;
-
-	if (*list == NULL)
-	{
-		*list = current;
-		return ;
-	}
-	temp = *list;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = current;
-	current->prev = temp;
-}
 
 t_list	*new_node(char **tokens, int index)
 {
