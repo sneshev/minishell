@@ -160,7 +160,7 @@ int	execute(t_list *list, t_env **env, int pid_count)
 	int		i;
 	char	**environment;
 
-	environment = convert_env(*env);
+	environment = convert_env(*env); // never freed
 	if (!environment)
 		return -1;
 	pipe_input = -1;
