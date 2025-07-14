@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/05 15:46:30 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/14 12:34:42 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	minishell(char **envp)
 		if (!list)
 			continue ;			
 		add_history(line);
-		print_list(list);
+		// print_list(list);
 		exitcode = execute(list, &env, count_pids(list));
 		free_list(&list);
 	}
