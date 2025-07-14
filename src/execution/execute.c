@@ -72,8 +72,15 @@ int	check_invalid_file(t_list *list, int *pip, int prev_pipe)
 
 int	check_invalid_cmd(t_list *list, int *pip, int prev_pipe)
 {
-	if (access(list->cmd, F_OK) == -1 || access(list->cmd, X_OK) == -1
-	|| !is_builtin(list->cmd))
+	int	x;
+
+	x = 0;
+	if (access(list->cmd, F_OK) == -1 || access(list->cmd, X_OK == -1))
+		x++;
+	if (!is_builtin(list->cmd))
+		x++;
+	// if x == 2 it means its an invalid cmd
+	if (x == 2)
 	{
 		perror_message(list->cmd);
 		if (list->next)
@@ -102,7 +109,7 @@ void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 		execute_pwd();
 	else if (ft_strncmp(list->cmd, "env", 4) == 0)
 		execute_env(list, environment);
-	else if (is_builtin(list->cmd) == 2)
+	else if (!is_builtin(list->cmd))
 		exit(1);
 	else
 	{
@@ -165,7 +172,7 @@ int	execute(t_list *list, t_env **env, int pid_count)
 		return -1;
 	pipe_input = -1;
 	i = 0;
-	if (!list->next && (is_builtin(list->cmd) == 0))
+	if (!list->next && (is_builtin(list->cmd)))
 	{
 		if (check_invalid_file(list, pip, pipe_input) == -1)
 			return (1);

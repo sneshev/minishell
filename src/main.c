@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/14 12:34:42 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/14 19:40:29 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,15 @@ void	minishell(char **envp)
 	{
 		char	*line;
 		line = readline("minishell$ ");
-		// line = "unset mitani";
+		// line = "cd src";
 
 		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			exit_terminal(line);
 		
 		list = get_list(list, line, env);
 		if (!list)
-			continue ;			
+			printf("no list\n");
+			// continue ;			
 		add_history(line);
 		// print_list(list);
 		exitcode = execute(list, &env, count_pids(list));

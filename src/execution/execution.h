@@ -21,7 +21,7 @@ void	execute_exit(t_list *list);
 char	**convert_env(t_env *env);
 int		count_env_vars(t_env *env);
 void	execute_builtin(t_list *list, t_env **env, char **environment);
-int		is_builtin(char *cmd);
+bool	is_builtin(char *cmd);
 t_env	*create_var_node(char *var, t_env **env);
 
 // free

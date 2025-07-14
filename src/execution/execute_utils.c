@@ -62,24 +62,24 @@ char	**convert_env(t_env *env)
 
 }
 
-int	is_builtin(char *cmd)
+bool	is_builtin(char *cmd)
 {
 	if (ft_strncmp(cmd, "echo", 5) == 0)
-		return (0);
+		return (true);
 	else if (ft_strncmp(cmd, "cd", 3) == 0)
-		return (0);
+		return (true);
 	else if (ft_strncmp(cmd, "pwd", 4) == 0)
-		return (0);
+		return (true);
 	else if (ft_strncmp(cmd, "export", 7) == 0)
-		return (0);
+		return (true);
 	else if (ft_strncmp(cmd, "unset", 6) == 0)
-		return (0);
+		return (true);
 	else if (ft_strncmp(cmd, "env", 4) == 0)
-		return (0);
+		return (true);
 	else if (ft_strncmp(cmd, "exit", 6) == 0)
-		return (0);
+		return (true);
 	else
-		return (-1);
+		return (false);
 }
 
 void	execute_builtin(t_list *list, t_env **env, char **environment)

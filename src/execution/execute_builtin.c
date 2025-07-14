@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/14 12:19:08 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/14 19:11:04 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	execute_echo(t_list *list)
 		printf("\n");
 }
 
+// cd is not working?
 void	execute_cd(t_list *list)
 {
 	char	*new_dir;

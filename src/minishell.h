@@ -50,6 +50,6 @@ void	error_message(char const *s, int exit_code);
 //execute
 int		execute(t_list *list, t_env **env, int pid_count);
 int		count_pids(t_list *list);
-int		is_builtin(char *cmd);
+bool	is_builtin(char *cmd);
 
 #endif
