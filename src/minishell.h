@@ -27,6 +27,7 @@ void	perror_message(char *s);
 
 // tokens
 char	**get_tokens(char *str, t_env *env);
+bool    is_valid_syntax(char **tokens);
 int		count_tokens(char *str);
 bool	is_pipe(char *str);
 bool 	is_redirect(char *str);

@@ -15,33 +15,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-bool    validate_syntax(char **tokens)
-{
-    int i;
-
-    i = 0;
-	if (is_pipe(tokens[i]))
-		return (false);
-	while (tokens[i])
-	{
-		if (is_pipe(tokens[i]) && is_pipe(tokens[i + 1]))
-		{
-			perror_message(tokens[i]);
-			return (false);
-		}
-		if (is_redirect(tokens[i]) && is_redirect(tokens[i + 1]))
-			return (false);
-		// im not sure if were supposed to take care of uncomplete commands
-		if (tokens[i + 1] == NULL)
-		{
-			if (is_pipe(tokens[i]) || is_redirect(tokens[i]))
-				return (false);
-		}
-		i++;
-	}
-	return (true);
-}
-
 // void	minishell(char *envp[])
 void	minishell(char **envp)
 {
@@ -65,13 +38,15 @@ void	minishell(char **envp)
 			exit_terminal(line);
 		
 		list = get_list(list, line, env);
-		if (!list)
-			printf("no list\n");
-			// continue ;			
 		add_history(line);
 		// print_list(list);
-		exitcode = execute(list, &env, count_pids(list));
-		free_list(&list);
+		if (!list)
+			printf("no list\n");
+		else
+		{
+			exitcode = execute(list, &env, count_pids(list));
+			free_list(&list);
+		}
 	}
 	printf("exitcode: %d\n", exitcode);
 	free_env(&env);
