@@ -7,6 +7,13 @@
 
 // if fd == -1 we will not pipe/close the pipe and the computer will read this as empty input
 
+void eof_heredoc_msg(char *delim, int line) 
+{
+	printf("warning: here-document at line");
+	printf(" %d ", line);
+	printf("delimited by end-of-file ");
+	printf("(wanted `%s')\n", delim);
+}
 
 int	handle_heredoc(t_file *file)
 {
@@ -14,16 +21,22 @@ int	handle_heredoc(t_file *file)
 	char *line;
 	char *delim;
 
+	// heredoc_signals();
 	delim = file->filename;
 	if (pipe(pipefd) == -1)
 	{
 		// error
 		return (-1);
 	}
-
 	line = readline("> ");
+	if (!line)
+		eof_heredoc_msg(delim, -42);
 	while (line)
 	{
+		// if (g_signal == SIGINT)
+		// {
+
+		// }
 		if (strcmp(line, delim) == 0)
 		{
 			free(line);
@@ -35,6 +48,8 @@ int	handle_heredoc(t_file *file)
 			write(pipefd[1], "\n", 1);
 			free(line);
 			line = readline("> ");
+			if (!line)
+				eof_heredoc_msg(delim, -42);
 		}
 	}
 	close (pipefd[1]);
@@ -125,6 +140,7 @@ void	create_files(int fd[2], t_file *file)
 			if (infile > 0)
 				close(infile);
 			infile = handle_heredoc(file);
+			
 		}
 		else if (file->type == REDIR_OUT)
 		{

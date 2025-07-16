@@ -26,3 +26,8 @@ void reset_signals(void)
     reset_SIGINT();
     reset_SIGQUIT();
 }
+
+// void heredoc_signals()
+// {
+
+// }
