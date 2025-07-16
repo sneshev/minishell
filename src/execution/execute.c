@@ -81,7 +81,7 @@ void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 {
 	int	exitcode;
 
-	reset_signals();
+	// reset_signals();
 	exitcode = check_invalid_file_cmd(list);
 	if (exitcode != 0)
 	{
@@ -133,7 +133,7 @@ int	wait_for_pids(pid_t *pid, int pid_count)
 	waitpid(pid[i], &status, 0);
 	if (WEXITSTATUS(status))
 		exitcode = (WEXITSTATUS(status));
-	reset_signals();
+	// reset_signals();
 	return (exitcode);
 }
 
@@ -164,6 +164,7 @@ int	execute_list(t_list *list, int pid_count, char **environment)
 	int		exitcode;
 
 	i = 0;
+	pipe_input = -1;
 	while (i < pid_count)
 	{
 		if (list->next)
