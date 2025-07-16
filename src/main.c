@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/16 18:15:52 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/16 18:46:02 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	minishell(char **envp)
 			exit_terminal(line);
 	    if (g_signal == SIGINT)
 		{
-	    	receive_SIGINT();
+	    	receive_SIGINT(0);
 		}
 		
 		list = get_list(list, line, env);
