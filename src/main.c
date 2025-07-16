@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/16 17:35:55 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/16 17:46:01 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	minishell(char **envp)
 {
 	t_list	*list;
 	t_env	*env;
+	int		exitcode;
 
 	list = NULL;
 	env = NULL;
@@ -47,7 +48,10 @@ void	minishell(char **envp)
 			printf("no list\n");
 		else
 		{
-			execute(list, &env, count_pids(list));
+			exitcode = execute(list, &env, count_pids(list));
+			env->value = ft_itoa(exitcode);
+			if (!env->value)
+				return (free_env(&env), free_list(&list));
 			free_list(&list);
 		}
 	}
