@@ -92,8 +92,7 @@ void	print_arr(char **arr)
 
 void	perror_message(char *s)
 {
-	(void)s;
-	// printf("minishell: %s: ", s);
-	perror("");
-	// printf("\n");
+	// printf("minishell: %s: %s", s, message);
+	printf("%s: command not found", s);
+	printf("\n");
 }
