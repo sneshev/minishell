@@ -196,6 +196,7 @@ int	execute(t_list *list, t_env **env)
 	if (!list->next && is_builtin(list->cmd))
 	{
 		exitcode = execute_builtin_parent(list, env, environment);
+		close_files(list);
 		return (free_arr(environment), exitcode);
 	}
 	exitcode = execute_list(list, count_pids(list), environment);
