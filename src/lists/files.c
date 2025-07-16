@@ -21,7 +21,7 @@ int	handle_heredoc(t_file *file)
 	char *line;
 	char *delim;
 
-	// heredoc_signals();
+	reset_SIGINT();
 	delim = file->filename;
 	if (pipe(pipefd) == -1)
 	{
@@ -33,10 +33,10 @@ int	handle_heredoc(t_file *file)
 		eof_heredoc_msg(delim, -42);
 	while (line)
 	{
-		// if (g_signal == SIGINT)
-		// {
+		if (g_signal == SIGINT)
+		{
 
-		// }
+		}
 		if (strcmp(line, delim) == 0)
 		{
 			free(line);
