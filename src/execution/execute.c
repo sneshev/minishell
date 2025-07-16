@@ -168,7 +168,7 @@ int	execute(t_list *list, t_env **env, int pid_count)
 	char	**environment;
 
 	disable_SIGINT();
-	environment = convert_env(*env); // never freed
+	environment = convert_env((*env)->next); // never freed
 	if (!environment)
 		return -1;
 	pipe_input = -1;

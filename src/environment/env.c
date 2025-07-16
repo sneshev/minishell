@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:00 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 16:25:03 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/16 17:54:00 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_env	*new_env_node(char *name, char *value)
 	t_env	*node;
 
 	node = xmalloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
 	node->name = name;
 	node->value = value;
 	node->next = NULL;
@@ -50,6 +52,9 @@ t_env	*create_env(t_env **env, char **envs)
 	value = NULL;
 	new = NULL;
 	i = 0;
+	*env = new_env_node("EXITCODE=", "0");
+	if (!*env)
+		return (NULL);
 	while (envs[i])
 	{
 		name = get_env_name(envs[i]);
