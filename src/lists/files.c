@@ -21,7 +21,7 @@ int	handle_heredoc(t_file *file)
 	char *line;
 	char *delim;
 
-	reset_SIGINT();
+	// heredoc_signals();
 	delim = file->filename;
 	if (pipe(pipefd) == -1)
 	{
@@ -33,10 +33,12 @@ int	handle_heredoc(t_file *file)
 		eof_heredoc_msg(delim, -42);
 	while (line)
 	{
-		if (g_signal == SIGINT)
-		{
-
-		}
+		// if (g_signal == SIGINT)
+		// {
+		// 	write(1, "1", 1);
+		// 	receive_SIGINT(0);
+		// 	return (free(line), close(pipefd[0]), close(pipefd[1]), -1);
+		// }
 		if (strcmp(line, delim) == 0)
 		{
 			free(line);
@@ -140,7 +142,6 @@ void	create_files(int fd[2], t_file *file)
 			if (infile > 0)
 				close(infile);
 			infile = handle_heredoc(file);
-			
 		}
 		else if (file->type == REDIR_OUT)
 		{
