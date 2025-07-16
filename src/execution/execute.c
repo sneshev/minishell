@@ -189,7 +189,7 @@ int	execute(t_list *list, t_env **env)
 	char	**environment;
 	int		exitcode;
 
-	disable_SIGINT();
+	// disable_SIGINT();
 	environment = convert_env((*env)->next);
 	if (!environment)
 		return (-1);
