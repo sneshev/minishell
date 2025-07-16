@@ -159,7 +159,7 @@ void	close_files(t_list *list)
 		close(list->output);
 }
 
-int	execute(t_list *list, t_env **env, int pid_count)
+int	execute(t_list *list, t_env **env, int pid_count, int *exitcode)
 {
 	pid_t	pid[pid_count];
 	int		pip[2];
@@ -167,6 +167,7 @@ int	execute(t_list *list, t_env **env, int pid_count)
 	int		i;
 	char	**environment;
 
+	(void)exitcode;
 	disable_SIGINT();
 	environment = convert_env(*env); // never freed
 	if (!environment)

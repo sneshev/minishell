@@ -6,7 +6,7 @@
 
 // execution
 char	*get_cmd(char *cmd);
-int		execute(t_list *list, t_env **env, int pid_count);
+int		execute(t_list *list, t_env **env, int pid_count, int *exitcode);
 
 // execute builtin
 void	execute_echo(t_list *list);

@@ -49,7 +49,7 @@ void	exit_with_code(int exit_code);
 void	error_message(char const *s, int exit_code);
 
 // execute
-int		execute(t_list *list, t_env **env, int pid_count);
+int		execute(t_list *list, t_env **env, int pid_count, int *exitcode);
 int		count_pids(t_list *list);
 bool	is_builtin(char *cmd);
 
