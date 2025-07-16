@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/14 20:03:47 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/16 17:06:09 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,14 @@ void	minishell(char **envp)
 	{
 		char	*line;
 		line = readline("minishell$ ");
-		// line = "ls";
+		// line = "^C";
 
 		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			exit_terminal(line);
+	    if (g_signal == SIGINT)
+		{
+	    	receive_SIGINT();
+		}
 		
 		list = get_list(list, line, env);
 		add_history(line);
@@ -62,7 +66,7 @@ int main(int argc, char *argv[], char *envp[])
 	// 	"goodmorning=sunsunsun\n",
 	// 	"binkie=cutecutecute\n",
 	// 	NULL};
-
+	enable_signals();
 	minishell(envp);
 	return (0);
 }

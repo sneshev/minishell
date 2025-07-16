@@ -97,6 +97,7 @@ int	check_invalid_cmd(t_list *list, int *pip, int prev_pipe)
 
 void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 {
+	reset_signals();
 	if (check_invalid_file(list, pip, prev_pipe) == -1)
 		exit (1);
 	else if (check_invalid_cmd(list, pip, prev_pipe) == -1)
@@ -112,7 +113,7 @@ void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 	else
 	{
 		execve(list->cmd, list->args, environment);
-		fprintf(stderr, "execve error");
+		printf("execve error");
 	}
 }
 
@@ -146,6 +147,7 @@ int	wait_for_pids(pid_t *pid, int pid_count)
 	waitpid(pid[i], &status, 0);
 	if (WEXITSTATUS(status))
 		exitcode = (WEXITSTATUS(status));
+	reset_signals();
 	return (exitcode);
 }
 
@@ -165,6 +167,7 @@ int	execute(t_list *list, t_env **env, int pid_count)
 	int		i;
 	char	**environment;
 
+	disable_SIGINT();
 	environment = convert_env(*env); // never freed
 	if (!environment)
 		return -1;

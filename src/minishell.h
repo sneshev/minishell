@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "signals/signals.h"
 # include "structs.h"
 
 # include <sys/types.h>
@@ -47,9 +48,10 @@ void	exit_terminal(char *line);
 void	exit_with_code(int exit_code);
 void	error_message(char const *s, int exit_code);
 
-//execute
+// execute
 int		execute(t_list *list, t_env **env, int pid_count);
 int		count_pids(t_list *list);
 bool	is_builtin(char *cmd);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/14 20:58:31 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/16 17:00:17 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,5 @@ void	execute_exit(t_list *list)
 {
 	(void)list;
 	printf("exit\n");
-	free_list(&list);
 	return ;
 }
