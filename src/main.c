@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/16 17:46:01 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/16 18:13:37 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	minishell(char **envp)
 	read_history(".minishell_history");
 	while (1)
 	{
+		enable_signals();
 		char	*line;
 		line = readline("minishell$ ");
 		// line = "^C";
@@ -68,7 +69,6 @@ int main(int argc, char *argv[], char *envp[])
 	// 	"goodmorning=sunsunsun\n",
 	// 	"binkie=cutecutecute\n",
 	// 	NULL};
-	enable_signals();
 	minishell(envp);
 	return (0);
 }
