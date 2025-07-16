@@ -12,7 +12,7 @@ void	reset_SIGINT();
 // parent
 void	enable_signals(void);
 void	disable_SIGINT(void);
-void	receive_SIGINT(void);
+void	receive_SIGINT(int sig);
 
 
 #endif
