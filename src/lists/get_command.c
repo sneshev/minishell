@@ -48,7 +48,7 @@ char	*get_cmd(char *cmd)
 	int		i;
 
 	if (cmd[0] == '/' || cmd[0] == '.')
-		return (cmd);
+		return (NULL);
 
 	i = 0;
 	paths = get_paths(cmd);
