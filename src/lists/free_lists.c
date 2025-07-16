@@ -15,6 +15,8 @@ void	free_file(t_file **file)
 {
 	t_file	*temp;
 
+	if (!file)
+		return ;
 	while (*file)
 	{
 		temp = *file;
@@ -40,6 +42,8 @@ void	free_list(t_list **list)
 {
 	t_list	*temp;
 
+	if (!list)
+		return ;
 	while (*list)
 	{
 		temp = *list;
@@ -65,6 +69,8 @@ void	free_env(t_env **env)
 {
 	t_env	*temp;
 
+	if (!env)
+		return ;
 	while (*env)
 	{
 		temp = *env;

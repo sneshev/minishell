@@ -5,9 +5,14 @@
 
 extern volatile sig_atomic_t	g_signal;
 
+// child
+void	reset_signals(void);
+void	reset_SIGINT();
+
+// parent
 void	enable_signals(void);
 void	disable_SIGINT(void);
-void	receive_SIGINT();
-void	reset_signals(void);
+void	receive_SIGINT(int sig);
+
 
 #endif

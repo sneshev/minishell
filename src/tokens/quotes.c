@@ -8,6 +8,11 @@ int find_quote_len(char *str, t_env *env, bool count_quote, bool expand_envvar) 
 
     count = 0;
     quote_type = *str;
+<<<<<<< HEAD
+=======
+    if (quote_type == '\'')
+        expand_envvar = false;
+>>>>>>> main
     str++;
     while (*str)
     {
@@ -54,7 +59,10 @@ void add_quoted_sequence(char *dest, char *src, int *j, t_env *env) // doesnt do
             dest[*j] = *src;
             src++;
             (*j)++;
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
         }
     }
 }

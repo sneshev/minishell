@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/05 12:55:50 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/16 19:13:04 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,65 +15,67 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-bool    validate_syntax(char **tokens)
-{
-    int i;
-
-    i = 0;
-	if (is_pipe(tokens[i]))
-		return (false);
-	while (tokens[i])
-	{
-		if (is_pipe(tokens[i]) && is_pipe(tokens[i + 1]))
-			return (false);
-		if (is_redirect(tokens[i]) && is_redirect(tokens[i + 1]))
-			return (false);
-		// im not sure if were supposed to take care of uncomplete commands
-		if (tokens[i + 1] == NULL)
-		{
-			if (is_pipe(tokens[i]) || is_redirect(tokens[i]))
-				return (false);
-		}
-		i++;
-	}
-	return (true);
-}
-
 // void	minishell(char *envp[])
 void	minishell(char **envp)
 {
 	t_list	*list;
+<<<<<<< HEAD
 	t_env *env;
+=======
+	t_env	*env;
+	int		exitcode;
+>>>>>>> main
 
 	list = NULL;
+	env = NULL;
+	env = get_env(envp);
+	if (!env)
+		return ;
 	read_history(".minishell_history");
 	env = get_env(envp);
 	while (1)
 	{
+		enable_signals();
 		char	*line;
 		line = readline("minishell$ ");
-		// line = "cat < info.txt > outfile1 | cat err.log < infile2 > outfile2 ";
+		// line = "^C";
 
 		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			exit_terminal(line);
 		
 		list = get_list(list, line, env);
+<<<<<<< HEAD
 		if (!list)
 			printf("no list\n");
 		
+=======
+>>>>>>> main
 		add_history(line);
 		// print_list(list);
-		execute(list, envp, count_pids(list));
-		free_list(&list);
+		if (!list)
+			printf("no list\n");
+		else
+		{
+			exitcode = execute(list, &env, count_pids(list));
+			env->value = ft_itoa(exitcode);
+			if (!env->value)
+				return (free_env(&env), free_list(&list));
+			free_list(&list);
+		}
 	}
-
+	free_env(&env);
 }
 
 int main(int argc, char *argv[], char *envp[])
 {
+	(void)envp;
 	(void)argc;
 	(void)argv;
-
+	// char *yo[] = {
+	// 	"hello=hihihi\n",
+	// 	"goodmorning=sunsunsun\n",
+	// 	"binkie=cutecutecute\n",
+	// 	NULL};
 	minishell(envp);
 	return (0);
 }

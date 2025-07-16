@@ -76,3 +76,24 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (*s1 - *s2);
 }
+
+void	print_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return ;
+	while (arr[i])
+	{
+		printf("%s\n",arr[i]);
+		i++;
+	}
+}
+
+void	perror_message(char *s)
+{
+	// printf("minishell: %s: %s", s, message);
+	printf("%s: command not found", s);
+	printf("\n");
+}

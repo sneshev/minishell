@@ -1,80 +1,101 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   execute_utils.c                                    :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2025/06/02 15:59:57 by mmisumi           #+#    #+#             */
-// /*   Updated: 2025/06/10 13:13:40 by mmisumi          ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+#include "../minishell.h"
+#include "execution.h"
 
-//#include "../minishell.h"
-//#include "execution.h"
-//#include <fcntl.h>
+t_env	*create_var_node(char *var, t_env **env)
+{
+	char	*name;
+	char	*value;
+	t_env	*new;
 
-// int	flag_count(t_list **list)
-// {
-// 	t_list	*temp;
-// 	int		flagc;
+	name = NULL;
+	value = NULL;
+	new = NULL;
+	name = get_env_name(var);
+	if (!name)
+		return (NULL);
+	value = get_env_value(var);
+	if (!value)
+		return (free(name), NULL);
+	new = new_env_node(name, value);
+	if (!new)
+		return (free(name), free(value), NULL);
+	add_env_node_back(env, new);
+	// printf("name: %s, value: %s\n", new->name, new->value);
+	return (new);
+}
 
-// 	flagc = 0;
-// 	temp = *list;
-// 	while (temp && temp->arg_type != REDIRECTION && temp->arg_type != PIPE)
-// 	{
-// 		flagc++;
-// 		temp = temp->next;
-// 	}
-// 	printf("flagc: %d\n", flagc);
-// 	return (flagc);
-// }
+int	count_env_vars(t_env *env)
+{
+	int	i;
 
-// //this will returns flags, but the list pointer is still pointing to the last flag
-// char	**get_flags(int flagc, t_list **list)
-// {
-// 	char	**flags;
-// 	int		i;
+	i = 0;
+	while (env)
+	{
+		i++;
+		env = env->next;
+	}
+	return (i);
+}
 
-// 	printf("listpointer: %s\n", (*list)->arg);
-// 	//we will also put the command in here thats why
-// 	flags = malloc(sizeof(char *) * (flagc  + 1));
-// 	if (!flags)
-// 		return (NULL);
-// 	i = 0;
-// 	while (i < flagc - 1)
-// 	{
-// 		flags[i] = ft_strdup((*list)->arg);
-// 		if (!flags[i])
-// 			return (free_arr(flags), error_message("malloc error", 1), NULL);
-// 		*list = (*list)->next;
-// 		i++;
+char	**convert_env(t_env *env)
+{
+	int		vars;
+	char	**environment;
+	int		i;
 
-// 	}
-// 	//now our pointer is on the last command
-// 	flags[i] = ft_strdup((*list)->arg);
-// 	flags[flagc] = NULL;
-// 	return (flags);
-// }
+	if (!env)
+		return (NULL);
+	vars = count_env_vars(env);
+	environment = malloc(sizeof(char *) * (vars + 1));
+	if (!environment)
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		environment[i] = ft_strjoin(env->name, env->value);
+		if (!environment[i])
+			return (free_arr(environment), NULL);
+		i++;
+		env = env->next;
+	}
+	return (environment);
 
-// char	**put_flags(t_list **list)
-// {
-// 	char	*cmd;
-// 	int		flagc;
-// 	char	**flags;
+}
 
-// 	cmd = get_cmd((*list)->arg);
-// 	if (!cmd)
-// 		error_message("malloc error", 1);
-// 	(*list)->arg = cmd;
-// 	flagc = flag_count(list);
-// 	flags = get_flags(flagc, list);
-// 	if (!flags)
-// 	{
-// 		free(cmd);
-// 		error_message("malloc error", 1);
-// 	}
-// 	if (access(cmd, X_OK) == -1)
-// 		error_message("access execute error", 126);
-// 	return (flags);
-// }
+bool	is_builtin(char *cmd)
+{
+	if (ft_strncmp(cmd, "echo", 5) == 0)
+		return (true);
+	else if (ft_strncmp(cmd, "cd", 3) == 0)
+		return (true);
+	else if (ft_strncmp(cmd, "pwd", 4) == 0)
+		return (true);
+	else if (ft_strncmp(cmd, "export", 7) == 0)
+		return (true);
+	else if (ft_strncmp(cmd, "unset", 6) == 0)
+		return (true);
+	else if (ft_strncmp(cmd, "env", 4) == 0)
+		return (true);
+	else if (ft_strncmp(cmd, "exit", 6) == 0)
+		return (true);
+	else
+		return (false);
+}
+
+void	execute_builtin(t_list *list, t_env **env, char **environment)
+{
+	if (ft_strncmp(list->cmd, "echo", 5) == 0)
+		execute_echo(list);
+	else if (ft_strncmp(list->cmd, "cd", 3) == 0)
+		execute_cd(list);
+	else if (ft_strncmp(list->cmd, "pwd", 4) == 0)
+		execute_pwd();
+	else if (ft_strncmp(list->cmd, "export", 7) == 0)
+		execute_export(list, env);
+	else if (ft_strncmp(list->cmd, "unset", 6) == 0)
+		execute_unset(list, env);
+	else if (ft_strncmp(list->cmd, "env", 4) == 0)
+		execute_env(list, environment);
+	else if (ft_strncmp(list->cmd, "exit", 6) == 0)
+		execute_exit(list);
+}

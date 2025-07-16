@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "signals/signals.h"
 # include "structs.h"
 
 # include <sys/types.h>
@@ -13,7 +14,6 @@
 #define WRITE 1
 
 // temporary
-void	print_arr(char **arr);
 void	print_list(t_list *list);
 void	print_files(t_file *file);
 
@@ -23,14 +23,16 @@ void	free_arr(char **arr);
 int		ft_strcmp(char *s1, char *s2);
 int		word_count(char const *s);
 bool	is_space(char c);
+void	print_arr(char **arr);
+void	perror_message(char *s);
 
 // tokens
 char	**get_tokens(char *str, t_env *env);
+bool    is_valid_syntax(char **tokens);
 int		count_tokens(char *str);
 
 bool	is_pipe(char *str);
 bool 	is_redirect(char *str);
-bool 	is_builtin(char *str);
 
 // list
 t_list	*get_list(t_list *list, char *line, t_env *env);
@@ -47,8 +49,10 @@ void	exit_terminal(char *line);
 void	exit_with_code(int exit_code);
 void	error_message(char const *s, int exit_code);
 
-//execute
-void	execute(t_list *list, char **envp, int pid_count);
+// execute
+int		execute(t_list *list, t_env **env, int pid_count);
 int		count_pids(t_list *list);
+bool	is_builtin(char *cmd);
+
 
 #endif

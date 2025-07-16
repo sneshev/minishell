@@ -12,8 +12,9 @@
 volatile sig_atomic_t	g_signal = 0;
 
 // Ctrl + c (only outside of process)
-void receive_SIGINT()
+void receive_SIGINT(int sig)
 {
+    (void)sig;
     g_signal = 0;
     ft_putstr_fd("\n", STDERR_FILENO);
     rl_replace_line("", 0);
