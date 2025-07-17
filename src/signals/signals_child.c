@@ -10,6 +10,7 @@ void reset_SIGINT()
     sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 }
+
 void reset_SIGQUIT()
 {
     struct sigaction	sa;

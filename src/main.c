@@ -42,7 +42,9 @@ void	minishell(char **envp)
 		list = get_list(list, line, env);
 		// print_list(list);
 		if (!list)
-			printf("no list\n");
+		{
+			// printf("no list\n");
+		}
 		else
 		{
 			exitcode = execute(list, &env);
