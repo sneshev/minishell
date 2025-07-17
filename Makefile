@@ -6,16 +6,16 @@
 #    By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 16:25:11 by mmisumi           #+#    #+#              #
-#    Updated: 2025/06/04 15:36:13 by mmisumi          ###   ########.fr        #
+#    Updated: 2025/07/14 21:01:53 by mmisumi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := minishell
 
-SRCS := $(wildcard src/*.c)
+SRCS := $(shell find src -name "*.c")
 
 OBJDIR := obj
-OBJS := $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
+OBJS := $(patsubst src/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 LIBFT := libft/libft.a
 
@@ -35,7 +35,8 @@ $(LIBFT):
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
 
-$(OBJDIR)/%.o: src/%.c | $(OBJDIR)
+$(OBJDIR)/%.o: src/%.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

@@ -2,88 +2,54 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdbool.h>
+# include "structs.h"
 
-#define BUILTIN 1
-#define COMMAND 2
-#define REDIRECTION 3
-#define PIPE 4
-#define UNDEFINED 5
-#define SQUOTE 6
-#define DQUOTE 7
+# include <sys/types.h>
+# include <stdbool.h>
+# include <stdlib.h>
+# include <stdio.h>
 
 #define READ 0
 #define WRITE 1
 
-typedef struct	s_list
-{
-	char			*arg;
-	int				arg_type;
-	int				index;
-	char			**envp;
-	struct s_list	*prev;
-	struct s_list	*next;
-}					t_list;
-
-
-//temporary
-void	print_type(int type);
+// temporary
 void	print_list(t_list *list);
+void	print_files(t_file *file);
 
-//	input
-bool	is_valid_input(char *line, char **envp);
-// void	handle_invalid_input(void);
-
-//	get_args
-bool	is_space(char c);
-int		find_arg_len(char *str);
-int		count_args(char *str);
-char	**get_args(char *str);
-
-//	path
-char	*get_env(char **envp);
-char	**get_path(char *path, char *cmd);
-char	*get_cmd(char *str, char **envp);
-
-//	arg_types
-bool	is_builtin(char *str);
-int		find_arg_type(char *arg, char **envp);
-bool	is_command(char *str, char **envp);
-bool	is_redirect(char *str);
-bool	is_pipe(char *str);
-
-//	list
-void print_line(t_list *list);
-void	print_list(t_list *list);
-void	free_node(t_list **node);
-void	free_list(t_list **list);
-t_list	*new_node(char *arg, int index, char **envp);
-void	add_node_back(t_list **list, t_list *current);
-t_list	*create_list(t_list **list, char **args, int wordc, char **envp);
-
-//	signals
-extern volatile sig_atomic_t	g_signal;
-void	enable_signals(void);
-void	disable_SIGINT(void);
-void	receive_SIGINT();
-void	reset_signals(void);
-
-//	utils
-int		word_count(char const *s);
+// utils
+void	*xmalloc(size_t size);
 void	free_arr(char **arr);
+int		ft_strcmp(char *s1, char *s2);
+int		word_count(char const *s);
+bool	is_space(char c);
+void	print_arr(char **arr);
+void	perror_message(char *s);
+
+// tokens
+char	**get_tokens(char *str, t_env *env);
+bool    is_valid_syntax(char **tokens);
+int		count_tokens(char *str);
+bool	is_pipe(char *str);
+bool 	is_redirect(char *str);
+
+// list
+t_list	*get_list(t_list *list, char *line, t_env *env);
+void	free_env(t_env **env);
+void	free_list(t_list **list);
+void	free_file(t_file **file);
+
+// env
+t_env	*get_env(char **envp);
+char	**arr_dup(char **arr);
+
+// exits
+void	exit_terminal(char *line);
+void	exit_with_code(int exit_code);
 void	error_message(char const *s, int exit_code);
 
 //execute
-void	execute_command(t_list **node, char **envp);
-int		execute(t_list **list);
-
-//execute utils
-char	**get_flags(int flagc, t_list **node);
-int		flag_count(t_list **node);
+int		execute(t_list *list, t_env **env, int pid_count);
+int		count_pids(t_list *list);
+bool	is_builtin(char *cmd);
 
 #endif

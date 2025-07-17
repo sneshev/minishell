@@ -1,2 +1,8 @@
-/usr/bin/wc: illegal option -- y
-usage: wc [-Lclmw] [file ...]
+boobs
+why do we exit with ls?
+cat /dev/urandom (with signals and signals and heredoc)
+
+
+int *exitcode_storage() {  static int exitcode = 0;  return (&exitcode); }
+
+i should check if export is alphabetic order on linux
