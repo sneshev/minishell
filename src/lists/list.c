@@ -47,7 +47,8 @@ t_list	*new_node(char **tokens, int index)
 			return (free(node), free_arr(args), free(cmd), NULL);
 		// print_files(file);
 	}
-	create_files(fd, file);
+	if (create_files(fd, file) < 0)
+		return (free(node),  free_arr(args), free(cmd), free_file(&file), NULL);
 	node->cmd = cmd;
 	node->args = args;
 	node->input = fd[0];

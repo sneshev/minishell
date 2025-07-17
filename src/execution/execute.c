@@ -194,7 +194,6 @@ int	execute(t_list *list, t_env **env)
 	environment = convert_env((*env)->next);
 	if (!environment)
 		return (-1);
-
 	if (!list->next && is_builtin(list->cmd))
 	{
 		exitcode = check_invalid_file_cmd(list);

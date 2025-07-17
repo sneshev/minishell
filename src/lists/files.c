@@ -68,7 +68,7 @@ t_file	*create_file_list(t_file *file, char **files)
 }
 
 // if its redirect i think we handle it by the flags in open function
-void	create_files(int fd[2], t_file *file)
+int	create_files(int fd[2], t_file *file)
 {
 	int		infile;
 	int		outfile;
@@ -89,6 +89,8 @@ void	create_files(int fd[2], t_file *file)
 			if (infile > 0)
 				close(infile);
 			infile = handle_heredoc(file);
+			if ((infile) < 0)
+				return (-1);
 		}
 		else if (file->type == REDIR_OUT)
 		{
@@ -107,10 +109,11 @@ void	create_files(int fd[2], t_file *file)
 			perror_message(file->filename);
 			fd[0] = -1;
 			fd[1] = -1;
-			return ;
+			return (-1);
 		}
 		file = file->next;
 	}
 	fd[0] = infile;
 	fd[1] = outfile;
+	return (1);
 }

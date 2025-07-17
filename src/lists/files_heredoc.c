@@ -19,7 +19,7 @@ void child_heredoc(char *delim, int pipefd[2])
 {
 	char	*line;
 
-	// enable_signals();
+	reset_signals();
 	close(pipefd[0]);
 
 	while (1)
