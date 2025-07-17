@@ -30,6 +30,7 @@ void	minishell(char **envp)
 	read_history(".minishell_history");
 	while (1)
 	{
+		enable_signals();
 		char	*line;
 		line = readline("minishell$ ");
 		// line = "^C";
@@ -66,7 +67,6 @@ int main(int argc, char *argv[], char *envp[])
 	// 	"goodmorning=sunsunsun\n",
 	// 	"binkie=cutecutecute\n",
 	// 	NULL};
-	// enable_signals();
 	minishell(envp);
 	return (0);
 }
