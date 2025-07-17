@@ -81,7 +81,7 @@ void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 {
 	int	exitcode;
 
-	// reset_signals();
+	reset_signals();
 	exitcode = check_invalid_file_cmd(list);
 	if (exitcode != 0)
 	{
@@ -190,7 +190,7 @@ int	execute(t_list *list, t_env **env)
 	char	**environment;
 	int		exitcode;
 
-	// disable_SIGINT();
+	disable_SIGINT();
 	environment = convert_env((*env)->next);
 	if (!environment)
 		return (-1);
