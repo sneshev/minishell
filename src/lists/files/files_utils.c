@@ -1,5 +1,5 @@
-#include "../minishell.h"
-#include "list.h"
+#include "../../minishell.h"
+#include "../list.h"
 #include <fcntl.h>
 
 int	count_redir_files(char **tokens, int index)

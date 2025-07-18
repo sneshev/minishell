@@ -1,6 +1,6 @@
-#include "../minishell.h"
-#include "../signals/signals.h"
-#include "list.h"
+#include "../../minishell.h"
+#include "../../signals/signals.h"
+#include "../list.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/wait.h>
