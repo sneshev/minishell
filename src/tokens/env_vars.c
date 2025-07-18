@@ -19,6 +19,8 @@ int find_envvar_len(char *str, t_env *env)
 {
 	if (!env)
 		return (0);
+	if (!*str || (!isalnum(*str) && *str != '_' && *str != '?'))
+		return (1);
 	if (*str == '?')
 		return (ft_strlen(env->value));
 	if (ft_strncmp(env->name, str, find_varname_len(str))
@@ -31,6 +33,8 @@ char *find_envvar(char *str, t_env *env)
 {
 	if (!env)
 		return (NULL);
+	if (!*str || (!isalnum(*str) && *str != '_' && *str != '?'))
+		return ("$");
 	if (*str == '?')
 		return (env->value);
 	if (ft_strncmp(env->name, str, find_varname_len(str))
