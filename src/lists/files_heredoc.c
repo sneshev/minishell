@@ -67,6 +67,7 @@ int	handle_heredoc(t_file *file)
 		waitpid(pid, &status, 0);
 		if (WIFSIGNALED(status))
 		{
+			write(1, "\n", 1);
 			close(pipefd[0]);
 			return (-1);
 		}
