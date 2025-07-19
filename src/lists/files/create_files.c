@@ -20,7 +20,6 @@ int fetch_infile(int infile, t_file *file)
 	return (infile);
 }
 
-// no errors handled yet
 int fetch_outfile(int outfile, t_file *file)
 {
 	if (outfile > 0)
