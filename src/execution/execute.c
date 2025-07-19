@@ -65,6 +65,7 @@ void	handle_fd_closing(t_list *list, int *pip, int prev_pipe)
 		close(prev_pipe);
 }
 
+// command not found error message needed 
 int	check_invalid_file_cmd(t_list *list)
 {
 	if (list->input == -1 && list->output == -1)
