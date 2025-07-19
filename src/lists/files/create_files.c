@@ -1,20 +1,31 @@
 #include "../../minishell.h"
 #include "../../signals/signals.h"
 #include "../list.h"
+#include <errno.h>
 #include <fcntl.h>
 
 int fetch_infile(int fd[2], t_file *file)
 {
 	if (fd[0] > 0)
 		close(fd[0]);
-	if (file->type == REDIR_IN)
-		return (open(file->filename, O_RDONLY, 0400));
-	else if (file->type == REDIR_HEREDOC)
+	if (file->type == REDIR_HEREDOC)
 		return (handle_heredoc(file));
-	else
+	fd[0] = (open(file->filename, O_RDONLY, 0400));
+	if (fd[0] < 0)
+	{
+		printf("%s: ", file->filename);
+    	if (errno == ENOENT)
+    	    printf("No such file or directory\n");
+		else if (errno == EACCES)
+    	    printf("Permission denied\n");
+		else
+    	    printf("Open failed\n");
 		return (-1);
+	}
+	return (fd[0]);
 }
 
+// no errors handled yet
 int fetch_outfile(int fd[2], t_file *file)
 {
 	if (fd[1] > 0)
@@ -39,10 +50,7 @@ int	create_files(int fd[2], t_file *file)
 		else if (file->type == REDIR_OUT || file->type == REDIR_APPEND)
 			fd[1] = fetch_outfile(fd, file);
 		if (fd[0] == -1 || fd[1] == -1)
-		{
-			perror_message(file->filename);
 			return (-1);
-		}
 		file = file->next;
 	}
 	return (1);
