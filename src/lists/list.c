@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/19 15:22:39 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/19 18:16:30 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_list	*new_node(char **tokens, int index)
 			return (free(node), free_arr(args), free(cmd), NULL);
 		// print_files(file);
 	}
-	if (create_files(fd, file)  == -7)
+	if (create_files(fd, file)  == HEREDOC_TERMINATED)
 		return (free(node),  free_arr(args), free(cmd), free_file(&file), NULL);
 	node->cmd = cmd;
 	node->args = args;
