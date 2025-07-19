@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/14 19:17:20 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/19 14:25:35 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_list	*new_node(char **tokens, int index)
 			return (free(node), free_arr(args), free(cmd), NULL);
 		// print_files(file);
 	}
-	if (create_files(fd, file) < 0)
+	if (create_files(fd, file)  == -1)
 		return (free(node),  free_arr(args), free(cmd), free_file(&file), NULL);
 	node->cmd = cmd;
 	node->args = args;
