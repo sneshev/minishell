@@ -19,6 +19,7 @@ void	print_files(t_file *file);
 
 // utils
 void	*xmalloc(size_t size);
+void    write_err(char *keyword, char *message);
 void	free_arr(char **arr);
 int		ft_strcmp(char *s1, char *s2);
 int		word_count(char const *s);

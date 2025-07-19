@@ -13,13 +13,12 @@ int fetch_infile(int fd[2], t_file *file)
 	fd[0] = (open(file->filename, O_RDONLY, 0400));
 	if (fd[0] < 0)
 	{
-		printf("%s: ", file->filename);
     	if (errno == ENOENT)
-    	    printf("No such file or directory\n");
+    	    write_err(file->filename, "No such file or directory\n");
 		else if (errno == EACCES)
-    	    printf("Permission denied\n");
+    	    write_err(file->filename, "Permission denied\n");
 		else
-    	    printf("Open failed\n");
+    	    write_err(file->filename, "Open failed\n");
 		return (-1);
 	}
 	return (fd[0]);

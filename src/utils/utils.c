@@ -96,3 +96,13 @@ void	perror_message(char *s)
 	printf("%s: command not found", s);
 	printf("\n");
 }
+
+void	write_err(char *keyword, char *message)
+{
+	if (keyword)
+	{
+		write(2, keyword, ft_strlen(keyword));
+		write(2, ": ", 2);
+	}
+	write(2, message, ft_strlen(message));
+}
