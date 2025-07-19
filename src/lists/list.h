@@ -1,6 +1,8 @@
 #ifndef LIST_H
 # define LIST_H
 
+# define HEREDOC_TERMINATED -7
+
 // list
 t_list	*create_list(t_list *list, char **tokens, int wordc);
 void	update_index(char **tokens, int *index);
