@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/16 17:56:38 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/19 16:54:30 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	execute_cd(t_list *list)
 		i++;
 	if (i == 1)
 	{
-		new_dir = getenv("HOME=");
+		new_dir = getenv("HOME");
 		if (!new_dir)
 			error_message("malloc error", -1);
 	}
@@ -68,21 +68,52 @@ void	execute_pwd(void)
 	printf("%s\n", dir);
 }
 
+// void	execute_export(t_list *list, t_env **env)
+// {
+// 	int		i;
+
+// 	i = 1;
+// 	// we should print export variables
+// 	if (!list->args[i])
+// 	{
+		
+// 	}
+// 	while (list->args[i])
+// 	{
+// 		if (ft_strncmp(list->args[i], ))
+// 		create_var_node(list->args[i], env);
+// 		i++;
+// 	}
+// }
+
 void	execute_export(t_list *list, t_env **env)
 {
+	//check for existing name and change that value
+	t_env	*cur;
+	// t_env	*temp;
+	char	*name;
 	int		i;
+	// int		name_len;
 
+	cur = *env;
 	i = 1;
-	// we should print export variables
-	if (!list->args[i])
-	{
-		
-	}
 	while (list->args[i])
 	{
-		create_var_node(list->args[i], env);
-		i++;
+		name = get_env_name(list->args[i]);
+		if (!name)
+			return ;
+		printf("name: %s\n", name);
+		while (cur)
+		{
+			printf("cur->name: %s\n", cur->name);
+			if (ft_strncmp(cur->name, name, ft_strlen(cur->name) + 1) == 0)
+				printf("match\n");
+			break ;
+		}
+		break ;
+		
 	}
+
 }
 
 void	execute_unset(t_list *list, t_env **env)
@@ -100,6 +131,7 @@ void	execute_unset(t_list *list, t_env **env)
 	while (cur && list->args[i])
 	{
 		name_len = ft_strlen(cur->name);
+		//also check for null terminator after?
 		if (ft_strncmp(list->args[i], cur->name, (name_len - 1)) == 0
 		&& cur->name[name_len - 1] == '=')
 		{
