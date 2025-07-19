@@ -13,12 +13,9 @@ int fetch_infile(int infile, t_file *file)
 	infile = open(file->filename, O_RDONLY, 0400);
 	if (infile < 0)
 	{
-    	if (errno == ENOENT)
-    	    write_err(file->filename, "No such file or directory\n");
-		else if (errno == EACCES)
-    	    write_err(file->filename, "Permission denied\n");
-		else
-    	    write_err(file->filename, "Open failed\n");
+		write(2, file->filename, ft_strlen(file->filename));
+		write(2, ": ", 2);
+		perror("");
 	}
 	return (infile);
 }
@@ -34,10 +31,9 @@ int fetch_outfile(int outfile, t_file *file)
 		outfile = open(file->filename, O_APPEND | O_WRONLY | O_CREAT, 0644);
 	if (outfile < 0)
 	{
-		if (errno == EACCES)
-    	    write_err(file->filename, "Permission denied\n");
-		else
-    	    write_err(file->filename, "Open failed\n");
+		write(2, file->filename, ft_strlen(file->filename));
+		write(2, ": ", 2);
+		perror("");
 	}
 	return (outfile);
 
