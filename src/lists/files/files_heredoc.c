@@ -69,7 +69,7 @@ int	handle_heredoc(t_file *file)
 		{
 			write(1, "\n", 1);
 			close(pipefd[0]);
-			return (-1);
+			return (-7);
 		}
 	}
 	return (pipefd[0]);

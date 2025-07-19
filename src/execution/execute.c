@@ -56,7 +56,6 @@ void	setup_output(t_list *list, int *pip)
 
 void	handle_fd_closing(t_list *list, int *pip, int prev_pipe)
 {
-	perror_message(list->cmd);
 	if (list->next)
 	{
 		close(pip[READ]);

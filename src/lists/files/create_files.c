@@ -41,17 +41,31 @@ int fetch_outfile(int fd[2], t_file *file)
 // if its redirect i think we handle it by the flags in open function
 int	create_files(int fd[2], t_file *file)
 {
-	fd[0] = -2;
-	fd[1] = -2;
+	int infile;
+	int outfile;
+
+	infile = -2;
+	outfile = -2;
+
 	while (file)
 	{
 		if (file->type == REDIR_IN || file->type == REDIR_HEREDOC)
-			fd[0] = fetch_infile(fd, file);
+		{
+			infile = fetch_infile(fd, file);
+			if (infile == -7)
+				return (-7);
+		}
 		else if (file->type == REDIR_OUT || file->type == REDIR_APPEND)
-			fd[1] = fetch_outfile(fd, file);
+			outfile = fetch_outfile(fd, file);
 		if (fd[0] == -1 || fd[1] == -1)
+		{
+			fd[0] = -1;
+			fd[1] = -1;
 			return (-1);
+		}
 		file = file->next;
 	}
+	fd[0] = infile;
+	fd[1] = outfile;
 	return (1);
 }
