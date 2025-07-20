@@ -30,7 +30,7 @@ void	minishell(char **envp)
 	read_history(".minishell_history");
 	while (1)
 	{
-		enable_signals();
+		// enable_signals();
 		char	*line;
 		line = readline("minishell$ ");
 		// line = "^C";

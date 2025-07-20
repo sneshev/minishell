@@ -39,7 +39,6 @@ void	execute_echo(t_list *list)
 		printf("\n");
 }
 
-// cd is not working?
 void	execute_cd(t_list *list)
 {
 	char	*new_dir;
@@ -50,7 +49,7 @@ void	execute_cd(t_list *list)
 		i++;
 	if (i == 1)
 	{
-		new_dir = getenv("HOME=");
+		new_dir = getenv("HOME");
 		if (!new_dir)
 			error_message("malloc error", -1);
 	}
@@ -70,17 +69,43 @@ void	execute_pwd(void)
 
 void	execute_export(t_list *list, t_env **env)
 {
+	t_env	*cur;
+	t_env	*prev;
+	char	*name;
+	char	*value;
 	int		i;
 
 	i = 1;
-	// we should print export variables
-	if (!list->args[i])
-	{
-		
-	}
 	while (list->args[i])
 	{
-		create_var_node(list->args[i], env);
+		cur = *env;
+		name = get_env_name(list->args[i]);
+		if (!name)
+			return ;
+		while (cur)
+		{
+			if (ft_strncmp(cur->name, name, ft_strlen(cur->name) + 1) == 0)
+			{
+				value = get_env_value(list->args[i]);
+				if (!value)
+					return (free(name));
+				free(cur->value);
+				cur->value = value;
+				break ;
+				
+			}
+			prev = cur;
+			cur = cur->next;
+		}
+		if (!cur)
+		{
+			value = get_env_value(list->args[i]);
+			if (!value)
+				return (free(name));
+			prev->next = new_env_node(name, value);
+			if (!prev->next)
+				return (free(name), free(value));
+		}
 		i++;
 	}
 }
@@ -90,38 +115,43 @@ void	execute_unset(t_list *list, t_env **env)
 	t_env	*cur;
 	t_env	*prev;
 	t_env	*temp;
+	char	*name;
 	int		i;
-	int		name_len;
 
-	cur = *env;
-	prev = NULL;
 	i = 1;
-
-	while (cur && list->args[i])
+	while (list->args[i])
 	{
-		name_len = ft_strlen(cur->name);
-		if (ft_strncmp(list->args[i], cur->name, (name_len - 1)) == 0
-		&& cur->name[name_len - 1] == '=')
+		cur = *env;
+		prev = NULL;
+		name = get_env_name(list->args[i]);
+		if (!name)
+			return ;
+		while (cur)
 		{
-			if (prev)
+			if (ft_strncmp(cur->name, name, ft_strlen(name)) == 0
+			&& cur->name[ft_strlen(name)] == '=')
 			{
-				prev->next = cur->next;
-				temp = cur;
-				cur = cur->next;
+				if (prev)
+				{
+					prev->next = cur->next;
+					temp = cur;
+					cur = cur->next;
+				}
+				else
+				{
+					*env = cur->next;
+					temp = cur;
+					cur = *env;
+				}
+				free_env_node(&temp);
+				break ;
 			}
-			else
-			{
-				*env = cur->next;
-				temp = cur;
-				cur = *env;
-			}
-			free_env_node(&temp);
-			i++;
-			continue ;
+			prev = cur;
+			cur = cur->next;
 		}
-		prev = cur;
-		cur = cur->next;
+		i++;
 	}
+	free(name);
 }
 
 void	execute_env(t_list *list, char **environment)

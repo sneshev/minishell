@@ -52,9 +52,6 @@ t_env	*create_env(t_env **env, char **envs)
 	value = NULL;
 	new = NULL;
 	i = 0;
-	*env = new_env_node("EXITCODE=", "0");
-	if (!*env)
-		return (NULL);
 	while (envs[i])
 	{
 		name = get_env_name(envs[i]);

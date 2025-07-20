@@ -30,12 +30,34 @@ t_list	*new_node(char **tokens, int index)
 	if (!args)
 		return (free(node), NULL);
 	cmd = get_cmd(args[0]);
-	if (!cmd)
+	if (is_builtin(args[0]))
 	{
+		if (cmd)
+			free(cmd);
 		cmd = ft_strdup(args[0]);
 		if (!cmd)
 			return (free(node), free_arr(args), NULL);
 	}
+	// printf("cmd: %s\n", cmd);
+	// free(cmd);
+	// cmd = get_cmd(args[0]);
+	// printf("cmd2: %s\n", cmd);
+	// if (is_builtin(cmd))
+	// {
+	// 	cmd = ft_strdup(args[0]);
+	// 	if (!cmd)
+	// 		return (free(node), free_arr(args), NULL);
+	// }
+	// else if (!is_builtin(cmd))
+	// {
+	// 	cmd = get_cmd(args[0]);
+	// 	if (!cmd)
+	// 	{
+	// 		cmd = ft_strdup(args[0]);
+	// 		if (!cmd)
+	// 			return (free(node), free_arr(args), NULL);
+	// 	}
+	// }
 	// print_arr(args);
 	// printf("cmd: %s\n", args[0]);
 	file_count = count_redir_files(tokens, index);

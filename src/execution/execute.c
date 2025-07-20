@@ -65,12 +65,13 @@ void	handle_fd_closing(t_list *list, int *pip, int prev_pipe)
 		close(prev_pipe);
 }
 
-// command not found error message needed 
 int	check_invalid_file_cmd(t_list *list)
 {
 	if (list->input == -1 && list->output == -1)
 		return (1);
-	if (access(list->cmd, F_OK) == -1)
+	if (is_builtin(list->cmd))
+		return (0);
+	else if (access(list->cmd, F_OK) == -1)
 		return (127);
 	else if (access(list->cmd, X_OK) == -1)
 		return (126);
@@ -81,7 +82,7 @@ void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 {
 	int	exitcode;
 
-	reset_signals();
+	// reset_signals();
 	exitcode = check_invalid_file_cmd(list);
 	if (exitcode != 0)
 	{
@@ -96,6 +97,8 @@ void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 		execute_pwd();
 	else if (ft_strncmp(list->cmd, "env", 4) == 0)
 		execute_env(list, environment);
+	else if (is_builtin(list->cmd))
+		exit (0);
 	else
 	{
 		execve(list->cmd, list->args, environment);
@@ -133,13 +136,13 @@ int	wait_for_pids(pid_t *pid, int pid_count)
 	waitpid(pid[i], &status, 0);
 	if (WEXITSTATUS(status))
 		exitcode = (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGQUIT)
-			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
-		else if (WTERMSIG(status) == SIGINT)
-			write(STDOUT_FILENO, "\n", 1);
-	}
+	// if (WIFSIGNALED(status))
+	// {
+	// 	if (WTERMSIG(status) == SIGQUIT)
+	// 		write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+	// 	else if (WTERMSIG(status) == SIGINT)
+	// 		write(STDOUT_FILENO, "\n", 1);
+	// }
 
 	return (exitcode);
 }
@@ -197,8 +200,8 @@ int	execute(t_list *list, t_env **env)
 	char	**environment;
 	int		exitcode;
 
-	disable_SIGINT();
-	environment = convert_env((*env)->next);
+	// disable_SIGINT();
+	environment = convert_env(*env);
 	if (!environment)
 		return (-1);
 	if (!list->next && is_builtin(list->cmd))
@@ -211,9 +214,8 @@ int	execute(t_list *list, t_env **env)
 		return (free_arr(environment), exitcode);
 	}
 	// write(1, "hmm..\n", 6);
-	// free_arr(environment);
 	exitcode = execute_list(list, count_pids(list), environment);
-
+	free_arr(environment);
 	return (exitcode);
 }
 
