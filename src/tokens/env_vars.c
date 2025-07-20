@@ -22,7 +22,7 @@ int find_envvar_len(char *str, t_env *env)
 	if (!*str || (!isalnum(*str) && *str != '_' && *str != '?'))
 		return (1);
 	if (*str == '?')
-		return (ft_strlen(env->value));
+		return (dec(get_exit_code()));
 	if (ft_strncmp(env->name, str, find_varname_len(str))
 		|| env->name[find_varname_len(str)] != '=')
 		return (find_envvar_len(str, env->next));
@@ -35,8 +35,8 @@ char *find_envvar(char *str, t_env *env)
 		return (NULL);
 	if (!*str || (!isalnum(*str) && *str != '_' && *str != '?'))
 		return ("$");
-	if (*str == '?')
-		return (env->value);
+	// if (*str == '?')
+	// 	return (ft_itoa(get_exit_code()));
 	if (ft_strncmp(env->name, str, find_varname_len(str))
 		|| env->name[find_varname_len(str)] != '=')
 		return (find_envvar(str, env->next));
@@ -49,12 +49,17 @@ int add_env_variable(char *dest, char *src, int *j, t_env *env)
 	int i;
 
 	i = 0;
-	envvar = find_envvar(src, env);
+	if (*src == '?')
+		envvar = ft_itoa(get_exit_code());
+	else
+		envvar = find_envvar(src, env);
 	while (envvar && envvar[i])
 	{
 		dest[*j] = envvar[i];
 		(*j)++;
 		i++;
 	}
+	if (*src == '?')
+		free(envvar);
 	return (i);
 }

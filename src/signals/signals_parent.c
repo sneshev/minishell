@@ -57,3 +57,4 @@ void enable_signals(void)
     redirect_SIGINT();
     disable_SIGQUIT();
 }
+

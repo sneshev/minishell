@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static char	*charnum(int n, int len, char *ptr, int sign)
+char	*charnum(int n, int len, char *ptr, int sign)
 {
 	ptr += len;
 	*ptr = '\0';
@@ -31,7 +31,7 @@ static char	*charnum(int n, int len, char *ptr, int sign)
 	return (ptr);
 }
 
-static int	dec(int n)
+int	dec(int n)
 {
 	if (n < 10)
 		return (1);

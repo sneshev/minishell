@@ -210,8 +210,10 @@ int	execute(t_list *list, t_env **env)
 		close_files(list);
 		return (free_arr(environment), exitcode);
 	}
+	// write(1, "hmm..\n", 6);
+	// free_arr(environment);
 	exitcode = execute_list(list, count_pids(list), environment);
-	free_arr(environment);
+
 	return (exitcode);
 }
 

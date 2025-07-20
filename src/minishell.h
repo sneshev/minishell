@@ -44,6 +44,12 @@ void	free_file(t_file **file);
 t_env	*get_env(char **envp);
 char	**arr_dup(char **arr);
 
+// exit_codes
+void    set_exit_code(int new_code);
+int     get_exit_code();
+
+
+
 // exits
 void	exit_terminal(char *line);
 void	exit_with_code(int exit_code);
