@@ -29,15 +29,25 @@ t_list	*new_node(char **tokens, int index)
 	args = get_cmd_args(tokens, index);
 	if (!args)
 		return (free(node), NULL);
-	cmd = get_cmd(args[0]);
-	if (is_builtin(args[0]))
+	cmd = ft_strdup(args[0]);
+	if (!cmd)
+		return (free(node), free_arr(args), NULL);
+	if (!is_builtin(cmd))
 	{
-		if (cmd)
-			free(cmd);
-		cmd = ft_strdup(args[0]);
+		free(cmd);
+		cmd = get_cmd(args[0]);
 		if (!cmd)
 			return (free(node), free_arr(args), NULL);
 	}
+	// cmd = get_cmd(args[0]);
+	// if (is_builtin(args[0]))
+	// {
+	// 	if (cmd)
+	// 		free(cmd);
+	// 	cmd = ft_strdup(args[0]);
+	// 	if (!cmd)
+	// 		return (free(node), free_arr(args), NULL);
+	// }
 	// printf("cmd: %s\n", cmd);
 	// free(cmd);
 	// cmd = get_cmd(args[0]);
