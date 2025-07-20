@@ -13,7 +13,7 @@
 #include "../minishell.h"
 #include "execution.h"
 
-void	execute_echo(t_list *list)
+int	execute_echo(t_list *list)
 {
 	int	i;
 	int	newline;
@@ -37,9 +37,10 @@ void	execute_echo(t_list *list)
 	}
 	if (newline == 1)
 		printf("\n");
+	return (0);
 }
 
-void	execute_cd(t_list *list)
+int	execute_cd(t_list *list)
 {
 	char	*new_dir;
 	int		i;
@@ -56,18 +57,25 @@ void	execute_cd(t_list *list)
 	else
 		new_dir = list->args[1];
 	if (chdir(new_dir) == -1)
-		perror_message(new_dir);
+	{
+		perror("");
+		return (1);
+	}
+	return (0);
 }
 
-void	execute_pwd(void)
+int	execute_pwd(void)
 {
 	char	*dir;
 
 	dir = getcwd(NULL, 0);
+	if (!dir)
+		return (1);
 	printf("%s\n", dir);
+	return (0);
 }
 
-void	execute_export(t_list *list, t_env **env)
+int	execute_export(t_list *list, t_env **env)
 {
 	t_env	*cur;
 	t_env	*prev;
@@ -76,19 +84,20 @@ void	execute_export(t_list *list, t_env **env)
 	int		i;
 
 	i = 1;
+	//check invalid identifier (syntax errors)
 	while (list->args[i])
 	{
 		cur = *env;
 		name = get_env_name(list->args[i]);
 		if (!name)
-			return ;
+			return (-1);
 		while (cur)
 		{
 			if (ft_strncmp(cur->name, name, ft_strlen(cur->name) + 1) == 0)
 			{
 				value = get_env_value(list->args[i]);
 				if (!value)
-					return (free(name));
+					return (free(name), -1);
 				free(cur->value);
 				cur->value = value;
 				break ;
@@ -101,16 +110,19 @@ void	execute_export(t_list *list, t_env **env)
 		{
 			value = get_env_value(list->args[i]);
 			if (!value)
-				return (free(name));
+				return (free(name), -1);
 			prev->next = new_env_node(name, value);
 			if (!prev->next)
-				return (free(name), free(value));
+				return (free(name), free(value), -1);
 		}
+		free(name);
+		free(value);
 		i++;
 	}
+	return (0);
 }
 
-void	execute_unset(t_list *list, t_env **env)
+int	execute_unset(t_list *list, t_env **env)
 {
 	t_env	*cur;
 	t_env	*prev;
@@ -125,7 +137,7 @@ void	execute_unset(t_list *list, t_env **env)
 		prev = NULL;
 		name = get_env_name(list->args[i]);
 		if (!name)
-			return ;
+			return (-1);
 		while (cur)
 		{
 			if (ft_strncmp(cur->name, name, ft_strlen(name)) == 0
@@ -152,18 +164,20 @@ void	execute_unset(t_list *list, t_env **env)
 		i++;
 	}
 	free(name);
+	return (0);
 }
 
-void	execute_env(t_list *list, char **environment)
+int	execute_env(t_list *list, char **environment)
 {
 	if (list->args[1])
 		error_message("env too many arguments", -1);
 	print_arr(environment);
+	return (0);
 }
 
-void	execute_exit(t_list *list)
+int	execute_exit(t_list *list)
 {
 	(void)list;
 	printf("exit\n");
-	return ;
+	return (0);
 }

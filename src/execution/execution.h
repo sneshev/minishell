@@ -9,13 +9,13 @@ char	*get_cmd(char *cmd);
 int		execute(t_list *list, t_env **env);
 
 // execute builtin
-void	execute_echo(t_list *list);
-void	execute_cd(t_list *list);
-void	execute_pwd(void);
-void	execute_export(t_list *list, t_env **env);
-void	execute_unset(t_list *list, t_env **env);
-void	execute_env(t_list *list, char **environment);
-void	execute_exit(t_list *list);
+int	execute_echo(t_list *list);
+int	execute_cd(t_list *list);
+int	execute_pwd(void);
+int	execute_export(t_list *list, t_env **env);
+int	execute_unset(t_list *list, t_env **env);
+int	execute_env(t_list *list, char **environment);
+int	execute_exit(t_list *list);
 
 // execute utils
 char	**convert_env(t_env *env);
