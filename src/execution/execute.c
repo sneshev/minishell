@@ -185,15 +185,15 @@ int	execute_list(t_list *list, int pid_count, char **environment)
 	return (exitcode);
 }
 
-int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
-{
-	int	exitcode;
+// int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
+// {
+// 	int	exitcode;
 
-	exitcode = check_invalid_file_cmd(list);
-	if (exitcode == 0)
-		execute_builtin(list, env, environment);
-	return (exitcode);
-}
+// 	exitcode = check_invalid_file_cmd(list);
+// 	if (exitcode == 0)
+// 		execute_builtin(list, env, environment);
+// 	return (exitcode);
+// }
 
 int	execute(t_list *list, t_env **env)
 {
