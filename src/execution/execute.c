@@ -199,12 +199,12 @@ int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
 	exitcode = check_invalid_file_cmd(list);
 	if (exitcode == 0)
 	{
-		if (list->input > 0)
+		if (list->input >= 0)
 		{
 			dup2(list->input, STDIN_FILENO);
 			close (list->input);
 		}
-		if (list->output > 0)
+		if (list->output >= 0)
 		{
 			dup2(list->output, STDOUT_FILENO);
 			close(list->output);
