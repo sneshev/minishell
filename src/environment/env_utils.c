@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:03 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 16:25:10 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/21 19:09:33 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	name_length(const char *s)
 		}
 		i++;
 	}
-	//cause we also want to include the =
 	return (i);
 }
 

@@ -2,8 +2,6 @@
 #include "list.h"
 #include <fcntl.h>
 
-// if fd == -1 we will not pipe/close the pipe and the computer will read this as empty input
-
 void	add_node_back(t_list **list, t_list *current)
 {
 	t_list	*temp;

@@ -81,13 +81,10 @@ int	check_invalid_file_cmd(t_list *list)
 	if (is_builtin(list->cmd))
 		return (0);
 	else if (access(list->cmd, F_OK) == -1)
-	{
-		printf("%s: command not found\n", list->cmd);
 		return (127);
-	}
 	else if (access(list->cmd, X_OK) == -1)
 	{
-		printf("%s: permission denied\n", list->cmd);
+		write_err(list->cmd, "Permission denied\n");
 		return (126);
 	}
 	return (0);
@@ -97,7 +94,7 @@ void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 {
 	int	exitcode;
 
-	// reset_signals();
+	reset_signals();
 	exitcode = check_invalid_file_cmd(list);
 	if (exitcode != 0)
 	{
@@ -115,10 +112,7 @@ void	child_process(t_list *list, int *pip, int prev_pipe, char **environment)
 	else if (is_builtin(list->cmd))
 		exit (0);
 	else
-	{
 		execve(list->cmd, list->args, environment);
-		printf("execve error");
-	}
 }
 
 void	handle_setup_close(t_list *list, int *pip, int *pipe_input)
@@ -151,13 +145,13 @@ int	wait_for_pids(pid_t *pid, int pid_count)
 	waitpid(pid[i], &status, 0);
 	if (WEXITSTATUS(status))
 		exitcode = (WEXITSTATUS(status));
-	// if (WIFSIGNALED(status))
-	// {
-	// 	if (WTERMSIG(status) == SIGQUIT)
-	// 		write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
-	// 	else if (WTERMSIG(status) == SIGINT)
-	// 		write(STDOUT_FILENO, "\n", 1);
-	// }
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGQUIT)
+			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+		else if (WTERMSIG(status) == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
+	}
 
 	return (exitcode);
 }
@@ -192,24 +186,45 @@ int	execute_list(t_list *list, int pid_count, char **environment)
 	return (exitcode);
 }
 
+void	reset_stdin_stdout(int stdin, int stdout)
+{
+	if (stdin != -1)
+	{
+		dup2(stdin, STDIN_FILENO);
+		close(stdin);
+	}
+	if (stdout != -1)
+	{
+		dup2(stdout, STDOUT_FILENO);
+		close(stdout);
+	}
+}
+
 int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
 {
 	int	exitcode;
+	int	stdin;
+	int	stdout;
 
+	stdin = -1;
+	stdout = -1;
 	exitcode = check_invalid_file_cmd(list);
 	if (exitcode == 0)
 	{
 		if (list->input >= 0)
 		{
+			stdin = dup(STDIN_FILENO);
 			dup2(list->input, STDIN_FILENO);
 			close (list->input);
 		}
 		if (list->output >= 0)
 		{
+			stdout = dup(STDOUT_FILENO);
 			dup2(list->output, STDOUT_FILENO);
 			close(list->output);
 		}
 		exitcode = execute_builtin(list, env, environment);
+		reset_stdin_stdout(stdin, stdout);
 	}
 	if (exitcode != 0)
 		close_files(list);
@@ -221,10 +236,11 @@ int	execute(t_list *list, t_env **env)
 	char	**environment;
 	int		exitcode;
 
-	// disable_SIGINT();
+	disable_SIGINT();
 	environment = convert_env(*env);
 	if (!environment)
 		return (-1);
+	print_arr(environment);
 	if (!list->next && is_builtin(list->cmd))
 	{
 		exitcode = execute_builtin_parent(list, env, environment);
@@ -233,17 +249,3 @@ int	execute(t_list *list, t_env **env)
 	exitcode = execute_list(list, count_pids(list), environment);
 	return (free_arr(environment), exitcode);
 }
-
-// int	main(int argc, char *argv[], char *envp[])
-// {
-// 	(void)argc;
-// 	(void)argv;
-// 	t_list	*list = NULL;
-// 	char	*s = "cat err.log | cat Makefile > hi < invalid";
-// 	list = get_list(list, s, envp);
-// 	if (!list)
-// 		return (printf("no list\n"), 0);
-// 	print_list(list);
-// 	execute(list, envp, count_pids(list));
-// 	return (0);
-// }

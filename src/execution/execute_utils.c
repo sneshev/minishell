@@ -58,8 +58,26 @@ char	**convert_env(t_env *env)
 		i++;
 		env = env->next;
 	}
+	environment[i] = NULL;
 	return (environment);
 
+}
+
+bool	validate_export_syntax(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(cmd[0]) && cmd[0] != '_')
+		return (false);
+	i++;
+	while (cmd[i] && cmd[i] != '=')
+	{
+		if (!ft_isalnum(cmd[i]) && cmd[i] != '_')
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 bool	is_builtin(char *cmd)
