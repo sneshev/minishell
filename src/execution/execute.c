@@ -185,15 +185,29 @@ int	execute_list(t_list *list, int pid_count, char **environment)
 	return (exitcode);
 }
 
-// int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
-// {
-// 	int	exitcode;
+int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
+{
+	int	exitcode;
 
-// 	exitcode = check_invalid_file_cmd(list);
-// 	if (exitcode == 0)
-// 		execute_builtin(list, env, environment);
-// 	return (exitcode);
-// }
+	exitcode = check_invalid_file_cmd(list);
+	if (exitcode == 0)
+	{
+		if (list->input > 0)
+		{
+			dup2(list->input, STDIN_FILENO);
+			close (list->input);
+		}
+		if (list->output > 0)
+		{
+			dup2(list->output, STDOUT_FILENO);
+			close(list->output);
+		}
+		exitcode = execute_builtin(list, env, environment);
+	}
+	if (exitcode > 0)
+		close_files(list);
+	return (exitcode);
+}
 
 int	execute(t_list *list, t_env **env)
 {
@@ -206,17 +220,11 @@ int	execute(t_list *list, t_env **env)
 		return (-1);
 	if (!list->next && is_builtin(list->cmd))
 	{
-		exitcode = check_invalid_file_cmd(list);
-		if (exitcode == 0)
-			execute_builtin(list, env, environment);
-		// exitcode = execute_builtin_parent(list, env, environment);
-		close_files(list);
+		exitcode = execute_builtin_parent(list, env, environment);
 		return (free_arr(environment), exitcode);
 	}
-	// write(1, "hmm..\n", 6);
 	exitcode = execute_list(list, count_pids(list), environment);
-	free_arr(environment);
-	return (exitcode);
+	return (free_arr(environment), exitcode);
 }
 
 // int	main(int argc, char *argv[], char *envp[])

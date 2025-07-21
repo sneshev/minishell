@@ -3,15 +3,15 @@
 #include "../list.h"
 #include <fcntl.h>
 
-// if fd == -1 we will not pipe/close the pipe and the computer will read this as empty input
-
+//get all the files from tokens (up until pipe)
 char	**get_redir_files(char **tokens, int index, int file_count)
 {
 	char	**files;
 	int		i;
 
 	files = xmalloc(sizeof(char *) * (file_count + 1));
-	// printf("file malloc: %d\n", count_redir_files(tokens, index));
+	if (!files)
+		return (NULL);
 	i = 0;
 	while (tokens[index] && !is_pipe(tokens[index]))
 	{
@@ -20,11 +20,9 @@ char	**get_redir_files(char **tokens, int index, int file_count)
 			files[i] = ft_strdup(tokens[index]);
 			if (!files[i])
 				return (free_arr(files), NULL);
-			// printf("files[%d]: %s\n", i, files[i]);
 			files[i + 1] = ft_strdup(tokens[index + 1]);
 			if (!files[i + 1])
 				return (free_arr(files), NULL);
-			// printf("files[%d]: %s\n", i + 1, files[i + 1]);
 			i += 2;
 			index += 2;
 		}
@@ -32,10 +30,10 @@ char	**get_redir_files(char **tokens, int index, int file_count)
 			index++;
 	}
 	files[i] = NULL;
-	// printf("files[%d]: %s\n", i, files[i]);
 	return (files);
 }
 
+//get the files and putting this in a list
 t_file	*get_file_list(t_file *file, char **tokens, int index, int file_count)
 {
 	char	**files;
@@ -43,13 +41,13 @@ t_file	*get_file_list(t_file *file, char **tokens, int index, int file_count)
 	files = get_redir_files(tokens, index, file_count);
 	if (!files)
 		return (NULL);
-	// print_arr(files);
 	file = create_file_list(file, files);
 	if (!file)
 		return (free_arr(files), NULL);
 	return (file);
 }
 
+//creating the file list
 t_file	*create_file_list(t_file *file, char **files)
 {
 	t_file	*new;

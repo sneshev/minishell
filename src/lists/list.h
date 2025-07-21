@@ -17,11 +17,11 @@ void		add_node_back(t_list **list, t_list *current);
 
 
 // files
-t_file			*get_file_list(t_file *file, char **tokens, int index, int file_count);
-char			**get_redir_files(char **tokens, int index, int file_count);
-t_file			*create_file_list(t_file *file, char **files);
+t_file		*get_file_list(t_file *file, char **tokens, int index, int file_count);
+char		**get_redir_files(char **tokens, int index, int file_count);
+t_file		*create_file_list(t_file *file, char **files);
 int			create_files(int fd[2], t_file *file);
-int				handle_heredoc(t_file *file);
+int			handle_heredoc(t_file *file);
 
 // files_utils
 void			add_filenode_back(t_file **file, t_file *current);

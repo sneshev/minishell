@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/16 19:36:01 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/21 13:19:57 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,13 @@ void	minishell(char **envp)
 		// print_list(list);
 		if (!list)
 		{
-			// printf("no list\n");
+			printf("no list\n");
 		}
 		else
 		{
 			exitcode = execute(list, &env);
 			free_list(&list);
-			env->value = ft_itoa(exitcode);
-			if (!env->value)
-				return (free_env(&env));
+			set_exit_code(exitcode);
 		}
 		free(line);
 		line = NULL;

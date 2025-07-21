@@ -64,5 +64,5 @@ int	create_files(int fd[2], t_file *file)
 	}
 	fd[0] = infile;
 	fd[1] = outfile;
-	return (1);
+	return (0);
 }

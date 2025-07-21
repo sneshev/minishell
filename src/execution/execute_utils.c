@@ -82,20 +82,21 @@ bool	is_builtin(char *cmd)
 		return (false);
 }
 
-void	execute_builtin(t_list *list, t_env **env, char **environment)
+int	execute_builtin(t_list *list, t_env **env, char **environment)
 {
 	if (ft_strncmp(list->cmd, "echo", 5) == 0)
-		execute_echo(list);
+		return (execute_echo(list));
 	else if (ft_strncmp(list->cmd, "cd", 3) == 0)
-		execute_cd(list);
+		return (execute_cd(list));
 	else if (ft_strncmp(list->cmd, "pwd", 4) == 0)
-		execute_pwd();
+		return (execute_pwd());
 	else if (ft_strncmp(list->cmd, "export", 7) == 0)
-		execute_export(list, env);
+		return (execute_export(list, env));
 	else if (ft_strncmp(list->cmd, "unset", 6) == 0)
-		execute_unset(list, env);
+		return (execute_unset(list, env));
 	else if (ft_strncmp(list->cmd, "env", 4) == 0)
-		execute_env(list, environment);
+		return (execute_env(list, environment));
 	else if (ft_strncmp(list->cmd, "exit", 6) == 0)
-		execute_exit(list);
+		return (execute_exit(list));
+	return (0);
 }
