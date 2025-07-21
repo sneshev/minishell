@@ -54,6 +54,14 @@ void	setup_output(t_list *list, int *pip)
 	}
 }
 
+void	close_files(t_list *list)
+{
+	if (list->input >= 0)
+		close(list->input);
+	if (list->output >= 0)
+		close(list->output);
+}
+
 void	handle_fd_closing(t_list *list, int *pip, int prev_pipe)
 {
 	if (list->next)
@@ -63,6 +71,7 @@ void	handle_fd_closing(t_list *list, int *pip, int prev_pipe)
 	}
 	if (list->prev)
 		close(prev_pipe);
+	close_files(list);
 }
 
 int	check_invalid_file_cmd(t_list *list)
@@ -72,9 +81,15 @@ int	check_invalid_file_cmd(t_list *list)
 	if (is_builtin(list->cmd))
 		return (0);
 	else if (access(list->cmd, F_OK) == -1)
+	{
+		printf("%s: command not found\n", list->cmd);
 		return (127);
+	}
 	else if (access(list->cmd, X_OK) == -1)
+	{
+		printf("%s: permission denied\n", list->cmd);
 		return (126);
+	}
 	return (0);
 }
 
@@ -147,14 +162,6 @@ int	wait_for_pids(pid_t *pid, int pid_count)
 	return (exitcode);
 }
 
-void	close_files(t_list *list)
-{
-	if (list->input >= 0)
-		close(list->input);
-	if (list->output >= 0)
-		close(list->output);
-}
-
 int	execute_list(t_list *list, int pid_count, char **environment)
 {
 	pid_t	pid[pid_count];
@@ -204,7 +211,7 @@ int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
 		}
 		exitcode = execute_builtin(list, env, environment);
 	}
-	if (exitcode > 0)
+	if (exitcode != 0)
 		close_files(list);
 	return (exitcode);
 }
