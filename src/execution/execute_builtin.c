@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/22 15:30:00 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:12:55 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,36 @@ int	execute_unset(t_list *list, t_env **env)
 	return (0);
 }
 
+bool	is_env_var(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '=')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+//own exported variables dont print with newline, maybe i should add that in export
 int	execute_env(t_list *list, char **environment)
 {
+	int	i;
+
+	i = 0;
 	//still need to take care of not printing variables without '='
 	if (list->args[1])
 		error_message("env too many arguments", -1);
-	print_arr(environment);
+	while (environment[i])
+	{
+		if (is_env_var(environment[i]) == true)
+			printf("%s", environment[i]);
+		i++;
+	}
+	// print_arr(environment);
 	return (0);
 }
 
