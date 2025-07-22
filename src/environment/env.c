@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:00 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/16 17:54:00 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:46:50 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,15 @@ t_env	*new_env_node(char *name, char *value)
 	node->name = name;
 	node->value = value;
 	node->next = NULL;
+	// printf("printing node:\n----------------------------\nnode->name: %s, node->value: %s\n--------------------------\n", node->name, node->value);
 	return (node);
 }
 
 void	add_env_node_back(t_env **env, t_env *current)
 {
 	t_env	*temp;
+
+	// printf("printing current:\n----------------------------\ncurrent->name: %s, current->value: %s\n--------------------------\n", current->name, current->value);
 
 	if (*env == NULL)
 	{
@@ -39,6 +42,8 @@ void	add_env_node_back(t_env **env, t_env *current)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = current;
+	// printf("printing current:\n----------------------------\ncurrent->name: %s, current->value: %s\n--------------------------\n", current->name, current->value);
+
 }
 
 t_env	*create_env(t_env **env, char **envs)

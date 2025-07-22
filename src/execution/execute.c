@@ -240,7 +240,10 @@ int	execute(t_list *list, t_env **env)
 	environment = convert_env(*env);
 	if (!environment)
 		return (-1);
+	printf("-------------------------\n");
+	printf("printing environment:\n");
 	print_arr(environment);
+	printf("-------------------------\n");
 	if (!list->next && is_builtin(list->cmd))
 	{
 		exitcode = execute_builtin_parent(list, env, environment);
