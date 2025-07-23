@@ -12,6 +12,14 @@
 
 #include "../minishell.h"
 
+char	*ft_getenv(t_env *env, char *var)
+{
+	while (env)
+	{
+		if (ft_strcmp(env->name, var))
+	}
+}
+
 char	**get_paths(char *cmd)
 {
 	char	*path;
