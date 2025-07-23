@@ -107,3 +107,47 @@ void	write_err(char *keyword, char *message)
 	write(2, message, ft_strlen(message));
 	write(2, "\n", 1);
 }
+
+// MUST BE NULL TERMINATED
+int	count_strings(char **arr, bool count_empty)
+{
+	int		count;
+	size_t	i;
+
+	if (!arr)
+		return (-1);
+	count = 0;
+	i = 0;
+	while (arr[i])
+	{
+		if (*(arr[i]))
+			count++;
+		else if (count_empty)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+long	ft_atol(const char *nptr)
+{
+    long	sign;
+    long	nbr;
+
+    nbr = 0;
+    sign = 1;
+    while (*nptr == 32 || (*nptr > 8 && *nptr < 14))
+        nptr++;
+    if (*nptr == '-' || *nptr == '+')
+    {
+        if (*nptr == '-')
+            sign = -1;
+        nptr++;
+    }
+    while (*nptr >= '0' && *nptr <= '9')
+    {
+        nbr = nbr * 10 + (*nptr - '0');
+        nptr++;
+    }
+    return (nbr * sign);
+}

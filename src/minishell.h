@@ -26,6 +26,8 @@ int		word_count(char const *s);
 bool	is_space(char c);
 void	print_arr(char **arr);
 void	perror_message(char *s);
+int		count_strings(char **arr, bool count_empty);
+long	ft_atol(const char *nptr);
 
 // tokens
 char	**get_tokens(char *str, t_env *env);
