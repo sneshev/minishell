@@ -6,7 +6,7 @@
 // list
 t_list	*create_list(t_list *list, char **tokens, int wordc, t_env *env);
 void	update_index(char **tokens, int *index);
-char	*get_cmd(char *cmd);
+char	*get_cmd(t_env *env, char *cmd);
 
 // list_utils
 char		**get_cmd_args(char **tokens, int index);

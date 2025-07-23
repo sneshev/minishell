@@ -80,9 +80,10 @@ int	execute_cd(t_list *list, t_env *env)
 	new_dir = list->args[1];
 	//not the good error message
 	if (chdir(new_dir) == -1)
-		return (write_err(new_dir, "cd error"), 1);
+		return (write_err(new_dir, "f"), 1);
 	return (0);
 }
+
 
 int	execute_pwd(void)
 {

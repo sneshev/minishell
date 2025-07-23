@@ -105,4 +105,5 @@ void	write_err(char *keyword, char *message)
 		write(2, ": ", 2);
 	}
 	write(2, message, ft_strlen(message));
+	write(2, "\n", 1);
 }
