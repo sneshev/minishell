@@ -20,13 +20,8 @@ char **get_g_environment()
     return (*(g_environment_addr()));
 }
 
-char ***get_g_environment_addr()
-{
-    return (g_environment_addr());
-}
-
 void free_g_environment()
 {
-    free_environment(get_g_environment_addr());
+    free_arr(get_g_environment());
     set_g_environment(NULL);
 }

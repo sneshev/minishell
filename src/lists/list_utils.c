@@ -50,7 +50,6 @@ char	**get_cmd_args(char **tokens, int index)
 	if (arg_count < 1)
 		return (NULL);
 	args = xmalloc(sizeof(char *) * (arg_count + 1));
-	if (!args)
 	i = 0;
 	while (tokens[index] && !is_pipe(tokens[index]))
 	{
@@ -68,6 +67,3 @@ char	**get_cmd_args(char **tokens, int index)
 	args[i] = NULL;
 	return (args);
 }
-
-
-
