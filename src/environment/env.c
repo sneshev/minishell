@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:00 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/22 14:46:50 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/23 14:42:56 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,12 @@ t_env	*new_env_node(char *name, char *value)
 	node->name = name;
 	node->value = value;
 	node->next = NULL;
-	// printf("printing node:\n----------------------------\nnode->name: %s, node->value: %s\n--------------------------\n", node->name, node->value);
 	return (node);
 }
 
 void	add_env_node_back(t_env **env, t_env *current)
 {
 	t_env	*temp;
-
-	// printf("printing current:\n----------------------------\ncurrent->name: %s, current->value: %s\n--------------------------\n", current->name, current->value);
 
 	if (*env == NULL)
 	{
@@ -42,8 +39,6 @@ void	add_env_node_back(t_env **env, t_env *current)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = current;
-	// printf("printing current:\n----------------------------\ncurrent->name: %s, current->value: %s\n--------------------------\n", current->name, current->value);
-
 }
 
 t_env	*create_env(t_env **env, char **envs)
@@ -53,15 +48,16 @@ t_env	*create_env(t_env **env, char **envs)
 	t_env	*new;
 	int		i;
 
-	name = NULL;
-	value = NULL;
 	new = NULL;
 	i = 0;
 	while (envs[i])
 	{
+		name = NULL;
+		value = NULL;
 		name = get_env_name(envs[i]);
 		if (!name)
 			return (NULL);
+			//do we also need to free the whole env here?
 		value = get_env_value(envs[i]);
 		if (!value)
 			return (free(name), NULL);
@@ -73,6 +69,38 @@ t_env	*create_env(t_env **env, char **envs)
 	}
 	return (*env);
 }
+
+// t_env	*create_export(t_env *env, t_env **export)
+// {
+// 	char	*name;
+// 	char	*value;
+// 	t_env	*new;
+// 	t_env	*lowest;
+// 	int		list_len;
+
+// 	list_len = ft_listlen(env);
+// 	lowest = NULL;
+// 	while (list_len > 0)
+// 	{
+// 		if (lowest == NULL)
+// 			lowest = get_lowest_node(env);
+// 		else
+// 			lowest = get_next_lowest_node(env, lowest);
+// 		//when there is no lowest anymore it might return null, so we need to make sure with the lits we dont go over limit
+// 		name = ft_strdup(lowest->name);
+// 		if (!name)
+// 			return (free_env(export), NULL);
+// 		value = ft_strdup(lowest->value);
+// 		if (!value)
+// 			return (free_env(export), NULL);
+// 		new = new_env_node(name, value);
+// 		if (!new)
+// 			return (free_env(export), NULL);
+// 		add_env_node_back(export, new);
+// 		list_len--;
+// 	}
+// 	return (*export);
+// }
 
 t_env	*get_env(char **envp)
 {
@@ -87,23 +115,3 @@ t_env	*get_env(char **envp)
 	free_arr(envs);
 	return (env);
 }
-
-// int	main(int argc, char *argv[], char *envp[])
-// {
-// 	(void)argc;
-// 	(void)argv;
-// 	t_env	*env = NULL;
-// 	env = get_env(envp);
-// 	if (!env)
-// 		return (0);
-// 	// t_env *temp = env;
-// 	// while (temp)
-// 	// {
-// 	// 	printf("%s\t%s\n", temp->name, temp->value);
-// 	// 	temp = temp->next;
-// 	// }
-// 	free_env_list(&env);
-// 	free(env);
-// 	return (0);
-// }
-

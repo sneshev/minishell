@@ -23,6 +23,9 @@
 		"functional": "c",
 		"tuple": "c",
 		"utility": "c",
-		"ranges": "c"
+		"ranges": "c",
+		"cerrno": "c",
+		"types.h": "c",
+		"dirent.h": "c"
 	}
 }

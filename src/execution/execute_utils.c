@@ -20,7 +20,6 @@ t_env	*create_var_node(char *var, t_env **env)
 	if (!new)
 		return (free(name), free(value), NULL);
 	add_env_node_back(env, new);
-	// printf("name: %s, value: %s\n", new->name, new->value);
 	return (new);
 }
 
@@ -105,7 +104,7 @@ int	execute_builtin(t_list *list, t_env **env, char **environment)
 	if (ft_strncmp(list->cmd, "echo", 5) == 0)
 		return (execute_echo(list));
 	else if (ft_strncmp(list->cmd, "cd", 3) == 0)
-		return (execute_cd(list));
+		return (execute_cd(list, *env));
 	else if (ft_strncmp(list->cmd, "pwd", 4) == 0)
 		return (execute_pwd());
 	else if (ft_strncmp(list->cmd, "export", 7) == 0)

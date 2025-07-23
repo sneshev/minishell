@@ -6,13 +6,12 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:26:29 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/22 17:08:50 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/23 14:42:18 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "execution.h"
-
 
 int	ft_envlen(t_env *env)
 {
@@ -41,16 +40,20 @@ t_env	*get_lowest_node(t_env *env)
 	return (lowest);
 }
 
-//this funciton not working yet
 t_env	*get_next_lowest_node(t_env *env, t_env *lowest)
 {
 	t_env	*cur;
 
-	cur = lowest;
+	cur = NULL;
 	while (env)
 	{
-		if (ft_strcmp(cur->name, env->name) > 0 && ft_strcmp(env->name, lowest->name) < 0)
-			cur = env;
+		//if its bigger than lowest
+		if (ft_strcmp(env->name, lowest->name) > 0)
+		{
+			//during the first loop we enter, or when the env name is lower than our current, we must the update current
+			if (cur == NULL || ft_strcmp(cur->name, env->name) > 0)
+				cur = env;
+		}
 		env = env->next;
 	}
 	return (cur);
@@ -75,51 +78,6 @@ void	print_export(t_env *env)
 	}
 
 }
-
-// void	print_export(t_env *env)
-// {
-// 	const char	*s = "declare -x";
-// 	t_env		*temp;
-// 	char		*lowest;
-// 	char		*prev_lowest;
-// 	char		*value;
-// 	int			list_len;
-
-// 	list_len = 0;
-// 	temp = env;
-// 	while (temp)
-// 	{
-// 		temp = temp->next;
-// 		list_len++;
-// 	}
-// 	prev_lowest = temp->name;
-// 	//get the lowest
-// 	while (temp)
-// 	{
-// 		if (ft_strcmp(prev_lowest, temp->name) > 0)
-// 			prev_lowest = temp->name;
-// 		temp =temp->next;
-// 	}
-// 	while (list_len > 0)
-// 	{
-// 		temp = env;
-// 		while (temp)
-// 		{
-// 			//if we encounter a new lowest (lowest being bigger than new one) and it being bigger that the prev_lowest
-// 			if (ft_strcmp(lowest, temp->name) > 0 && ft_strcmp(prev_lowest, temp->name) < 0)
-// 			{
-// 				lowest = temp->name;
-// 				value = temp->value;
-// 			}
-// 			temp = temp->next;
-// 		}
-
-// 		printf("%s %s%s\n", s, lowest, value);
-// 		prev_lowest = lowest;
-// 		list_len--;
-// 	}
-
-// }
 
 //checks if the key has a value (doesnt matter if it has '=' or not)
 bool	check_empty_keyvalue(char *arg)
@@ -224,6 +182,8 @@ t_env	*replace_env_value(t_env **env, char *arg, char *name)
 	}
 	return (NULL);
 }
+
+
 
 int	execute_export(t_list *list, t_env **env)
 {

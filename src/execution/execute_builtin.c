@@ -6,12 +6,30 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/22 17:12:55 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/23 14:52:54 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "execution.h"
+#include <errno.h>
+#include <sys/stat.h>
+
+bool	is_newline_flag(char *arg)
+{
+	int	i;
+
+	if (arg[0] != '-')
+		return (false);
+	i = 1;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 int	execute_echo(t_list *list)
 {
@@ -20,47 +38,49 @@ int	execute_echo(t_list *list)
 
 	i = 1;
 	newline = 1;
-	if (list && (ft_strncmp(list->args[i], "-n", 3) == 0))
+
+	while (is_newline_flag(list->args[i]) == true)
 	{
-		i++;
 		newline = 0;
+		i++;
 	}
-	if (list)
+	while (list->args[i])
 	{
-		while (list->args[i])
-		{
-			printf("%s", list->args[i]);
-			i++;
-			if (list->args[i])
-				printf(" ");
-		}
+		printf("%s", list->args[i]);
+		i++;
+		if (list->args[i])
+			printf(" ");
 	}
 	if (newline == 1)
 		printf("\n");
 	return (0);
+
 }
 
-int	execute_cd(t_list *list)
+int	execute_cd(t_list *list, t_env *env)
 {
 	char	*new_dir;
 	int		i;
 
+	new_dir = NULL;
+	if (!list->args[1])
+	{
+		while (env)
+		{
+			if (ft_strcmp("HOME=", env->name) == 0)
+				new_dir = env->name;
+			env = env->next;
+		}
+	}
 	i = 0;
 	while (list->args[i])
 		i++;
-	if (i == 1)
-	{
-		new_dir = getenv("HOME");
-		if (!new_dir)
-			error_message("malloc error", -1);
-	}
-	else
-		new_dir = list->args[1];
+	if (i > 2)
+		return (write_err("cd", "too many arguments"), 1);
+	new_dir = list->args[1];
+	//not the good error message
 	if (chdir(new_dir) == -1)
-	{
-		perror("");
-		return (1);
-	}
+		return (write_err(new_dir, "cd error"), 1);
 	return (0);
 }
 
@@ -134,22 +154,24 @@ bool	is_env_var(char *s)
 	return (false);
 }
 
-//own exported variables dont print with newline, maybe i should add that in export
-int	execute_env(t_list *list, char **environment)
+void	print_env(char **environment)
 {
 	int	i;
 
 	i = 0;
-	//still need to take care of not printing variables without '='
-	if (list->args[1])
-		error_message("env too many arguments", -1);
 	while (environment[i])
 	{
 		if (is_env_var(environment[i]) == true)
-			printf("%s", environment[i]);
+			printf("%s\n", environment[i]);
 		i++;
 	}
-	// print_arr(environment);
+}
+
+int	execute_env(t_list *list, char **environment)
+{
+	if (list->args[1])
+		return (write_err("env", "too many arguments"), -1);
+	print_env(environment);
 	return (0);
 }
 

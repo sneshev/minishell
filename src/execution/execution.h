@@ -9,8 +9,11 @@ char	*get_cmd(char *cmd);
 int		execute(t_list *list, t_env **env);
 
 // execute builtin
+void	print_env(char **environment);
+bool	is_env_var(char *s);
+
 int		execute_echo(t_list *list);
-int		execute_cd(t_list *list);
+int		execute_cd(t_list *list, t_env *env);
 int		execute_pwd(void);
 int		execute_export(t_list *list, t_env **env);
 int		execute_unset(t_list *list, t_env **env);
