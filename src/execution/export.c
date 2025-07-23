@@ -184,6 +184,22 @@ t_env	*replace_env_value(t_env **env, char *arg, char *name)
 }
 
 
+bool	validate_export_syntax(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(cmd[0]) && cmd[0] != '_')
+		return (false);
+	i++;
+	while (cmd[i] && cmd[i] != '=')
+	{
+		if (!ft_isalnum(cmd[i]) && cmd[i] != '_')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 int	execute_export(t_list *list, t_env **env)
 {
