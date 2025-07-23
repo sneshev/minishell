@@ -80,13 +80,27 @@ int	check_invalid_file_cmd(t_list *list)
 		return (1);
 	if (is_builtin(list->cmd))
 		return (0);
-	else if (access(list->cmd, F_OK) == -1)
-		return (127);
-	else if (access(list->cmd, X_OK) == -1)
+	else if (ft_strchr(list->cmd, '/'))
 	{
-		write_err(list->cmd, "Permission denied\n");
-		return (126);
+		if (is_directory(list->cmd))
+		{
+			write_err(list->cmd, "is a directory\n");
+			return (126);
+		}
+		else if (access(list->cmd, F_OK) == -1)
+			return (127);
+		else if (access(list->cmd, X_OK) == -1)
+		{
+			write_err(list->cmd, "Permission denied");
+			return (126);
+		}
 	}
+	else
+	{
+		write_err(list->cmd, "command not found\n");
+		return (127);
+	}
+
 	return (0);
 }
 

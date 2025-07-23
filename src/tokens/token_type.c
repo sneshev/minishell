@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/22 17:44:04 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/23 20:25:31 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ bool	is_pipe(char *str)
 	if (*str == '|' && *(str + 1) == '\0')
 		return (true);
 	return (false);
+}
+
+bool	is_directory(const char *path)
+{
+    struct stat	st;
+
+    if (stat(path, &st) == 0)
+        return (S_ISDIR(st.st_mode));
+    return (0);
 }
 
 // bool	is_command(char *str)

@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/23 19:41:38 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/23 20:29:43 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	minishell(char **envp)
 	env = get_env(envp);
 	if (!env)
 		return ;
-	ft_read_history(".minishell_history");
+	// ft_read_history(".minishell_history");
 	while (1)
 	{
 		enable_signals();

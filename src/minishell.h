@@ -6,10 +6,10 @@
 # include "structs.h"
 
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <stdbool.h>
 # include <stdlib.h>
 # include <stdio.h>
-
 #define READ 0
 #define WRITE 1
 
@@ -35,6 +35,7 @@ bool    is_valid_syntax(char **tokens);
 int		count_tokens(char *str, t_env *env);
 bool	is_pipe(char *str);
 bool 	is_redirect(char *str);
+bool	is_directory(const char *path);
 
 // list
 t_list	*get_list(t_list *list, char *line, t_env *env);
