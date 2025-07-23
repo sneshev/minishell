@@ -42,7 +42,7 @@ int find_token_len(char *str, t_env *env, bool count_quote, bool expand_envvar)
 }
 
 // return (-2); for unclosed brackets
-int count_tokens(char *str)
+int count_tokens(char *str, t_env *env)
 {
     int count;
     int token_len;
@@ -59,7 +59,8 @@ int count_tokens(char *str)
             token_len = find_token_len(str, NULL, true, false);
             if (token_len < 0)
                 return (token_len);
-            count++;
+            else if (*str != '$' || find_envvar_len(str + 1, env) > 0)
+                count++;
             str += token_len;
         }
     }
@@ -100,14 +101,15 @@ void add_token(char **arr, int index, char *str, t_env *env)
     arr[index][j] = '\0';
 }
 
+
 char **get_tokens(char *str, t_env *env)
 {
     (void)env;
-    char **arr = NULL;
+    char **arr;
     int total_tokens;
     int index;
 
-    total_tokens = count_tokens(str);
+    total_tokens = count_tokens(str, env);
     if (total_tokens < 0)
         return (printf("unclosed quotes\n"), NULL);
     arr = (char **)malloc((total_tokens + 1) * sizeof(char *));
@@ -118,15 +120,25 @@ char **get_tokens(char *str, t_env *env)
     {
         while (is_space(*str))
             str++;
-        add_token(arr, index, str, env);
-        str += find_token_len(str, env, true, false);
-        if (!arr[index])
+        if (is_heredoc(str))
         {
-            free_arr(arr);
-            return (NULL);
+            if (add_heredoc_tokens(arr, &index, &str) == -1)
+                return (free_arr(arr), NULL);
         }
-        index++;
+        else if (find_token_len(str, env, false, true) == 0)
+        {
+            str += find_token_len(str, env, true, false);
+        }
+        else
+        {
+            add_token(arr, index, str, env);
+            str += find_token_len(str, env, true, false);
+            if (!arr[index])
+                return (free_arr(arr), NULL);
+            index++;
+        }
     }
     arr[index] = NULL;
+    // print_arr(arr);
     return (arr);
 }

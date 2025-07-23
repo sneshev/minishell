@@ -4,12 +4,12 @@
 #include <errno.h>
 #include <fcntl.h>
 
-int fetch_infile(int infile, t_file *file)
+int fetch_infile(int infile, t_file *file, t_env *env)
 {
 	if (infile > 0)
 		close(infile);
 	if (file->type == REDIR_HEREDOC)
-		return (handle_heredoc(file));
+		return (handle_heredoc(file, env));
 	infile = open(file->filename, O_RDONLY, 0400);
 	if (infile < 0)
 	{
@@ -39,7 +39,7 @@ int fetch_outfile(int outfile, t_file *file)
 }
 
 // if its redirect i think we handle it by the flags in open function
-int	create_files(int fd[2], t_file *file)
+int	create_files(int fd[2], t_file *file, t_env *env)
 {
 	int infile;
 	int outfile;
@@ -51,7 +51,7 @@ int	create_files(int fd[2], t_file *file)
 		if (file->type == REDIR_OUT || file->type == REDIR_APPEND)
 			outfile = fetch_outfile(outfile, file);
 		else if (file->type == REDIR_IN || file->type == REDIR_HEREDOC)
-			infile = fetch_infile(infile, file);
+			infile = fetch_infile(infile, file, env);
 		if (infile == HEREDOC_TERMINATED)
 			return (HEREDOC_TERMINATED);
 		if (infile == -1 || outfile == -1)
@@ -64,5 +64,5 @@ int	create_files(int fd[2], t_file *file)
 	}
 	fd[0] = infile;
 	fd[1] = outfile;
-	return (0);
+	return (1);
 }

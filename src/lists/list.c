@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/23 16:03:51 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/23 14:37:24 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,13 @@
 #include "list.h"
 #include <fcntl.h>
 
-void	setup_node(t_list **node, char *cmd, char **args, int fd[2])
-{
-	(*node)->cmd = cmd;
-	(*node)->args = args;
-	(*node)->input = fd[0];
-	(*node)->output = fd[1];
-	(*node)->prev = NULL;
-	(*node)->next = NULL;
-}
-
-int	handle_files(char **tokens, int index, int fd[2])
-{
-	t_file	*file;
-	int		file_count;
-
-	file_count = count_redir_files(tokens, index);
-	file = NULL;
-	if (file_count > 0)
-	{
-		file = get_file_list(file, tokens, index, file_count);
-		if (!file)
-			return (-1);
-	}
-	if (create_files(fd, file) == HEREDOC_TERMINATED)
-		return (free_file(&file), HEREDOC_TERMINATED);
-	return (0);
-}
-
-t_list	*new_node(char **tokens, int index)
+t_list	*new_node(char **tokens, int index, t_env *env)
 {
 	t_list	*node;
 	char	**args;
 	char	*cmd;
+	t_file	*file;
+	int		file_count;
 	int		fd[2];
 
 	node = malloc(sizeof(t_list));
@@ -55,42 +29,63 @@ t_list	*new_node(char **tokens, int index)
 	args = get_cmd_args(tokens, index);
 	if (!args)
 		return (free(node), NULL);
-	cmd = NULL;
-	if (!is_builtin(args[0]))
-		cmd = get_cmd(args[0]);
+	cmd = get_cmd(args[0]);
 	if (!cmd)
 	{
 		cmd = ft_strdup(args[0]);
 		if (!cmd)
 			return (free(node), free_arr(args), NULL);
 	}
-	if (handle_files(tokens, index, fd) == HEREDOC_TERMINATED)
-		return (free(node), free_arr(args), free(cmd), NULL);
-	setup_node(&node, cmd, args, fd);
+	// print_arr(args);
+	// printf("cmd: %s\n", args[0]);
+	file_count = count_redir_files(tokens, index);
+	file = NULL;
+	if (file_count > 0)
+	{
+		file = get_file_list(file, tokens, index, file_count);
+		if (!file)
+			return (free(node), free_arr(args), free(cmd), NULL);
+		// print_files(file);
+	}
+	if (create_files(fd, file, env)  == HEREDOC_TERMINATED)
+		return (free(node),  free_arr(args), free(cmd), free_file(&file), NULL);
+	node->cmd = cmd;
+	node->args = args;
+	node->input = fd[0];
+	node->output = fd[1];
+	node->prev = NULL;
+	node->next = NULL;
 	return (node);
 }
 
 void	update_index(char **tokens, int *index)
 {
+	// printf("index before: %d  %s\n", *index, tokens[*index]);
 	while(tokens[*index] && !is_pipe(tokens[*index]))
 		(*index)++;
+	// set to after the pipe
 	if (tokens[*index] && is_pipe(tokens[*index]))
 		(*index)++;
+	// printf("index after: %d\n", *index); fflush(NULL);
 }
 
-t_list	*create_list(t_list *list, char **tokens, int wordc)
+t_list	*create_list(t_list *list, char **tokens, int wordc, t_env *env)
 {
 	t_list	*new;
 	int		index;
+	// int		fd[2];
 
 	index = 0;
+	// printf("wordcount: %d\n", wordc);
 	while (index < wordc)
 	{
-		new = new_node(tokens, index);
+		// printf("index: %d\n", index);
+		new = new_node(tokens, index, env);
 		if (!new)
 			return (free_list(&list), NULL);
 		add_node_back(&list, new);
 		update_index(tokens, &index);
+		// printf("index: %d\n", index);
 	}
 	return (list);
 }
@@ -105,8 +100,8 @@ t_list	*get_list(t_list *list, char *line, t_env *env)
 		return (NULL);
 	if (!is_valid_syntax(tokens))
 		return (free_arr(tokens), NULL);
-	token_count = count_tokens(line);
-	list = create_list(list, tokens, token_count);
+	token_count = count_tokens(line, env);
+	list = create_list(list, tokens, token_count, env);
 	free_arr(tokens);
 	return (list);
 }

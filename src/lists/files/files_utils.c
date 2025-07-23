@@ -67,3 +67,4 @@ void	add_filenode_back(t_file **file, t_file *current)
 		temp = temp->next;
 	temp->next = current;
 }
+

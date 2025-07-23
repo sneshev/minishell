@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   token_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/14 20:33:30 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:44:04 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool is_heredoc(char *str)
+{
+	if (!str || !*str)
+		return (false);
+	if (*str == '<')
+	{
+		str++;
+		if (*str == '<')
+			return (true);
+	}
+	return (false);
+}
 
 bool is_redirect(char *str)
 {

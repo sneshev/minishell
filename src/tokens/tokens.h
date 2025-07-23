@@ -3,12 +3,17 @@
 
 
 
+// add_tokens
+void	add_token(char **arr, int index, char *str, t_env *env);
+int		add_heredoc_tokens(char *arr[], int *index, char **str);
+
 // utils
+bool	is_heredoc(char *str);
 int		redir(char *str);
 bool	is_space(char c);
 bool	is_quote(char c);
 
-// env variables
+// env_variables
 int     add_env_variable(char *dest, char *src, int *j, t_env *env);
 int		find_varname_len(char *str);
 int		find_envvar_len(char *str, t_env *env);

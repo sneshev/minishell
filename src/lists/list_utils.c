@@ -2,6 +2,8 @@
 #include "list.h"
 #include <fcntl.h>
 
+// if fd == -1 we will not pipe/close the pipe and the computer will read this as empty input
+
 void	add_node_back(t_list **list, t_list *current)
 {
 	t_list	*temp;
@@ -29,6 +31,8 @@ int		count_cmd_args(char **tokens, int index)
 			index += 2;
 		else
 		{
+			// if (tokens[index][0])
+				// count++;
 			count++;
 			index++;
 		}
@@ -46,8 +50,6 @@ char	**get_cmd_args(char **tokens, int index)
 	if (arg_count < 1)
 		return (NULL);
 	args = xmalloc(sizeof(char *) * (arg_count + 1));
-	if (!args)
-		return (NULL);
 	i = 0;
 	while (tokens[index] && !is_pipe(tokens[index]))
 	{

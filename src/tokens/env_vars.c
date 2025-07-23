@@ -43,6 +43,8 @@ char *find_envvar(char *str, t_env *env)
 	return (env->value);
 }
 
+// adds env_var to char *dest, incrementing the dest[int *j] index
+// returns the varNAME length
 int add_env_variable(char *dest, char *src, int *j, t_env *env)
 {
 	char *envvar;
@@ -50,7 +52,11 @@ int add_env_variable(char *dest, char *src, int *j, t_env *env)
 
 	i = 0;
 	if (*src == '?')
+	{
 		envvar = ft_itoa(get_exit_code());
+		if (!envvar)
+			return (-1);
+	}
 	else
 		envvar = find_envvar(src, env);
 	while (envvar && envvar[i])

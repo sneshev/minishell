@@ -30,7 +30,7 @@ void	perror_message(char *s);
 // tokens
 char	**get_tokens(char *str, t_env *env);
 bool    is_valid_syntax(char **tokens);
-int		count_tokens(char *str);
+int		count_tokens(char *str, t_env *env);
 bool	is_pipe(char *str);
 bool 	is_redirect(char *str);
 
@@ -48,7 +48,9 @@ char	**arr_dup(char **arr);
 void    set_exit_code(int new_code);
 int     get_exit_code();
 
-
+// history
+int		ft_read_history();
+int		ft_add_history(char *line);
 
 // exits
 void	exit_terminal(char *line);

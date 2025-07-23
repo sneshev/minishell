@@ -62,3 +62,53 @@ bool    is_valid_syntax(char **tokens)
 	}
 	return (true);
 }
+// e"o"f
+// len = 5
+
+static int	find_heredoc_token_len(char *str, int len, char quote_type)
+{
+	while (*str && !is_space(*str))
+	{
+		if (is_redirect(str) || is_pipe(str))
+			break ;
+		if (is_quote(*str))
+		{
+			len++;
+			quote_type = *str;
+			while (*++str != quote_type)
+			{
+				if (!*str)
+					return (printf("unclosed quotes"), -2);
+				len++;
+			}
+		}
+		len++;
+		str++;
+	}
+	return (len);
+}
+            
+int	add_heredoc_tokens(char *arr[], int *index, char **str)
+{
+	char	*token;
+	int		len;
+
+	token = ft_strdup("<<");
+	if (!token)
+		return (-1);
+	arr[*index] = token;
+	*index += 1;
+	*str += 2;
+	while (**str && is_space(**str))
+		*str += 1;
+	if (!**str || is_redirect(*str) || is_pipe(*str))
+		return (1);
+	len = find_heredoc_token_len(*str, 0, 0);
+	arr[*index] = (char *)xmalloc(len * sizeof(char) + 1);
+	if (arr[*index] == NULL)
+		return (-1);
+	ft_strlcpy(arr[*index], *str, (size_t)len + 1);
+	*str += len;
+	*index += 1;
+	return (1);
+}
