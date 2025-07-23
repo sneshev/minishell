@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/21 21:36:55 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/23 16:03:51 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_list	*new_node(char **tokens, int index)
 	args = get_cmd_args(tokens, index);
 	if (!args)
 		return (free(node), NULL);
-	print_arr(args);
 	cmd = NULL;
 	if (!is_builtin(args[0]))
 		cmd = get_cmd(args[0]);

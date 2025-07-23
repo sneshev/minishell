@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/21 21:27:34 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/23 16:03:04 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ int main(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
 	(void)argv;
-	(void)envp;
-	char *str[] = {
-		"binkie=4\n", "puma=5\n", "yolo=6\n", "stefan=7\n", NULL};
-	print_arr(str);
-	minishell(str);
+	// (void)envp;
+	// char *str[] = {
+	// 	"binkie=4\n", "puma=5\n", "yolo=6\n", "stefan=7\n", NULL};
+	// print_arr(str);
+	minishell(envp);
 	return (0);
 }
