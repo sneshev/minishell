@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/23 20:11:25 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/23 20:20:57 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ int	execute_exit(t_list *list)
 {
 	int	arg_count;
 
+	write(1, "exit\n", 5);
 	arg_count = count_strings(list->args, true) - 1;
 	// printf("arg_count: %d\n", count_strings(list->args, true));
 	if (arg_count == 0)
@@ -237,8 +238,6 @@ int	execute_exit(t_list *list)
 		}
 	}
 	else
-	{
-		
-	}
+		write_err("exit", "too many arguments");
 	return (1);
 }
