@@ -183,7 +183,6 @@ t_env	*replace_env_value(t_env **env, char *arg, char *name)
 	return (NULL);
 }
 
-
 bool	validate_export_syntax(char *cmd)
 {
 	int	i;
