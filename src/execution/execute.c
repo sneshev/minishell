@@ -110,7 +110,10 @@ void	child_process(t_list *list, int *pip, int prev_pipe, t_env *env, char **env
 	else if (!list->args[1] && ft_strcmp(list->cmd, "env") == 0)
 		print_env(environment);
 	else if (!list->args[1] && ft_strcmp(list->cmd, "export") == 0)
+	{
 		print_export(env);
+		exit (0);
+	}
 	else if (is_builtin(list->cmd))
 		exit (0);
 	else
