@@ -15,6 +15,7 @@
 		"list.h": "c",
 		"execution.h": "c",
 		"ft_printf.h": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"errno.h": "c"
 	}
 }
