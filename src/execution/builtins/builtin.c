@@ -6,12 +6,12 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:06:12 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 15:31:34 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 16:41:34 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include "execution.h"
+#include "../../minishell.h"
+#include "../execution.h"
 
 bool	is_builtin(char *cmd)
 {

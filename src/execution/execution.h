@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:20:34 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 15:39:14 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 16:40:40 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ t_env	*get_next_lowest_node(t_env *env, t_env *lowest);
 //env
 int		execute_env(t_list *list, char **environment);
 int		execute_unset(t_list *list, t_env **env);
+
+//env utils
+bool	is_env_var(char *s);
+bool	is_matching_varname(char *var, char *name);
+void	unset_var(t_env **env, t_env *cur, t_env *prev);
 
 //convert env
 char	**convert_env(t_env *env);

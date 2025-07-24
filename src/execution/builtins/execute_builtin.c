@@ -6,12 +6,12 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 15:39:52 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 16:41:48 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include "execution.h"
+#include "../../minishell.h"
+#include "../execution.h"
 
 int	execute_echo(t_list *list)
 {

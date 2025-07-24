@@ -16,6 +16,7 @@
 		"execution.h": "c",
 		"ft_printf.h": "c",
 		"history.h": "c",
-		"errno.h": "c"
+		"errno.h": "c",
+		"ranges": "c"
 	}
 }

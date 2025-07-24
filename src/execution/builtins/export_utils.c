@@ -6,12 +6,12 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:15 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 14:16:40 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 16:41:27 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include "execution.h"
+#include "../../minishell.h"
+#include "../execution.h"
 
 bool	validate_export_syntax(char *cmd)
 {

@@ -6,12 +6,12 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:26:29 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 15:23:25 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 16:41:58 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include "execution.h"
+#include "../../minishell.h"
+#include "../execution.h"
 
 void	print_export(t_env *env)
 {
