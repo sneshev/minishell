@@ -6,58 +6,12 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:26:29 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 12:28:26 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 15:23:25 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "execution.h"
-
-int	ft_envlen(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (env)
-	{
-		i++;
-		env = env->next;
-	}
-	return (i);
-}
-
-t_env	*get_lowest_node(t_env *env)
-{
-	t_env	*lowest;
-
-	lowest = env;
-	while (env)
-	{
-		if (ft_strcmp(lowest->name, env->name) > 0)
-			lowest = env;
-		env = env->next;
-	}
-	return (lowest);
-}
-
-t_env	*get_next_lowest_node(t_env *env, t_env *lowest)
-{
-	t_env	*cur;
-
-	cur = NULL;
-	while (env)
-	{
-		//if its bigger than lowest
-		if (ft_strcmp(env->name, lowest->name) > 0)
-		{
-			//during the first loop we enter, or when the env name is lower than our current, we must the update current
-			if (cur == NULL || ft_strcmp(cur->name, env->name) > 0)
-				cur = env;
-		}
-		env = env->next;
-	}
-	return (cur);
-}
 
 void	print_export(t_env *env)
 {
@@ -77,35 +31,6 @@ void	print_export(t_env *env)
 		env_len--;
 	}
 
-}
-
-//checks if the key has a value (doesnt matter if it has '=' or not)
-bool	check_empty_keyvalue(char *arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] == '=' && arg[i + 1])
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-bool	existing_key(t_env **env, char *key)
-{
-	t_env	*temp;
-
-	temp = *env;
-	while (temp)
-	{
-		if (ft_strncmp(temp->name, key, ft_strlen(key)) == 0 && temp->name[ft_strlen(key)] == '=')
-			return (true);
-		temp = temp->next;
-	}
-	return (false);
 }
 
 t_env	*export_empty_key(t_env **env, t_env *cur, char *name)
@@ -183,8 +108,6 @@ t_env	*replace_env_value(t_env **env, char *arg, char *name)
 	return (NULL);
 }
 
-
-
 int	execute_export(t_list *list, t_env **env)
 {
 	char	*name;
@@ -201,7 +124,7 @@ int	execute_export(t_list *list, t_env **env)
 		if (validate_export_syntax(name) == false)
 		{
 			write_err("export: not an identifier", name);
-			return (free(name), -1);
+			return (free(name), 1);
 		}
 		if (replace_env_value(env, list->args[i], name) == NULL)
 			create_new_variable(env, list->args[i], name);
