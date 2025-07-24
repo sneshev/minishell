@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:20:34 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 16:40:40 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 17:41:11 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,17 @@ int		execute(t_list *list, t_env **env);
 void	child_process(t_list *list, int *pip, int prev_pipe, t_env **env, char **environment);
 
 //access
-int		check_invalid_file_cmd(t_list *list);
+int		check_invalid_file_cmd(t_list *list, t_env *env);
 
 //builtin
 bool	is_builtin(char *cmd);
 int		execute_builtin(t_list *list, t_env **env, char **environment);
 int		execute_builtin_parent(t_list *list, t_env **env, char **environment);
+
+//execute biultin
+int		execute_pwd(void);
+int		execute_cd(t_list *list, t_env *env);
+int		execute_echo(t_list *list);
 
 //waitpid
 int	count_pids(t_list *list);

@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:39:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 16:56:36 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 17:42:03 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	execute_list(t_list *list, int pid_count, t_env **env, char **environment)
 		}
 		pid[i] = fork();
 		if (pid[i] == CHILD)
-		child_process(list, pip, pipe_input, env, environment);
+			child_process(list, pip, pipe_input, env, environment);
 		handle_setup_close(list, pip, &pipe_input);
 		close_files(list);
 		

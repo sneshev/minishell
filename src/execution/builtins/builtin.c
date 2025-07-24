@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:06:12 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 16:41:34 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 17:41:25 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
 	
 	save_std[0] = -1;
 	save_std[1] = -1;
-	exitcode = check_invalid_file_cmd(list);
+	exitcode = check_invalid_file_cmd(list, *env);
 	if (exitcode == 0)
 	{
 		if (list->input >= 0)
@@ -92,6 +92,6 @@ int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
 		reset_stdin_stdout(save_std);
 	}
 	if (exitcode != 0)
-	close_files(list);
+		close_files(list);
 	return (exitcode);
 }

@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:02:47 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 14:03:50 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 17:41:07 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	child_process(t_list *list, int *pip, int prev_pipe, t_env **env, char **en
 	int	exitcode;
 
 	reset_signals();
-	exitcode = check_invalid_file_cmd(list);
+	exitcode = check_invalid_file_cmd(list, *env);
 	if (exitcode != 0)
 	{
 		handle_fd_closing(list, pip, prev_pipe);
