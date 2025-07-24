@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:39:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 15:39:35 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 16:56:36 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,6 @@ int	execute(t_list *list, t_env **env)
 	exitcode = execute_list(list, count_pids(list), env, environment);
 	return (free_arr(environment), exitcode);
 }
-
-
-
-
-
 
 
 // int	check_invalid_file_cmd(t_list *list)

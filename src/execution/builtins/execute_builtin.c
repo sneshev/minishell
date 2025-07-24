@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 16:41:48 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/24 17:16:00 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,16 @@ int	execute_echo(t_list *list)
 
 }
 
+void	cd_error(char *new_dir)
+{
+	if (access(new_dir, F_OK) == -1)
+		return (write_err(new_dir, "No such file or directory"));
+	if (is_directory(new_dir) == false)
+		return (write_err(new_dir, "Not a directory"));
+	if (access(new_dir, X_OK) == -1)
+		return (write_err(new_dir, "Permission denied"));
+}
+
 int	execute_cd(t_list *list, t_env *env)
 {
 	char	*new_dir;
@@ -62,7 +72,7 @@ int	execute_cd(t_list *list, t_env *env)
 	new_dir = list->args[1];
 	//not the good error message
 	if (chdir(new_dir) == -1)
-		return (write_err(new_dir, "f"), 1);
+		return (cd_error(new_dir), 1);
 	return (0);
 }
 
