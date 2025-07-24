@@ -67,6 +67,7 @@ int	execute(t_list *list, t_env **env)
 	return (-1);
 	if (!list->next && is_builtin(list->cmd))
 	{
+
 		exitcode = execute_builtin_parent(list, env, environment);
 		return (free_arr(environment), exitcode);
 	}

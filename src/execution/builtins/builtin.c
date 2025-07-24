@@ -47,7 +47,7 @@ int	execute_builtin(t_list *list, t_env **env, char **environment)
 		return (execute_unset(list, env));
 	else if (ft_strncmp(list->cmd, "env", 4) == 0)
 		return (execute_env(list, environment));
-	else if (ft_strncmp(list->cmd, "exit", 6) == 0)
+	else if (ft_strncmp(list->cmd, "exit", 5) == 0)
 		return (execute_exit(list));
 	return (0);
 }
@@ -88,9 +88,11 @@ int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
 			dup2(list->output, STDOUT_FILENO);
 			close(list->output);
 		}
+
 		exitcode = execute_builtin(list, env, environment);
 		reset_stdin_stdout(save_std);
 	}
+
 	if (exitcode != 0)
 		close_files(list);
 	return (exitcode);

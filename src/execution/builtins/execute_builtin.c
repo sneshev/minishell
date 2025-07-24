@@ -21,7 +21,8 @@ int	execute_echo(t_list *list)
 	i = 1;
 	newline = 1;
 
-	while (is_newline_flag(list->args[i]) == true)
+
+	while (list->args[i] && is_newline_flag(list->args[i]) == true)
 	{
 		newline = 0;
 		i++;
