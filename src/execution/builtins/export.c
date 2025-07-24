@@ -84,7 +84,7 @@ t_env	*create_new_variable(t_env **env, char *arg, char *name)
 t_env	*replace_env_value(t_env **env, char *arg, char *name)
 {
 	t_env	*cur;
-	t_env	*prev;
+	// t_env	*prev;
 	char	*value;
 
 	cur = *env;
@@ -102,7 +102,7 @@ t_env	*replace_env_value(t_env **env, char *arg, char *name)
 			cur->value = value;
 			return (cur);
 		}
-		prev = cur;
+		// prev = cur;
 		cur = cur->next;
 	}
 	return (NULL);
