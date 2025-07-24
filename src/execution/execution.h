@@ -5,8 +5,10 @@
 #define CHILD 0
 
 // execution
-char	*get_cmd(char *cmd);
+char	*get_cmd(t_env *env, char *cmd);
 int		execute(t_list *list, t_env **env);
+int		check_access(char *cmd);
+
 
 // execute builtin
 void	print_env(char **environment);

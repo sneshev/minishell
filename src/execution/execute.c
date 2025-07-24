@@ -74,35 +74,80 @@ void	handle_fd_closing(t_list *list, int *pip, int prev_pipe)
 	close_files(list);
 }
 
+int	check_access(char *cmd)
+{
+	if (cmd[0] == '/' || cmd[0] == '.')
+	{
+		if (access(cmd, F_OK) == 0)
+		{
+			if (access(cmd, X_OK) == -1)
+				return (write_err(cmd, "Permission denied"), 126);
+			return (0);
+		}
+		write_err(cmd, "No such file or directory");
+		return (127);
+	}
+	else
+	{
+		if (access(cmd, F_OK) == 0)
+		{
+			//check for is a directory
+			if (access(cmd, X_OK) == -1)
+				return (write_err(cmd, "Permission denied"), 126);
+			return (0);
+		}
+		write_err(cmd, "command not found");
+		return (127);
+	}
+}
+
 int	check_invalid_file_cmd(t_list *list)
 {
 	if (list->input == -1 && list->output == -1)
 		return (1);
 	if (is_builtin(list->cmd))
 		return (0);
-	else if (ft_strchr(list->cmd, '/'))
-	{
-		if (is_directory(list->cmd))
-		{
-			write_err(list->cmd, "is a directory\n");
-			return (126);
-		}
-		else if (access(list->cmd, F_OK) == -1)
-			return (127);
-		else if (access(list->cmd, X_OK) == -1)
-		{
-			write_err(list->cmd, "Permission denied");
-			return (126);
-		}
-	}
-	else
-	{
-		write_err(list->cmd, "command not found\n");
-		return (127);
-	}
+	return (check_access(list->cmd));
+	// else if (check_access(list->cmd) == 0)
 
-	return (0);
+	// else if (access(list->cmd, F_OK) == -1)
+	// 	return (127);
+	// else if (access(list->cmd, X_OK) == -1)
+	// {
+	// 	write_err(list->cmd, "Permission denied\n");
+	// 	return (126);
+	// }
+	// return (0);
 }
+
+// int	check_invalid_file_cmd(t_list *list)
+// {
+// 	if (list->input == -1 && list->output == -1)
+// 		return (1);
+// 	if (is_builtin(list->cmd))
+// 		return (0);
+// 	else if (ft_strchr(list->cmd, '/'))
+// 	{
+// 		if (is_directory(list->cmd))
+// 		{
+// 			// write_err(list->cmd, "is a directory\n");
+// 			return (126);
+// 		}
+// 		else if (access(list->cmd, F_OK) == -1)
+// 			return (127);
+// 		else if (access(list->cmd, X_OK) == -1)
+// 		{
+// 			// write_err(list->cmd, "Permission denied");
+// 			return (126);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		// write_err(list->cmd, "command not found\n");
+// 		return (127);
+// 	}
+// 	return (0);
+// }
 
 void	child_process(t_list *list, int *pip, int prev_pipe, t_env *env, char **environment)
 {

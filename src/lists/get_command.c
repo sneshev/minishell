@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:07:27 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/04 16:36:12 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/24 13:37:21 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*check_executable(char *cmd)
+{
+	char	*full_cmd;
+
+	full_cmd = ft_strdup(cmd);
+	if (!full_cmd)
+		return (NULL);
+	if (access(full_cmd, F_OK) == 0)
+		return (full_cmd);
+	return (free(full_cmd), NULL);
+}
+
 
 char	*ft_getenv(t_env *env, char *key)
 {
@@ -36,13 +49,13 @@ char	**get_paths(t_env *env, char *cmd)
 	char	*temp;
 	int		i;
 
-	i = 0;
 	path = ft_getenv(env, "PATH=");
 	if (!path)
 		return (NULL);
 	paths = ft_split(path, ':');
 	if (!paths)
 		return (free(path), NULL);
+	i = 0;
 	while (paths[i])
 	{
 		temp = ft_strjoin(paths[i], "/");
@@ -65,8 +78,7 @@ char	*get_cmd(t_env *env, char *cmd)
 	int		i;
 
 	if (cmd[0] == '/' || cmd[0] == '.')
-		return (NULL);
-
+		return (check_executable(cmd));
 	i = 0;
 	paths = get_paths(env, cmd);
 	if (!paths)
@@ -76,8 +88,9 @@ char	*get_cmd(t_env *env, char *cmd)
 		full_cmd = ft_strdup(paths[i]);
 		if (!full_cmd)
 			return (free_arr(paths), NULL);
+
 		if (access(full_cmd, F_OK) == 0)
-			return (free_arr(paths), full_cmd);
+			return (free(paths), full_cmd);
 		free(full_cmd);
 		i++;
 	}
