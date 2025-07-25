@@ -4,6 +4,16 @@
 #include "../minishell.h"
 #include "../structs.h"
 
+
+// line
+void set_g_line(char *new_line);
+char *get_g_line();
+void free_g_line();
+
+// exit_code
+void set_exit_code(int new_code);
+int get_exit_code();
+
 // tokens
 void set_g_tokens(char **new_tokens);
 char **get_g_tokens();
@@ -14,10 +24,6 @@ void set_g_list(t_list *new_g_list);
 t_list *get_g_list();
 t_list **get_g_list_addr();
 void free_g_list();
-
-// exit_code
-void set_exit_code(int new_code);
-int get_exit_code();
 
 // env
 void set_g_env(t_env *new_g_env);

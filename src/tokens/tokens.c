@@ -112,7 +112,7 @@ char **get_tokens(char *str, t_env *env)
     total_tokens = count_tokens(str, env);
     if (total_tokens < 0)
         return (printf("unclosed quotes\n"), NULL);
-    arr = (char **)malloc((total_tokens + 1) * sizeof(char *));
+    arr = (char **)xmalloc((total_tokens + 1) * sizeof(char *));
     if (!arr)
         return (NULL);
     index = 0;
