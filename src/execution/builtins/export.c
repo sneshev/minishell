@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:26:29 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 16:41:58 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/25 13:36:22 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ t_env	*create_new_variable(t_env **env, char *arg, char *name)
 t_env	*replace_env_value(t_env **env, char *arg, char *name)
 {
 	t_env	*cur;
-	// t_env	*prev;
 	char	*value;
 
 	cur = *env;
@@ -102,7 +101,6 @@ t_env	*replace_env_value(t_env **env, char *arg, char *name)
 			cur->value = value;
 			return (cur);
 		}
-		// prev = cur;
 		cur = cur->next;
 	}
 	return (NULL);
@@ -122,10 +120,7 @@ int	execute_export(t_list *list, t_env **env)
 		if (!name)
 			return (-1);
 		if (validate_export_syntax(name) == false)
-		{
-			write_err("export: not an identifier", name);
 			return (free(name), 1);
-		}
 		if (replace_env_value(env, list->args[i], name) == NULL)
 			create_new_variable(env, list->args[i], name);
 		free(name);

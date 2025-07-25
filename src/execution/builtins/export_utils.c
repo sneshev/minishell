@@ -6,25 +6,37 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:15 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 16:41:27 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/25 13:36:13 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include "../execution.h"
 
+void	write_export_err(char *s)
+{
+	write(2, "export: ", 8);
+	write(2, "`", 1);
+	write(2, s, ft_strlen(s));
+	write(2, "'", 1);
+	write(2, ": not a valid identifier", 24);
+	write(2, "\n", 1);
+}
+
 bool	validate_export_syntax(char *cmd)
 {
 	int	i;
 
 	i = 0;
-	if (!ft_isalpha(cmd[0]) && cmd[0] != '_')
+	if (!cmd)
 		return (false);
+	if (!ft_isalpha(cmd[0]) && cmd[0] != '_')
+		return (write_export_err(cmd), false);
 	i++;
 	while (cmd[i] && cmd[i] != '=')
 	{
 		if (!ft_isalnum(cmd[i]) && cmd[i] != '_')
-			return (false);
+			return (write_export_err(cmd), false);
 		i++;
 	}
 	return (true);

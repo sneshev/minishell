@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:20:34 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 17:41:11 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/25 13:35:10 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	close_files(t_list *list);
 int	execute_export(t_list *list, t_env **env);
 
 //export utils
+void	write_export_err(char *s);
 bool	validate_export_syntax(char *cmd);
 bool	check_empty_keyvalue(char *arg);
 bool	existing_key(t_env **env, char *key);

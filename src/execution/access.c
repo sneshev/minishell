@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:19:04 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 17:49:21 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/25 13:50:22 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ int	check_invalid_file_cmd(t_list *list, t_env *env)
 	if (is_builtin(list->cmd))
 		return (0);
 	if (list->cmd[0] == '/' || list->cmd[0] == '.')
+		return (check_access(list->cmd));
+	if (get_cmd(env, list->cmd) == NULL)
+		return (write_err(list->cmd, "command not found"), 127);
+	return (check_access(list->cmd));
+}
+int	check_invalid_file_cmd(t_list *list, t_env *env)
+{
+	if (list->input == -1 && list->output == -1)
+		return (1);
+	if (is_builtin(list->cmd))
+		return (0);
+	if (list->cmd[0] == '.')
 		return (check_access(list->cmd));
 	if (get_cmd(env, list->cmd) == NULL)
 		return (write_err(list->cmd, "command not found"), 127);

@@ -36,13 +36,23 @@ int redir(char *str)
     return (0);
 }
 
+void	write_syntax_err(char *c)
+{
+	write(2, "syntax error near unexpected token ", 35);
+	write(2, "`", 1);
+	write(2, c, ft_strlen(c));
+	write(2, "'", 1);
+	write(2, "\n", 1);
+	set_exit_code(2);
+}
+
 bool    is_valid_syntax(char **tokens)
 {
     int i;
 
     i = 0;
 	if (is_pipe(tokens[i]))
-		return (false);
+		return (write_syntax_err("|"), (false));
 	while (tokens[i])
 	{
 		if (is_pipe(tokens[i]) && is_pipe(tokens[i + 1]))

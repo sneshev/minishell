@@ -2,7 +2,7 @@
 
 bool is_space(char c)
 {
-    if (c == 32)
+    if (c == ' ' || c == '\t' || c == '\n')
         return (true);
     else
         return (false);
@@ -28,7 +28,7 @@ int	word_count(char const *s)
 	}
 	return (j);
 }
-
+	
 void	free_arr(char **arr)
 {
 	int	i;
