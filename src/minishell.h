@@ -19,6 +19,7 @@ void	print_list(t_list *list);
 void	print_files(t_file *file);
 
 // utils
+void	exit_by_signal();
 void	*xmalloc(size_t size);
 void    write_err(char *keyword, char *message);
 void	free_arr(char **arr);

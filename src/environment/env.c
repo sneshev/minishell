@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:00 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/16 17:54:00 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/25 15:23:01 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ t_env	*get_env(char **envp)
 		return (NULL);
 	create_env(&env, envs);
 	free_arr(envs);
+	set_g_env(env);
 	return (env);
 }
 

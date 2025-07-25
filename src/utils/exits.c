@@ -9,10 +9,26 @@ void	error_message(char const *s, int exit_code)
 	// exit (exit_code);
 }
 
+void	exit_by_signal()
+{
+	write(1, "exit\n", 5);
+	t_env *env = get_g_env();
+	// free_env(&env);
+	// free_env(&env);
+	free_g_env();
+	// free_env(&env);
+	free_g_env();
+	t_env *env2 = get_g_env();
+	(void)env;
+	(void)env2;
+	write(1, "1", 1);
+	exit (0);
+}
+
 void exit_with_code(int exit_code)
 {
 	write_history(".minishell_history");
-	// write(1, "exit\n", 5);
+	free_g_env();
 	exit(exit_code % 256);
 }
 
