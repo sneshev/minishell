@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "addresses/addresses.h"
 # include "signals/signals.h"
 # include "structs.h"
 
@@ -46,10 +47,6 @@ void	free_file(t_file **file);
 // env
 t_env	*get_env(char **envp);
 char	**arr_dup(char **arr);
-
-// exit_codes
-void    set_exit_code(int new_code);
-int     get_exit_code();
 
 // history
 int		ft_read_history();
