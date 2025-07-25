@@ -21,6 +21,7 @@ void	print_files(t_file *file);
 // utils
 void	exit_by_signal();
 void	*xmalloc(size_t size);
+void	cleanup();
 void    write_err(char *keyword, char *message);
 void	free_arr(char **arr);
 int		ft_strcmp(char *s1, char *s2);
@@ -57,6 +58,7 @@ int		ft_add_history(char *line);
 void	exit_terminal(char *line);
 void	exit_with_code(int exit_code);
 void	error_message(char const *s, int exit_code);
+void	end_cycle_cleanup(char *line, t_list **list);
 
 // execute
 int		execute(t_list *list, t_env **env);

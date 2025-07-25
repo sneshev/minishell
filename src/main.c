@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/25 15:25:15 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/25 20:40:01 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	minishell(char **envp)
 		list = get_list(list, line, env);
 		if (list)
 			set_exit_code(execute(list, &env));
+		end_cycle_cleanup(line, &list);
 	}
-	free_g_env();
 }
 
 int main(int argc, char *argv[], char *envp[])

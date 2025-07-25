@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:07:27 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 14:16:53 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/25 21:40:14 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**get_paths(t_env *env, char *cmd)
 		free(temp);
 		i++;
 	}
-	return (paths);
+	return (free(path), paths);
 }
 
 char	*get_cmd(t_env *env, char *cmd)

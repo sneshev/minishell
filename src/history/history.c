@@ -44,6 +44,7 @@ int	ft_add_history(char *line)
 
 	if (is_empty_string(line))
 		return (-1);
+	set_g_line(line);
 	add_history(line);
 	fd = open(".minishell_history", O_WRONLY | O_CREAT | O_APPEND, 0640);
 	if (fd < 0)

@@ -78,6 +78,7 @@ void	free_env(t_env **env)
 		free_env_node(&temp);
 	}
 	*env = NULL;
+	set_g_env(NULL);
 }
 
 // char **ft_realloc(char **old, size_t new_size)

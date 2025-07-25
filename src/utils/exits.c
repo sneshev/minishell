@@ -12,23 +12,14 @@ void	error_message(char const *s, int exit_code)
 void	exit_by_signal()
 {
 	write(1, "exit\n", 5);
-	t_env *env = get_g_env();
-	// free_env(&env);
-	// free_env(&env);
 	free_g_env();
-	// free_env(&env);
-	free_g_env();
-	t_env *env2 = get_g_env();
-	(void)env;
-	(void)env2;
-	write(1, "1", 1);
 	exit (0);
 }
 
 void exit_with_code(int exit_code)
 {
 	write_history(".minishell_history");
-	free_g_env();
+	cleanup();
 	exit(exit_code % 256);
 }
 
@@ -54,4 +45,14 @@ void exit_terminal(char *line)
 			exit_with_code(ft_atoi(line));
 		//no good exit code 
 	}
+}
+
+void end_cycle_cleanup(char *line, t_list **list)
+{
+	if (line)
+		free(line);
+	set_g_line(NULL);
+	if (list)
+		free_list(list);
+	set_g_list(NULL);
 }

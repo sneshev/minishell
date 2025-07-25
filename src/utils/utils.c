@@ -49,6 +49,15 @@ void	free_arr(char **arr)
 	arr = NULL;
 }
 
+void cleanup()
+{
+	free_g_tokens();
+	free_g_line();
+	free_g_list();
+	free_g_env();
+	free_g_environment();
+}
+
 void *xmalloc(size_t size)
 {
 	void *ptr;
