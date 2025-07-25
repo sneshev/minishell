@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/23 18:42:37 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/25 15:32:21 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,12 @@ t_list	*new_node(char **tokens, int index, t_env *env)
 	if (!args)
 		return (free(node), NULL);
 	cmd = NULL;
-	if (!is_builtin(args[0]))
+	if (is_builtin(args[0]))
+		cmd = ft_strdup(args[0]);
+	else
 		cmd = get_cmd(env, args[0]);
 	if (!cmd)
-	{
-		cmd = ft_strdup(args[0]);
-		if (!cmd)
-			return (free(node), free_arr(args), NULL);
-	}
+		cmd = NULL;
 	if (handle_files(tokens, index, fd, env) == HEREDOC_TERMINATED)
 		return (free(node), free_arr(args), free(cmd), NULL);
 	setup_node(&node, cmd, args, fd);
@@ -72,32 +70,25 @@ t_list	*new_node(char **tokens, int index, t_env *env)
 
 void	update_index(char **tokens, int *index)
 {
-	// printf("index before: %d  %s\n", *index, tokens[*index]);
 	while(tokens[*index] && !is_pipe(tokens[*index]))
 		(*index)++;
-	// set to after the pipe
 	if (tokens[*index] && is_pipe(tokens[*index]))
 		(*index)++;
-	// printf("index after: %d\n", *index); fflush(NULL);
 }
 
 t_list	*create_list(t_list *list, char **tokens, int wordc, t_env *env)
 {
 	t_list	*new;
 	int		index;
-	// int		fd[2];
 
 	index = 0;
-	// printf("wordcount: %d\n", wordc);
 	while (index < wordc)
 	{
-		// printf("index: %d\n", index);
 		new = new_node(tokens, index, env);
 		if (!new)
 			return (free_list(&list), NULL);
 		add_node_back(&list, new);
 		update_index(tokens, &index);
-		// printf("index: %d\n", index);
 	}
 	return (list);
 }

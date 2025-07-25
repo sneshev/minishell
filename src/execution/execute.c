@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:39:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 17:42:03 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/25 14:36:44 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,40 +67,9 @@ int	execute(t_list *list, t_env **env)
 	return (-1);
 	if (!list->next && is_builtin(list->cmd))
 	{
-
 		exitcode = execute_builtin_parent(list, env, environment);
 		return (free_arr(environment), exitcode);
 	}
 	exitcode = execute_list(list, count_pids(list), env, environment);
 	return (free_arr(environment), exitcode);
 }
-
-
-// int	check_invalid_file_cmd(t_list *list)
-// {
-// 	if (list->input == -1 && list->output == -1)
-// 		return (1);
-// 	if (is_builtin(list->cmd))
-// 		return (0);
-// 	else if (ft_strchr(list->cmd, '/'))
-// 	{
-// 		if (is_directory(list->cmd))
-// 		{
-// 			// write_err(list->cmd, "is a directory\n");
-// 			return (126);
-// 		}
-// 		else if (access(list->cmd, F_OK) == -1)
-// 			return (127);
-// 		else if (access(list->cmd, X_OK) == -1)
-// 		{
-// 			// write_err(list->cmd, "Permission denied");
-// 			return (126);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		// write_err(list->cmd, "command not found\n");
-// 		return (127);
-// 	}
-// 	return (0);
-// }

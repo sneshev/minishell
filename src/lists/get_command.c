@@ -6,11 +6,30 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:07:27 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 14:16:53 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/25 15:42:35 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// int	check_access(char *cmd)
+// {
+// 	if (!cmd)
+// 		return (write_err(cmd, "command not found"), 1);
+// 	if (access(cmd, F_OK) == 0)
+// 	{
+// 		if (ft_strchr(cmd, '/'))
+// 		{
+// 			if (is_directory(cmd) == true)
+// 				return (write_err(cmd, "Is a directory"), 1);
+// 			return (write_err(cmd, "No such file or directory"), 1);
+// 		}
+// 		if (access(cmd, X_OK) == -1)
+// 			return (write_err(cmd, "Permission denied"), 1);
+// 		return (0);
+// 	}
+// 	return (write_err(cmd, "command not found"), 1);
+// }
 
 char	*check_executable(char *cmd)
 {
@@ -20,9 +39,27 @@ char	*check_executable(char *cmd)
 	if (!full_cmd)
 		return (NULL);
 	if (access(full_cmd, F_OK) == 0)
-		return (full_cmd);
+	{
+		if (is_directory(full_cmd) == true)
+			return (write_err(cmd, "Is a directory"), full_cmd);
+		if (access(full_cmd, X_OK) == -1)
+			return (write_err(cmd, "Permission denied"), full_cmd);	
+	}
+	write_err(cmd, "No such file or directory");
 	return (free(full_cmd), NULL);
 }
+
+// char	*check_executable(char *cmd)
+// {
+// 	char	*full_cmd;
+
+// 	full_cmd = ft_strdup(cmd);
+// 	if (!full_cmd)
+// 		return (NULL);
+// 	if (check_access(full_cmd) == 0)
+// 		return (full_cmd);
+// 	return (free(full_cmd), NULL);
+// }
 
 
 char	*ft_getenv(t_env *env, char *key)
@@ -71,13 +108,40 @@ char	**get_paths(t_env *env, char *cmd)
 	return (paths);
 }
 
+// char	*get_cmd(t_env *env, char *cmd)
+// {
+// 	char	**paths;
+// 	char	*full_cmd;
+// 	int		i;
+
+// 	if (cmd[0] == '/' || cmd[0] == '.')
+// 		return (check_executable(cmd));
+// 	i = 0;
+// 	paths = get_paths(env, cmd);
+// 	if (!paths)
+// 		return (NULL);
+// 	while (paths[i])
+// 	{
+// 		full_cmd = ft_strdup(paths[i]);
+// 		if (!full_cmd)
+// 			return (free_arr(paths), NULL);
+
+// 		if (access(full_cmd, F_OK) == 0)
+// 			return (free(paths), full_cmd);
+// 		free(full_cmd);
+// 		i++;
+// 	}
+// 	free_arr(paths);
+// 	return (NULL);
+// }
+
 char	*get_cmd(t_env *env, char *cmd)
 {
 	char	**paths;
 	char	*full_cmd;
 	int		i;
 
-	if (cmd[0] == '/' || cmd[0] == '.')
+	if (ft_strchr(cmd, '/'))
 		return (check_executable(cmd));
 	i = 0;
 	paths = get_paths(env, cmd);
@@ -90,10 +154,14 @@ char	*get_cmd(t_env *env, char *cmd)
 			return (free_arr(paths), NULL);
 
 		if (access(full_cmd, F_OK) == 0)
-			return (free(paths), full_cmd);
-		free(full_cmd);
+		{
+			if (access(cmd, X_OK) == -1)
+				write_err(cmd, "Permission denied");
+			return (free_arr(paths), full_cmd);
+		}
 		i++;
+		free(full_cmd);
 	}
-	free_arr(paths);
-	return (NULL);
+	write_err(cmd, "command not found");
+	return (free_arr(paths), NULL);
 }

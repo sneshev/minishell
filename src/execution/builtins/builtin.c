@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:06:12 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/25 12:51:47 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/25 15:29:53 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 bool	is_builtin(char *cmd)
 {
+	if (!cmd)
+		return (false);
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		return (true);
 	else if (ft_strncmp(cmd, "cd", 3) == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/23 20:25:31 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/25 14:52:59 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ bool	is_directory(const char *path)
 {
     struct stat	st;
 
+	if (!path)
+		return (false);
     if (stat(path, &st) == 0)
         return (S_ISDIR(st.st_mode));
-    return (0);
+    return (false);
 }
 
 // bool	is_command(char *str)
