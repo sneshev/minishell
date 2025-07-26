@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:39:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/26 12:55:14 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/26 13:13:51 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	execute(t_list *list, t_env **env)
 	char	**environment;
 	int		exitcode;
 	
-	disable_SIGINT();
+	disable_sigint();
 	environment = convert_env(*env);
 	if (!environment)
 		return (-1);

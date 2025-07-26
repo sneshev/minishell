@@ -29,7 +29,7 @@ int parent_heredoc(pid_t pid, int pipefd[2])
 {
 	int		status;
 
-	disable_SIGINT();
+	disable_sigint();
 	close(pipefd[1]);
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status))
@@ -55,7 +55,7 @@ int	handle_heredoc(t_file *file, t_env *env)
 	delim = NULL;
 	if (pid == 0)
 	{
-		reset_SIGINT();
+		reset_sigint();
 		delim = find_delim(file->filename);
 		if (!delim && find_quote_len(file->filename, NULL, 0, 0) < 0)
 			return (printf("unclosed quotes"), kill(0, SIGINT), HEREDOC_TERMINATED);

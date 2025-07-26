@@ -1,17 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 12:51:44 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/26 12:57:39 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 #include "tokens.h"
 
-bool is_quote(char c)
-{
-    if (c == '\'')
-        return (true);
-    else if (c == '\"')
-        return (true);
-    else
-        return (false);
-}
-
-int redir(char *str)
+int	redir(char *str)
 {
 	if (!(*str))
 		return (-1);
@@ -33,7 +35,7 @@ int redir(char *str)
 	}
 	else if (*str == '|')
 		return (1);
-    return (0);
+	return (0);
 }
 
 void	write_syntax_err(char *c)
@@ -46,11 +48,11 @@ void	write_syntax_err(char *c)
 	set_exit_code(2);
 }
 
-bool    is_valid_syntax(char **tokens)
+bool	is_valid_syntax(char **tokens)
 {
-    int i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	if (is_pipe(tokens[i]))
 		return (write_syntax_err("|"), (false));
 	while (tokens[i])
@@ -62,7 +64,6 @@ bool    is_valid_syntax(char **tokens)
 		}
 		if (is_redirect(tokens[i]) && is_redirect(tokens[i + 1]))
 			return (false);
-		// im not sure if were supposed to take care of uncomplete commands
 		if (tokens[i + 1] == NULL)
 		{
 			if (is_pipe(tokens[i]) || is_redirect(tokens[i]))
@@ -72,8 +73,6 @@ bool    is_valid_syntax(char **tokens)
 	}
 	return (true);
 }
-// e"o"f
-// len = 5
 
 static int	find_heredoc_token_len(char *str, int len, char quote_type)
 {
@@ -97,7 +96,7 @@ static int	find_heredoc_token_len(char *str, int len, char quote_type)
 	}
 	return (len);
 }
-            
+
 int	add_heredoc_tokens(char *arr[], int *index, char **str)
 {
 	char	*token;

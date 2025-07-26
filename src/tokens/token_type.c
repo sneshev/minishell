@@ -3,16 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   token_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/25 14:52:59 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/26 12:58:29 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool is_heredoc(char *str)
+bool	is_quote(char c)
+{
+	if (c == '\'')
+		return (true);
+	else if (c == '\"')
+		return (true);
+	else
+		return (false);
+}
+
+bool	is_heredoc(char *str)
 {
 	if (!str || !*str)
 		return (false);
@@ -25,7 +35,7 @@ bool is_heredoc(char *str)
 	return (false);
 }
 
-bool is_redirect(char *str)
+bool	is_redirect(char *str)
 {
 	if (!str || !(*str))
 		return (false);
@@ -36,7 +46,7 @@ bool is_redirect(char *str)
 			return (true);
 		if (*str == '<' && (*(str + 1) == '\0'))
 			return (true);
-	}	
+	}
 	else if (*str == '>')
 	{
 		str++;
@@ -59,13 +69,13 @@ bool	is_pipe(char *str)
 
 bool	is_directory(const char *path)
 {
-    struct stat	st;
+	struct stat	st;
 
 	if (!path)
 		return (false);
-    if (stat(path, &st) == 0)
-        return (S_ISDIR(st.st_mode));
-    return (false);
+	if (stat(path, &st) == 0)
+		return (S_ISDIR(st.st_mode));
+	return (false);
 }
 
 // bool	is_command(char *str)

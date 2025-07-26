@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_vars.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/25 22:10:53 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/25 22:11:55 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 #include "tokens.h"
 
-int find_varname_len(char *str)
+int	find_varname_len(char *str)
 {
-	int count;
+	int	count;
 
 	if (!str)
 		return (-1);
@@ -15,7 +27,7 @@ int find_varname_len(char *str)
 	return (count);
 }
 
-int find_envvar_len(char *str, t_env *env)
+int	find_envvar_len(char *str, t_env *env)
 {
 	if (!env)
 		return (0);
@@ -29,14 +41,12 @@ int find_envvar_len(char *str, t_env *env)
 	return (ft_strlen(env->value));
 }
 
-char *find_envvar(char *str, t_env *env)
+char	*find_envvar(char *str, t_env *env)
 {
 	if (!env)
 		return (NULL);
 	if (!*str || (!isalnum(*str) && *str != '_' && *str != '?'))
 		return ("$");
-	// if (*str == '?')
-	// 	return (ft_itoa(get_exit_code()));
 	if (ft_strncmp(env->name, str, find_varname_len(str))
 		|| env->name[find_varname_len(str)] != '=')
 		return (find_envvar(str, env->next));
@@ -45,10 +55,10 @@ char *find_envvar(char *str, t_env *env)
 
 // adds env_var to char *dest, incrementing the dest[int *j] index
 // returns the varNAME length
-int add_env_variable(char *dest, char *src, int *j, t_env *env)
+int	add_env_variable(char *dest, char *src, int *j, t_env *env)
 {
-	char *envvar;
-	int i;
+	char	*envvar;
+	int		i;
 
 	i = 0;
 	if (*src == '?')

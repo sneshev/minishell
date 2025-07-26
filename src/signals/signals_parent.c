@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals_parent.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/25 22:06:48 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/25 22:08:07 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 #include "signals.h"
 #include <readline/readline.h>
@@ -12,49 +24,48 @@
 volatile sig_atomic_t	g_signal = 0;
 
 // Ctrl + c (only outside of process)
-void receive_SIGINT()
+void	receive_sigint(int sig)
 {
-    g_signal = 0;
-    ft_putstr_fd("\n", STDERR_FILENO);
-    rl_replace_line("", 0);
+	(void)sig;
+	g_signal = 0;
+	ft_putstr_fd("\n", STDERR_FILENO);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
 
-void redirect_SIGINT()
+void	redirect_sigint(void)
 {
-    struct sigaction	sa;
+	struct sigaction	sa;
 
-    ft_bzero(&sa, sizeof(sa));
-    sa.sa_handler = receive_SIGINT;
-    sigemptyset(&sa.sa_mask);
+	ft_bzero(&sa, sizeof(sa));
+	sa.sa_handler = receive_sigint;
+	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void	disable_SIGINT(void)
+void	disable_sigint(void)
 {
-    struct sigaction	sa;
+	struct sigaction	sa;
 
-    ft_bzero(&sa, sizeof(sa));
-    sa.sa_handler = SIG_IGN;
-    sigemptyset(&sa.sa_mask);
+	ft_bzero(&sa, sizeof(sa));
+	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void disable_SIGQUIT()
+void	disable_sigquit(void)
 {
-    struct sigaction	sa;
+	struct sigaction	sa;
 
-    ft_bzero(&sa, sizeof(sa));
-    sa.sa_handler = SIG_IGN;
-    sigemptyset(&sa.sa_mask); 
+	ft_bzero(&sa, sizeof(sa));
+	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-
-void enable_signals(void)
+void	enable_signals(void)
 {
-    redirect_SIGINT();
-    disable_SIGQUIT();
+	redirect_sigint();
+	disable_sigquit();
 }
-
