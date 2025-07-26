@@ -56,7 +56,6 @@ int		ft_read_history();
 int		ft_add_history(char *line);
 
 // exits
-void	exit_terminal(char *line);
 void	exit_with_code(int exit_code);
 void	error_message(char const *s, int exit_code);
 
