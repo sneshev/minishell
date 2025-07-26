@@ -6,30 +6,11 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:07:27 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/26 12:53:10 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/26 15:28:53 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// int	check_access(char *cmd)
-// {
-// 	if (!cmd)
-// 		return (write_err(cmd, "command not found"), 1);
-// 	if (access(cmd, F_OK) == 0)
-// 	{
-// 		if (ft_strchr(cmd, '/'))
-// 		{
-// 			if (is_directory(cmd) == true)
-// 				return (write_err(cmd, "Is a directory"), 1);
-// 			return (write_err(cmd, "No such file or directory"), 1);
-// 		}
-// 		if (access(cmd, X_OK) == -1)
-// 			return (write_err(cmd, "Permission denied"), 1);
-// 		return (0);
-// 	}
-// 	return (write_err(cmd, "command not found"), 1);
-// }
 
 char	*check_executable(char *cmd)
 {
@@ -50,22 +31,10 @@ char	*check_executable(char *cmd)
 	return (free(full_cmd), NULL);
 }
 
-// char	*check_executable(char *cmd)
-// {
-// 	char	*full_cmd;
-
-// 	full_cmd = ft_strdup(cmd);
-// 	if (!full_cmd)
-// 		return (NULL);
-// 	if (check_access(full_cmd) == 0)
-// 		return (full_cmd);
-// 	return (free(full_cmd), NULL);
-// }
-
-
 char	*ft_getenv(t_env *env, char *key)
 {
 	char	*value;
+
 	while (env)
 	{
 		if (ft_strcmp(env->name, key) == 0)
@@ -77,23 +46,23 @@ char	*ft_getenv(t_env *env, char *key)
 		}
 		env = env->next;
 	}
-	return (NULL);
+	return (ft_strdup(""));
 }
 
-char	**get_paths(t_env *env, char *cmd)
+char	**get_paths(t_env *env, char *cmd, int i)
 {
 	char	*path;
 	char	**paths;
 	char	*temp;
-	int		i;
 
 	path = ft_getenv(env, "PATH=");
 	if (!path)
 		return (NULL);
+	if (!*path)
+		return (free(path), write_err(cmd, "command not found"), NULL);
 	paths = ft_split(path, ':');
 	if (!paths)
 		return (free(path), NULL);
-	i = 0;
 	while (paths[i])
 	{
 		temp = ft_strjoin(paths[i], "/");
@@ -109,33 +78,6 @@ char	**get_paths(t_env *env, char *cmd)
 	return (paths);
 }
 
-// char	*get_cmd(t_env *env, char *cmd)
-// {
-// 	char	**paths;
-// 	char	*full_cmd;
-// 	int		i;
-
-// 	if (cmd[0] == '/' || cmd[0] == '.')
-// 		return (check_executable(cmd));
-// 	i = 0;
-// 	paths = get_paths(env, cmd);
-// 	if (!paths)
-// 		return (NULL);
-// 	while (paths[i])
-// 	{
-// 		full_cmd = ft_strdup(paths[i]);
-// 		if (!full_cmd)
-// 			return (free_arr(paths), NULL);
-
-// 		if (access(full_cmd, F_OK) == 0)
-// 			return (free(paths), full_cmd);
-// 		free(full_cmd);
-// 		i++;
-// 	}
-// 	free_arr(paths);
-// 	return (NULL);
-// }
-
 char	*get_cmd(t_env *env, char *cmd)
 {
 	char	**paths;
@@ -145,7 +87,7 @@ char	*get_cmd(t_env *env, char *cmd)
 	if (ft_strchr(cmd, '/'))
 		return (check_executable(cmd));
 	i = 0;
-	paths = get_paths(env, cmd);
+	paths = get_paths(env, cmd, 0);
 	if (!paths)
 		return (NULL);
 	while (paths[i])
@@ -153,7 +95,6 @@ char	*get_cmd(t_env *env, char *cmd)
 		full_cmd = ft_strdup(paths[i]);
 		if (!full_cmd)
 			return (free_arr(paths), NULL);
-
 		if (access(full_cmd, F_OK) == 0)
 		{
 			if (access(full_cmd, X_OK) == -1)
@@ -163,6 +104,5 @@ char	*get_cmd(t_env *env, char *cmd)
 		i++;
 		free(full_cmd);
 	}
-	write_err(cmd, "command not found");
-	return (free_arr(paths), NULL);
+	return (write_err(cmd, "command not found"), free_arr(paths), NULL);
 }
