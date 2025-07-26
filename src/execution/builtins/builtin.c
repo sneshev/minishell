@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:06:12 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/25 15:29:53 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/26 15:48:00 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,47 +54,63 @@ int	execute_builtin(t_list *list, t_env **env, char **environment)
 	return (0);
 }
 
-void	reset_stdin_stdout(int save_std[2])
+int	reset_stdin_stdout(int stdin, int stdout)
 {
-	if (save_std[0] != -1)
+	if (stdin != -1)
 	{
-		dup2(save_std[0], STDIN_FILENO);
-		close(save_std[0]);
+		if (dup2(stdin, STDIN_FILENO) == -1)
+			return (-1);
+		close(stdin);
 	}
-	if (save_std[1] != -1)
+	if (stdout != -1)
 	{
-		dup2(save_std[1], STDOUT_FILENO);
-		close(save_std[1]);
+		if (dup2(stdout, STDOUT_FILENO) == -1)
+			return (-1);
+		close(stdout);
 	}
+	return (0);
+}
+
+int	redirect_stdin_stdout(t_list *list, int stdin, int stdout)
+{
+	if (list->input >= 0)
+	{
+		stdin = dup(STDIN_FILENO);
+		if (stdin == -1)
+			return (-1);
+		if (dup2(list->input, STDIN_FILENO) == -1)
+			return (-1);
+		close (list->input);
+	}
+	if (list->output >= 0)
+	{
+		stdout = dup(STDOUT_FILENO);
+		if (stdout == -1)
+			return (-1);
+		if (dup2(list->output, STDOUT_FILENO) == -1)
+			return (-1);
+		close(list->output);
+	}
+	return (0);
 }
 
 int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
 {
 	int	exitcode;
-	int	save_std[2];
+	int	stdin;
+	int	stdout;
 	
-	save_std[0] = -1;
-	save_std[1] = -1;
+	stdin = -1;
+	stdout = -1;
 	exitcode = check_invalid_file_cmd(list, *env);
 	if (exitcode == 0)
 	{
-		if (list->input >= 0)
-		{
-			save_std[0] = dup(STDIN_FILENO);
-			dup2(list->input, STDIN_FILENO);
-			close (list->input);
-		}
-		if (list->output >= 0)
-		{
-			save_std[1] = dup(STDOUT_FILENO);
-			dup2(list->output, STDOUT_FILENO);
-			close(list->output);
-		}
-
+		if (redirect_stdin_stdout(list, stdin, stdout) == -1)
+			return (1);
 		exitcode = execute_builtin(list, env, environment);
-		reset_stdin_stdout(save_std);
+		if (reset_stdin_stdout(stdin, stdout) == -1)
+			return (1);
 	}
-
 	if (exitcode != 0)
 		close_files(list);
 	return (exitcode);
