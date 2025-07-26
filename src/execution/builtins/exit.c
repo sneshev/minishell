@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:18:14 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 17:18:36 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/26 15:46:09 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include "../execution.h"
 
-
 bool	is_valid_code(char *str)
 {
-	int len = 0;
-	char sign;
+	int		len;
+	char	sign;
 
+	len = 0;
 	while (is_space(*str))
 		str++;
 	sign = 'p';
@@ -30,24 +30,24 @@ bool	is_valid_code(char *str)
 	}
 	if (!*str)
 		return (false);
-	while(*str == '0')
+	while (*str == '0')
 		str++;
-    if (!*str)
-        return (true);
-    while (ft_isdigit(str[len]))
-        len++;
-    if (str[len] != '\0')
-        return (false);
-    if (len > 19)
-        return (false);
-    if (len == 19)
-    {
-        if (sign == 'p' && ft_strcmp(str, "9223372036854775807") > 0)
-            return (false);
-        if (sign == 'n' && ft_strcmp(str, "9223372036854775808") > 0)
-            return (false);
-    }
-    return (true);
+	if (!*str)
+		return (true);
+	while (ft_isdigit(str[len]))
+		len++;
+	if (str[len] != '\0')
+		return (false);
+	if (len > 19)
+		return (false);
+	if (len == 19)
+	{
+		if (sign == 'p' && ft_strcmp(str, "9223372036854775807") > 0)
+			return (false);
+		if (sign == 'n' && ft_strcmp(str, "9223372036854775808") > 0)
+			return (false);
+	}
+	return (true);
 }
 
 int	execute_exit(t_list *list)
@@ -56,7 +56,6 @@ int	execute_exit(t_list *list)
 
 	write(1, "exit\n", 5);
 	arg_count = count_strings(list->args, true) - 1;
-	// printf("arg_count: %d\n", count_strings(list->args, true));
 	if (arg_count == 0)
 		exit_with_code(0);
 	else if (arg_count == 1)
