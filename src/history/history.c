@@ -15,7 +15,7 @@ static bool	is_empty_string(char *line)
 	return (true);
 }
 
-int	ft_read_history()
+int	ft_read_history(void)
 {
 	int fd;
 	char *line;

@@ -15,7 +15,7 @@ void set_exit_code(int new_code)
     *exit_code_ptr = new_code;
 }
 
-int get_exit_code()
+int get_exit_code(void)
 {
     return (*(exit_code_addr()));
 }   

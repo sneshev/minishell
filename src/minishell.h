@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 14:50:47 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/26 14:52:53 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -10,8 +22,8 @@
 # include <stdbool.h>
 # include <stdlib.h>
 # include <stdio.h>
-#define READ 0
-#define WRITE 1
+# define READ 0
+# define WRITE 1
 
 // temporary
 void	print_list(t_list *list);
@@ -19,7 +31,7 @@ void	print_files(t_file *file);
 
 // utils
 void	*xmalloc(size_t size);
-void    write_err(char *keyword, char *message);
+void	write_err(char *keyword, char *message);
 void	free_arr(char **arr);
 int		ft_strcmp(char *s1, char *s2);
 int		word_count(char const *s);
@@ -31,10 +43,10 @@ long	ft_atol(const char *nptr);
 
 // tokens
 char	**get_tokens(char *str, t_env *env);
-bool    is_valid_syntax(char **tokens);
+bool	is_valid_syntax(char **tokens);
 int		count_tokens(char *str, t_env *env);
 bool	is_pipe(char *str);
-bool 	is_redirect(char *str);
+bool	is_redirect(char *str);
 bool	is_directory(const char *path);
 
 // list
@@ -48,11 +60,11 @@ t_env	*get_env(char **envp);
 char	**arr_dup(char **arr);
 
 // exit_codes
-void    set_exit_code(int new_code);
-int     get_exit_code();
+void	set_exit_code(int new_code);
+int		get_exit_code(void);
 
 // history
-int		ft_read_history();
+int		ft_read_history(void);
 int		ft_add_history(char *line);
 
 // exits
@@ -63,6 +75,5 @@ void	error_message(char const *s, int exit_code);
 int		execute(t_list *list, t_env **env);
 int		count_pids(t_list *list);
 bool	is_builtin(char *cmd);
-
 
 #endif
