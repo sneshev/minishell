@@ -6,12 +6,12 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:12:47 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/22 13:20:19 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/26 15:43:09 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef HISTORY_H
+# define HISTORY_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   history.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 15:42:16 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/26 15:42:44 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 #include "history.h"
 #include <readline/readline.h>
@@ -17,9 +29,9 @@ static bool	is_empty_string(char *line)
 
 int	ft_read_history(void)
 {
-	int fd;
-	char *line;
-	char *cpy;
+	int		fd;
+	char	*line;
+	char	*cpy;
 
 	fd = open(".minishell_history", O_RDONLY | O_CREAT, 0640);
 	if (fd < 0)
@@ -40,7 +52,7 @@ int	ft_read_history(void)
 
 int	ft_add_history(char *line)
 {
-	int fd;
+	int	fd;
 
 	if (is_empty_string(line))
 		return (-1);
