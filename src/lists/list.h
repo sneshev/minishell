@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:37:39 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 16:37:41 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/26 15:04:59 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,22 @@
 # define HEREDOC_TERMINATED -7
 
 // list
-t_list	*create_list(t_list *list, char **tokens, int wordc, t_env *env);
-void	update_index(char **tokens, int *index);
-char	*get_cmd(t_env *env, char *cmd);
+t_list			*create_list(t_list *list,
+					char **tokens, int wordc, t_env *env);
+void			update_index(char **tokens, int *index);
+char			*get_cmd(t_env *env, char *cmd);
 
 // list_utils
-char		**get_cmd_args(char **tokens, int index);
-int			count_cmd_args(char **tokens, int index);
-t_list		*new_node(char **tokens, int index, t_env *env);
-void		add_node_back(t_list **list, t_list *current);
+char			**get_cmd_args(char **tokens, int index);
+int				count_cmd_args(char **tokens, int index);
+t_list			*new_node(char **tokens, int index, t_env *env);
+void			add_node_back(t_list **list, t_list *current);
 
 /* void		check_cmd_access(int fd[2], char *cmd); */
 
-
 // files
-t_file			*get_file_list(t_file *file, char **tokens, int index, int file_count);
+t_file			*get_file_list(t_file *file,
+					char **tokens, int index, int file_count);
 char			**get_redir_files(char **tokens, int index, int file_count);
 t_file			*create_file_list(t_file *file, char **files);
 int				create_files(int fd[2], t_file *file, t_env *env);
@@ -47,12 +48,9 @@ int				handle_heredoc(t_file *file, t_env *env);
 char			*heredoc_readline(bool quoted, t_env *env);
 void			end_heredoc(char **line, char *delim, int pipefd[2]);
 
-
 // free
-void	free_env_node(t_env **prev_env);
-void	free_list_node(t_list **prev_list);
-void	free_file_node(t_file **prev_file);
-
-
+void			free_env_node(t_env **prev_env);
+void			free_list_node(t_list **prev_list);
+void			free_file_node(t_file **prev_file);
 
 #endif

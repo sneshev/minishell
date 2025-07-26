@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 14:59:59 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/26 15:01:40 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 #include "list.h"
 #include <fcntl.h>
 
-// if fd == -1 we will not pipe/close the pipe and the computer will read this as empty input
-
+// if fd == -1 we will not pipe/close the pipe
+// the computer will read this as empty input
 void	add_node_back(t_list **list, t_list *current)
 {
 	t_list	*temp;
@@ -20,19 +32,17 @@ void	add_node_back(t_list **list, t_list *current)
 	current->prev = temp;
 }
 
-int		count_cmd_args(char **tokens, int index)
+int	count_cmd_args(char **tokens, int index)
 {
 	int	count;
 
 	count = 0;
-	while(tokens[index] && !is_pipe(tokens[index]))
+	while (tokens[index] && !is_pipe(tokens[index]))
 	{
 		if (is_redirect(tokens[index]) && tokens[index + 1])
 			index += 2;
 		else
 		{
-			// if (tokens[index][0])
-				// count++;
 			count++;
 			index++;
 		}
