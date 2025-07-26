@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/25 15:32:21 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/26 17:37:58 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,13 @@ t_list	*create_list(t_list *list, char **tokens, int wordc, t_env *env)
 	return (list);
 }
 
-t_list	*get_list(t_list *list, char *line, t_env *env)
+t_list	*get_list(char *line, t_env *env)
 {
 	char	**tokens;
 	int		token_count;
+	t_list *list;
 
+	list = NULL;
 	tokens = get_tokens(line, env);
 	if (!tokens)
 		return (NULL);

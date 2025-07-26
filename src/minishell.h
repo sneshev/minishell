@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:50:47 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 14:52:53 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/07/26 17:37:31 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ bool	is_redirect(char *str);
 bool	is_directory(const char *path);
 
 // list
-t_list	*get_list(t_list *list, char *line, t_env *env);
+t_list	*get_list(char *line, t_env *env);
 void	free_env(t_env **env);
 void	free_list(t_list **list);
 void	free_file(t_file **file);

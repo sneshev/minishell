@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/26 14:10:30 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/26 17:40:52 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,28 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+void end_of_cycle(char **line, t_list **list)
+{
+	free(*line);
+	*line = NULL;
+	free_list(list);
+	*list = NULL;
+}
+
+char *ft_readline()
+{
+	char *line;
+
+	if (isatty(STDIN_FILENO) == true)
+	{
+		line = readline("minishell$ ");
+		ft_add_history(line);
+	}
+	else
+		line = get_next_line(STDIN_FILENO);
+	return (line);
+}
+
 // void	minishell(char *envp[])
 void	minishell(char **envp)
 {
@@ -24,8 +46,6 @@ void	minishell(char **envp)
 	t_env	*env;
 	int		exitcode;
 
-	list = NULL;
-	env = NULL;
 	env = get_env(envp);
 	if (!env)
 		return ;
@@ -33,44 +53,24 @@ void	minishell(char **envp)
 	while (1)
 	{
 		enable_signals();
-		if (isatty(STDIN_FILENO) == true)
-		{
-			line = readline("minishell$ ");
-			ft_add_history(line);
-		}
-		else
-			line = get_next_line(STDIN_FILENO);
+		line = ft_readline();
 		if (!line)
 			exit_with_code(0);
-		
-		list = get_list(list, line, env);
-		if (!list)
-		{
-			// printf("no list\n");
-		}
-		else
+		list = get_list(line, env);
+		if (list)
 		{
 			exitcode = execute(list, &env);
-			free_list(&list);
 			set_exit_code(exitcode);
 		}
-		free(line);
-		line = NULL;
+		end_of_cycle(&line, &list);
 	}
 	free_env(&env);
 }
 
 int main(int argc, char *argv[], char *envp[])
 {
-	(void)envp;
-	(void)argc;
 	(void)argv;
-	// char *yo[] = {
-	// 	"hello=hihihi\n",
-	// 	"goodmorning=sunsunsun\n",
-	// 	"binkie=cutecutecute\n",
-	// 	NULL};
-
-	minishell(envp);
+	if (argc == 1)
+		minishell(envp);
 	return (0);
 }
