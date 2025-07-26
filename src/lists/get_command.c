@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:07:27 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/25 15:42:35 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/26 12:53:10 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ char	*check_executable(char *cmd)
 		if (is_directory(full_cmd) == true)
 			return (write_err(cmd, "Is a directory"), full_cmd);
 		if (access(full_cmd, X_OK) == -1)
-			return (write_err(cmd, "Permission denied"), full_cmd);	
+			return (write_err(cmd, "Permission denied"), full_cmd);
+		return (full_cmd);
 	}
 	write_err(cmd, "No such file or directory");
 	return (free(full_cmd), NULL);
@@ -155,7 +156,7 @@ char	*get_cmd(t_env *env, char *cmd)
 
 		if (access(full_cmd, F_OK) == 0)
 		{
-			if (access(cmd, X_OK) == -1)
+			if (access(full_cmd, X_OK) == -1)
 				write_err(cmd, "Permission denied");
 			return (free_arr(paths), full_cmd);
 		}

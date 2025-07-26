@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:39:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/25 14:36:44 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/07/26 12:55:14 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	execute(t_list *list, t_env **env)
 	disable_SIGINT();
 	environment = convert_env(*env);
 	if (!environment)
-	return (-1);
+		return (-1);
 	if (!list->next && is_builtin(list->cmd))
 	{
 		exitcode = execute_builtin_parent(list, env, environment);
