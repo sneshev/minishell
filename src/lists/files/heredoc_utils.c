@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 14:45:40 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/26 14:46:51 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 #include "../../signals/signals.h"
 #include "../../tokens/tokens.h"
@@ -7,9 +19,9 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-int find_envvar_len(char *str, t_env *env);
+int	find_envvar_len(char *str, t_env *env);
 
-static size_t find_len(char *line, t_env *env, size_t len)
+static size_t	find_len(char *line, t_env *env, size_t len)
 {
 	while (*line)
 	{
@@ -28,7 +40,7 @@ static size_t find_len(char *line, t_env *env, size_t len)
 	return (len);
 }
 
-static char *expand_line(char **line, t_env *env, size_t len)
+static char	*expand_line(char **line, t_env *env, size_t len)
 {
 	char	*line2;
 	size_t	i;
@@ -39,8 +51,8 @@ static char *expand_line(char **line, t_env *env, size_t len)
 	line2 = (char *)xmalloc(len * sizeof(char) + 1);
 	if (!line2)
 		return (free(*line), exit(1), NULL);
-	i = 0;	
-	j = 0;	
+	i = 0;
+	j = 0;
 	while (i < len)
 	{
 		if ((*line)[j] == '$')
@@ -57,9 +69,9 @@ static char *expand_line(char **line, t_env *env, size_t len)
 	return (line2);
 }
 
-char *heredoc_readline(bool quoted, t_env *env)
+char	*heredoc_readline(bool quoted, t_env *env)
 {
-	char *line;
+	char	*line;
 
 	line = readline("> ");
 	if (line && !quoted)
@@ -68,14 +80,13 @@ char *heredoc_readline(bool quoted, t_env *env)
 		return (line);
 }
 
-void end_heredoc(char **line, char *delim, int pipefd[2])
+void	end_heredoc(char **line, char *delim, int pipefd[2])
 {
 	if (*line)
 		free(*line);
 	else
 	{
 		printf("warning: here-document at line ? ");
-		// printf("%d ", line);
 		printf("delimited by end-of-file ");
 		printf("(wanted `%s')\n", delim);
 	}

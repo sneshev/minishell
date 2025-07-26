@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_files.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 14:34:55 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/26 14:35:38 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 #include "../../signals/signals.h"
 #include "../list.h"
 #include <errno.h>
 #include <fcntl.h>
 
-int fetch_infile(int infile, t_file *file, t_env *env)
+int	fetch_infile(int infile, t_file *file, t_env *env)
 {
 	if (infile > 0)
 		close(infile);
@@ -20,7 +32,7 @@ int fetch_infile(int infile, t_file *file, t_env *env)
 	return (infile);
 }
 
-int fetch_outfile(int outfile, t_file *file)
+int	fetch_outfile(int outfile, t_file *file)
 {
 	if (outfile > 0)
 		close (outfile);
@@ -35,14 +47,13 @@ int fetch_outfile(int outfile, t_file *file)
 		perror("");
 	}
 	return (outfile);
-
 }
 
 // if its redirect i think we handle it by the flags in open function
 int	create_files(int fd[2], t_file *file, t_env *env)
 {
-	int infile;
-	int outfile;
+	int	infile;
+	int	outfile;
 
 	infile = -2;
 	outfile = -2;

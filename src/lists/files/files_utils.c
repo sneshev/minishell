@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   files_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 14:36:54 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/26 14:37:09 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 #include "../list.h"
 #include <fcntl.h>
@@ -20,7 +32,7 @@ int	count_redir_files(char **tokens, int index)
 	return (count);
 }
 
-t_redir_type find_redir_type(char *str)
+t_redir_type	find_redir_type(char *str)
 {
 	if (*str == '<')
 	{
@@ -67,4 +79,3 @@ void	add_filenode_back(t_file **file, t_file *current)
 		temp = temp->next;
 	temp->next = current;
 }
-

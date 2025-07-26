@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_delim.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 14:44:46 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/26 14:45:24 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 #include "../../signals/signals.h"
 #include "../../tokens/tokens.h"
@@ -18,9 +30,9 @@ bool	has_quote(char *str)
 	return (false);
 }
 
-char *delim_alloc(char *str, int len)
+char	*delim_alloc(char *str, int len)
 {
-	char quote_type;
+	char	quote_type;
 
 	while (*str)
 	{
@@ -37,11 +49,11 @@ char *delim_alloc(char *str, int len)
 			str++;
 		}
 	}
-	// printf("delim len: %d\n", len); fflush(NULL);
 	return ((char *)xmalloc(len * sizeof(char) + 1));
 }
 
-size_t	add_heredoc_quoted_seq(char *delim, char *str, size_t len, char quote_type)
+size_t	add_heredoc_quoted_seq(
+		char *delim, char *str, size_t len, char quote_type)
 {
 	quote_type = *str;
 	while (*++str && *str != quote_type)
@@ -52,12 +64,12 @@ size_t	add_heredoc_quoted_seq(char *delim, char *str, size_t len, char quote_typ
 	return (len);
 }
 
-char *find_delim(char *str)
+char	*find_delim(char *str)
 {
 	char	*delim;
 	size_t	quote_len;
 	size_t	i;
-	
+
 	if (!str)
 		return (NULL);
 	if (!*str)

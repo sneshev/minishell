@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 14:37:21 by sneshev           #+#    #+#             */
+/*   Updated: 2025/07/26 14:43:17 by sneshev          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 #include "../../signals/signals.h"
 #include "../../tokens/tokens.h"
@@ -7,9 +19,9 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-char *find_delim(char *str);
+char	*find_delim(char *str);
 
-void child_heredoc(char *delim, bool quoted, int pipefd[2], t_env *env)
+void	child_heredoc(char *delim, bool quoted, int pipefd[2], t_env *env)
 {
 	char	*line;
 
@@ -25,7 +37,7 @@ void child_heredoc(char *delim, bool quoted, int pipefd[2], t_env *env)
 	}
 }
 
-int parent_heredoc(pid_t pid, int pipefd[2])
+int	parent_heredoc(pid_t pid, int pipefd[2])
 {
 	int		status;
 
@@ -58,15 +70,12 @@ int	handle_heredoc(t_file *file, t_env *env)
 		reset_sigint();
 		delim = find_delim(file->filename);
 		if (!delim && find_quote_len(file->filename, NULL, 0, 0) < 0)
-			return (printf("unclosed quotes"), kill(0, SIGINT), HEREDOC_TERMINATED);
+			return (printf("unclosed quotes"), kill(0, SIGINT), -7);
 		child_heredoc(delim, has_quote(file->filename), pipefd, env);
 	}
-	else
-	{
-		if (!parent_heredoc(pid, pipefd))
-			pipefd[0] = -7;
-		if (delim)
-			free(delim);
-	}
+	if (!parent_heredoc(pid, pipefd))
+		pipefd[0] = -7;
+	if (delim)
+		free(delim);
 	return (pipefd[0]);
 }
