@@ -49,7 +49,7 @@ void	minishell(char **envp)
 	env = get_env(envp);
 	if (!env)
 		return ;
-	// ft_read_history(".minishell_history");
+	// ft_read_history();
 	while (1)
 	{
 		enable_signals();
