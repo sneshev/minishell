@@ -85,5 +85,6 @@ int	execute_pwd(void)
 	if (!dir)
 		return (1);
 	printf("%s\n", dir);
+	free(dir);
 	return (0);
 }

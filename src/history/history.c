@@ -53,10 +53,12 @@ int	ft_read_history(void)
 int	ft_add_history(char *line)
 {
 	int	fd;
+	
 
 	if (is_empty_string(line))
 		return (-1);
 	add_history(line);
+	// getcwd();
 	fd = open(".minishell_history", O_WRONLY | O_CREAT | O_APPEND, 0640);
 	if (fd < 0)
 		return (-1);
