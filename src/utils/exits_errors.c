@@ -25,6 +25,7 @@ void	exit_with_code(int exit_code, t_list **list_ptr, t_env **env_ptr, char **en
 	free_list(list_ptr);
 	free_env(env_ptr);
 	free_arr(environment);
+	ft_readline(true);
 	exit(exit_code % 256);
 }
 

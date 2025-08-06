@@ -64,8 +64,9 @@ void	set_exit_code(int new_code);
 int		get_exit_code(void);
 
 // history
+char    *ft_readline(bool close_fd);
 int		ft_read_history(void);
-int		ft_add_history(char *line);
+int		ft_add_history(char *line, int *fd);
 
 // exits
 void	exit_with_code(int exit_code, t_list **list_ptr, t_env **env_ptr, char **environment);
