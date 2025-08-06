@@ -47,7 +47,10 @@ void	minishell(char **envp)
 		enable_signals();
 		line = ft_readline();
 		if (!line)
-			exit_with_code(0);
+		{
+			write(1, "exit\n", 5);
+			exit_with_code(0, NULL, &env, NULL);
+		}
 		list = get_list(line, env);
 		free(line);
 		if (list)

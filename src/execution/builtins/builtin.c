@@ -52,9 +52,9 @@ int	execute_builtin(t_list *list, t_env **env, char **environment)
 	else if (ft_strncmp(list->cmd, "exit", 5) == 0)
 	{
 		if (list->prev == NULL && list->next == NULL)
-			return (execute_exit(list, false));
+			return (execute_exit(list, env, environment, false));
 		else
-			return (execute_exit(list, true));
+			return (execute_exit(list, env, environment, true));
 	}
 	return (0);
 }

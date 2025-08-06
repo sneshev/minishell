@@ -126,7 +126,7 @@ int		execute_pwd(void);
 int		execute_export(t_list *list, t_env **env);
 int		execute_unset(t_list *list, t_env **env);
 int		execute_env(t_list *list, char **environment);
-int		execute_exit(t_list *list, bool in_pipe);
+int		execute_exit(t_list *list, t_env **env_ptr, char **environment, bool in_pipe);
 
 //export
 int		execute_export(t_list *list, t_env **env);

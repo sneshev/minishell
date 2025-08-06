@@ -68,7 +68,7 @@ int		ft_read_history(void);
 int		ft_add_history(char *line);
 
 // exits
-void	exit_with_code(int exit_code);
+void	exit_with_code(int exit_code, t_list **list_ptr, t_env **env_ptr, char **environment);
 void	error_message(char const *s, int exit_code);
 
 // execute
