@@ -50,30 +50,32 @@ int	ft_read_history(void)
 	return (1);
 }
 
-int	ft_add_history(char *line, int *fd)
+int	ft_add_history(char *line, bool close_fd)
 {
-	char	*cwd;
-	char	*file_name;
+	static int	fd = -2;
+	char		*file_name;
+	char		*cwd;
 
-	if (*fd < 0)
+	if (close_fd)
+		return (close(fd), 1);
+	if (fd < 0)
 	{
 		cwd = getcwd(NULL, 0);
 		if (!cwd)
 			return (-1);
-		file_name = ft_strjoin(cwd, ".minishell_history");
+		file_name = ft_strjoin(cwd, "/.minishell_history");
 		free(cwd);
 		if (!file_name)
 			return(-1);
-		*fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0640);
-		if (*fd < 0)
+		fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0640);
+		if (fd < 0)
 			return (-1);
 		free(file_name);
 	}
 	if (is_empty_string(line))
 		return (-1);
 	add_history(line);
-
-	write(*fd, line, ft_strlen(line));
-	write(*fd, "\n", 1);
+	write(fd, line, ft_strlen(line));
+	write(fd, "\n", 1);
 	return (1);
 }

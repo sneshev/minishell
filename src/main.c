@@ -16,20 +16,14 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-char *ft_readline(bool close_fd)
+char *ft_readline(void)
 {
 	char *line;
-	static int fd = -2;
 
-	if (close_fd)
-	{
-		close(fd);
-		return (NULL);
-	}
 	if (isatty(STDIN_FILENO) == true)
 	{
 		line = readline("minishell$ ");
-		ft_add_history(line, &fd);
+		ft_add_history(line, false);
 	}
 	else
 		line = get_next_line(STDIN_FILENO);
@@ -47,11 +41,11 @@ void	minishell(char **envp)
 	env = get_env(envp);
 	if (!env)
 		return ;
-	// ft_read_history();
+	ft_read_history();
 	while (1)
 	{
 		enable_signals();
-		line = ft_readline(false);
+		line = ft_readline();
 		if (!line)
 		{
 			write(1, "exit\n", 5);
