@@ -16,14 +16,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-void end_of_cycle(char **line, t_list **list)
-{
-	free(*line);
-	*line = NULL;
-	free_list(list);
-	*list = NULL;
-}
-
 char *ft_readline()
 {
 	char *line;
@@ -57,14 +49,15 @@ void	minishell(char **envp)
 		if (!line)
 			exit_with_code(0);
 		list = get_list(line, env);
+		free(line);
 		if (list)
 		{
 			exitcode = execute(list, &env);
+			free_list(&list);
 			set_exit_code(exitcode);
 		}
-		end_of_cycle(&line, &list);
 	}
-	free_env(&env);
+	free_env(&env); // don do shit..
 }
 
 int main(int argc, char *argv[], char *envp[])
