@@ -50,11 +50,12 @@ bool	is_valid_code(char *str)
 	return (true);
 }
 
-int	execute_exit(t_list *list)
+int	execute_exit(t_list *list, bool in_pipe)
 {
 	int	arg_count;
 
-	write(1, "exit\n", 5);
+	if (!in_pipe)
+		write(1, "exit\n", 5);
 	arg_count = count_strings(list->args, true) - 1;
 	if (arg_count == 0)
 		exit_with_code(0);

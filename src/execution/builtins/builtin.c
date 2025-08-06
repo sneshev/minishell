@@ -29,7 +29,7 @@ bool	is_builtin(char *cmd)
 		return (true);
 	else if (ft_strncmp(cmd, "env", 4) == 0)
 		return (true);
-	else if (ft_strncmp(cmd, "exit", 6) == 0)
+	else if (ft_strncmp(cmd, "exit", 5) == 0)
 		return (true);
 	else
 		return (false);
@@ -50,7 +50,12 @@ int	execute_builtin(t_list *list, t_env **env, char **environment)
 	else if (ft_strncmp(list->cmd, "env", 4) == 0)
 		return (execute_env(list, environment));
 	else if (ft_strncmp(list->cmd, "exit", 5) == 0)
-		return (execute_exit(list));
+	{
+		if (list->prev == NULL && list->next == NULL)
+			return (execute_exit(list, false));
+		else
+			return (execute_exit(list, true));
+	}
 	return (0);
 }
 
