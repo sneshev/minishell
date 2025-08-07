@@ -60,13 +60,10 @@ t_list	*new_node(char **tokens, int index, t_env *env)
 		args = get_cmd_args(tokens, index);
 		if (!args)
 			return (free(node), NULL);
-		cmd = NULL;
 		if (is_builtin(args[0]))
 			cmd = ft_strdup(args[0]);
 		else
 			cmd = get_cmd(env, args[0]);
-		if (!cmd)
-			cmd = NULL;
 	}
 	if (handle_files(tokens, index, fd, env) == HEREDOC_TERMINATED)
 		return (free(node), free_arr(args), free(cmd), NULL);
