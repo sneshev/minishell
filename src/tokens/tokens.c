@@ -103,11 +103,7 @@ void	add_token(char **arr, int index, char *str, t_env *env)
 			str += find_quote_len(str, env, true, false);
 		}
 		else
-		{
-			arr[index][j] = *str;
-			j++;
-			str++;
-		}
+			arr[index][j++] = *(str++);
 	}
 	arr[index][j] = '\0';
 }
