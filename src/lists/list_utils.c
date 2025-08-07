@@ -85,3 +85,13 @@ void	update_index(char **tokens, int *index)
 	if (tokens[*index] && is_pipe(tokens[*index]))
 		(*index)++;
 }
+
+void	setup_node(t_list **node, char *cmd, char **args, int fd[2])
+{
+	(*node)->cmd = cmd;
+	(*node)->args = args;
+	(*node)->input = fd[0];
+	(*node)->output = fd[1];
+	(*node)->prev = NULL;
+	(*node)->next = NULL;
+}

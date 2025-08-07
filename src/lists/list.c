@@ -15,16 +15,7 @@
 #include <fcntl.h>
 
 void	update_index(char **tokens, int *index);
-
-void	setup_node(t_list **node, char *cmd, char **args, int fd[2])
-{
-	(*node)->cmd = cmd;
-	(*node)->args = args;
-	(*node)->input = fd[0];
-	(*node)->output = fd[1];
-	(*node)->prev = NULL;
-	(*node)->next = NULL;
-}
+void	setup_node(t_list **node, char *cmd, char **args, int fd[2]);
 
 int	handle_files(char **tokens, int index, int fd[2], t_env *env)
 {
