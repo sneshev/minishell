@@ -29,7 +29,7 @@ int	find_quote_len(
 	while (*str && *str != quote_type)
 	{
 		if (*str == '$')
-			count_envvar(&str, env, count_quote, &count);
+			count_envvar(&str, env, expand_envvar, &count);
 		else
 		{
 			count++;

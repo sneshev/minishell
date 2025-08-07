@@ -87,10 +87,7 @@ char	*find_delim(char *str)
 			i += quote_len;
 		}
 		else
-		{
-			delim[i++] = *str;
-			str++;
-		}
+			delim[i++] = *(str++);
 	}
 	delim[i] = '\0';
 	return (delim);
