@@ -75,7 +75,7 @@ char	**get_paths(t_env *env, char *cmd, int i)
 		free(temp);
 		i++;
 	}
-	return (paths);
+	return (free(path), paths);
 }
 
 char	*get_cmd(t_env *env, char *cmd)
