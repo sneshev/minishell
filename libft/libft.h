@@ -55,6 +55,6 @@ int		ft_tolower(int c);
 int		ft_toupper(int c);
 
 int     dec(int n);
-char	*charnum(int n, int len, char *ptr, int sign);
+char    *charnum(int n, int len, char *ptr, int sign);
 
 #endif
