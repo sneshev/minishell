@@ -41,7 +41,7 @@ int	execute_list(t_list *list, int pid_count, t_env **env, char **environment)
 		if (list->next)
 		{
 			if (pipe(pip) == -1)
-			perror_message("pipe");
+				perror_message("pipe");
 		}
 		pid[i] = fork();
 		if (pid[i] == CHILD)
@@ -65,7 +65,7 @@ int	execute(t_list *list, t_env **env)
 	environment = convert_env(*env);
 	if (!environment)
 		return (-1);
-	if (!list->next && is_builtin(list->cmd))
+	if (is_builtin(list->cmd) && !list->next)
 	{
 		exitcode = execute_builtin_parent(list, env, environment);
 		return (free_arr(environment), exitcode);
