@@ -42,7 +42,6 @@ void	*xmalloc(size_t size)
 		ft_putstr_fd("minishell: xmalloc: cannot allocate )", 2);
 		ft_putnbr_fd((int)size, 2);
 		ft_putstr_fd(" bytes (errno 12: Cannot allocate memory)", 2);
-		// exit_with_code(1);
 		return (NULL);
 	}
 	return (ptr);

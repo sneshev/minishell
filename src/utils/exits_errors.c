@@ -19,7 +19,9 @@ void	error_message(char const *s, int exit_code)
 	printf("%s\n", s);
 }
 
-void	exit_with_code(int exit_code, t_list **list_ptr, t_env **env_ptr, char **environment)
+void	exit_with_code(
+	int exit_code, t_list **list_ptr,
+	t_env **env_ptr, char **environment)
 {
 	free_list(list_ptr);
 	free_env(env_ptr);
