@@ -16,14 +16,14 @@
 void	handle_setup_close(t_list *list, int *pip, int *pipe_input)
 {
 	if (list->prev)
-	close(*pipe_input);
+		close(*pipe_input);
 	if (list->next)
 	{
 		*pipe_input = pip[READ];
 		close(pip[WRITE]);
 	}
 	if (!list->next && *pipe_input != -1)
-	close(*pipe_input);
+		close(*pipe_input);
 }
 
 int	execute_list(t_list *list, int pid_count, t_env **env, char **environment)

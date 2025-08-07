@@ -100,18 +100,6 @@
 // // 	printf("\n");
 // }
 
-// // void	print_list(t_list *list)
-// // {
-// 	// (void)list;
-// 	// while (list)
-// 	// {
-// 	// 	printf("list->line: %s\n", list->arg);
-// 	// 	printf("list->arg_type: %d ", list->arg_type);
-// 	// 	print_type(list->arg_type);
-// 	// 	printf("-----------------------\n");
-// 	// 	list = list->next;
-// 	// }
-// // }
 
 // void	print_files(t_file *file)
 // {
@@ -127,8 +115,7 @@
 // {
 // 	while (list)
 // 	{
-// 		// if (list->cmd)
-// 			// printf("cmd: %s\n", list->cmd);
+// 		printf("cmd: %s\n", list->cmd);
 // 		print_arr(list->args);
 // 		printf("input: %d\n", list->input);
 // 		printf("output: %d\n", list->output);

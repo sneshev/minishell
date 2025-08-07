@@ -70,6 +70,8 @@ void	child_process(t_list *list, int *pip, int prev_pipe, t_env **env, char **en
 	int	exitcode;
 
 	reset_signals();
+	if (!list->args)
+		exit (0);
 	exitcode = check_invalid_file_cmd(list, *env);
 	if (exitcode != 0)
 	{
