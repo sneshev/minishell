@@ -111,33 +111,24 @@ void	add_token(char **arr, int index, char *str, t_env *env)
 	arr[index][j] = '\0';
 }
 
-char	**get_tokens(char *str, t_env *env)
+char	**get_tokens(char *str, t_env *env, int total_tokens, int index)
 {
 	char	**arr;
-	int		total_tokens;
-	int		index;
 
-	total_tokens = count_tokens(str, env);
 	if (total_tokens < 0)
 		return (printf("unclosed quotes\n"), NULL);
 	arr = (char **)malloc((total_tokens + 1) * sizeof(char *));
 	if (!arr)
 		return (NULL);
-	index = 0;
 	while (index < total_tokens)
 	{
 		while (is_space(*str))
 			str++;
-		if (is_heredoc(str))
-		{
-			if (add_heredoc_tokens(arr, &index, &str) == -1)
-				return (free_arr(arr), NULL);
-		}
-		else if (find_token_len(str, env, false, true) == 0)
-		{
+		if (is_heredoc(str) && add_heredoc_tokens(arr, &index, &str) == -1)
+			return (free_arr(arr), NULL);
+		else if (!is_heredoc(str) && find_token_len(str, env, false, true) == 0)
 			str += find_token_len(str, env, true, false);
-		}
-		else
+		else if (!is_heredoc(str))
 		{
 			add_token(arr, index, str, env);
 			str += find_token_len(str, env, true, false);
@@ -146,6 +137,5 @@ char	**get_tokens(char *str, t_env *env)
 			index++;
 		}
 	}
-	arr[index] = NULL;
-	return (arr);
+	return (arr[index] = NULL, arr);
 }

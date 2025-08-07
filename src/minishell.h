@@ -42,7 +42,7 @@ int		count_strings(char **arr, bool count_empty);
 long	ft_atol(const char *nptr);
 
 // tokens
-char	**get_tokens(char *str, t_env *env);
+char	**get_tokens(char *str, t_env *env, int total_tokens, int index);
 bool	is_valid_syntax(char **tokens);
 int		count_tokens(char *str, t_env *env);
 bool	is_pipe(char *str);

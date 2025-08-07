@@ -103,7 +103,7 @@ t_list	*get_list(char *line, t_env *env)
 	t_list *list;
 
 	list = NULL;
-	tokens = get_tokens(line, env);
+	tokens = get_tokens(line, env, count_tokens(line, env), 0);
 	if (!tokens)
 		return (NULL);
 	if (!is_valid_syntax(tokens))
