@@ -13,6 +13,24 @@
 #include "../../minishell.h"
 #include "../execution.h"
 
+bool	check_int_and_bounds(char *str, int len, char sign)
+{
+	while (ft_isdigit(str[len]))
+		len++;
+	if (str[len] != '\0')
+		return (false);
+	if (len > 19)
+		return (false);
+	if (len == 19)
+	{
+		if (sign == 'p' && ft_strcmp(str, "9223372036854775807") > 0)
+			return (false);
+		if (sign == 'n' && ft_strcmp(str, "9223372036854775808") > 0)
+			return (false);
+	}
+	return (true);
+}
+
 bool	is_valid_code(char *str)
 {
 	int		len;
@@ -34,20 +52,7 @@ bool	is_valid_code(char *str)
 		str++;
 	if (!*str)
 		return (true);
-	while (ft_isdigit(str[len]))
-		len++;
-	if (str[len] != '\0')
-		return (false);
-	if (len > 19)
-		return (false);
-	if (len == 19)
-	{
-		if (sign == 'p' && ft_strcmp(str, "9223372036854775807") > 0)
-			return (false);
-		if (sign == 'n' && ft_strcmp(str, "9223372036854775808") > 0)
-			return (false);
-	}
-	return (true);
+	return (check_int_and_bounds(str, len, sign));
 }
 
 int	execute_exit(t_list *list, t_env **env_ptr, char **environment, bool in_pipe)
