@@ -13,6 +13,8 @@
 #include "../minishell.h"
 #include "tokens.h"
 
+void	count_envvar(char **str, t_env *env, bool expand_envvar, int *count);
+
 int	find_quote_len(
 	char *str, t_env *env, bool count_quote, bool expand_envvar)
 {
@@ -24,19 +26,10 @@ int	find_quote_len(
 	if (quote_type == '\'')
 		expand_envvar = false;
 	str++;
-	while (*str)
+	while (*str && *str != quote_type)
 	{
-		if (*str == quote_type)
-			break ;
 		if (*str == '$')
-		{
-			str++;
-			if (expand_envvar)
-				count += find_envvar_len(str, env);
-			else
-				count += 1 + find_varname_len(str);
-			str += find_varname_len(str);
-		}
+			count_envvar(&str, env, count_quote, &count);
 		else
 		{
 			count++;
