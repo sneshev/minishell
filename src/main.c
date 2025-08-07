@@ -16,9 +16,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-char *ft_readline(void)
+char	*ft_readline(void)
 {
-	char *line;
+	char	*line;
 
 	if (isatty(STDIN_FILENO) == true)
 	{
@@ -60,10 +60,9 @@ void	minishell(char **envp)
 			set_exit_code(exitcode);
 		}
 	}
-	free_env(&env); // don do shit..
 }
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	(void)argv;
 	if (argc == 1)
