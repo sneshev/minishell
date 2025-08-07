@@ -77,3 +77,11 @@ char	**get_cmd_args(char **tokens, int index)
 	args[i] = NULL;
 	return (args);
 }
+
+void	update_index(char **tokens, int *index)
+{
+	while (tokens[*index] && !is_pipe(tokens[*index]))
+		(*index)++;
+	if (tokens[*index] && is_pipe(tokens[*index]))
+		(*index)++;
+}

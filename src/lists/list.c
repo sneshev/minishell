@@ -14,6 +14,8 @@
 #include "list.h"
 #include <fcntl.h>
 
+void	update_index(char **tokens, int *index);
+
 void	setup_node(t_list **node, char *cmd, char **args, int fd[2])
 {
 	(*node)->cmd = cmd;
@@ -71,14 +73,6 @@ t_list	*new_node(char **tokens, int index, t_env *env)
 	return (node);
 }
 
-void	update_index(char **tokens, int *index)
-{
-	while(tokens[*index] && !is_pipe(tokens[*index]))
-		(*index)++;
-	if (tokens[*index] && is_pipe(tokens[*index]))
-		(*index)++;
-}
-
 t_list	*create_list(t_list *list, char **tokens, int wordc, t_env *env)
 {
 	t_list	*new;
@@ -100,7 +94,7 @@ t_list	*get_list(char *line, t_env *env)
 {
 	char	**tokens;
 	int		token_count;
-	t_list *list;
+	t_list	*list;
 
 	list = NULL;
 	tokens = get_tokens(line, env, count_tokens(line, env), 0);
