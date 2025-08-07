@@ -55,9 +55,10 @@ bool	is_valid_code(char *str)
 	return (check_int_and_bounds(str, len, sign));
 }
 
-int	execute_exit(t_list *list, t_env **env_ptr, char **environment, bool in_pipe)
+int	execute_exit(
+	t_list *list, t_env **env_ptr, char **environment, bool in_pipe)
 {
-	int	arg_count;
+	int		arg_count;
 	t_list	**list_ptr;
 
 	list_ptr = NULL;
@@ -72,15 +73,14 @@ int	execute_exit(t_list *list, t_env **env_ptr, char **environment, bool in_pipe
 	else if (arg_count == 1)
 	{
 		if (is_valid_code((list->args)[1]))
-			exit_with_code(ft_atol((list->args)[1]) % 256, list_ptr, env_ptr, environment);
+			exit_with_code(
+				ft_atol((list->args)[1]) % 256, list_ptr, env_ptr, environment);
 		else
 		{
 			write(1, "exit: ", 6);
 			write_err((list->args)[1], "numeric argument required");
-			exit_with_code(2, list_ptr, env_ptr, environment); 
+			exit_with_code(2, list_ptr, env_ptr, environment);
 		}
 	}
-	else
-		write_err("exit", "too many arguments");
-	return (1);
+	return (write_err("exit", "too many arguments"), 1);
 }
