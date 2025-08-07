@@ -39,6 +39,7 @@ int	handle_files(char **tokens, int index, int fd[2], t_env *env)
 	}
 	if (create_files(fd, file, env) == HEREDOC_TERMINATED)
 		return (free_file(&file), HEREDOC_TERMINATED);
+	free_file(&file);
 	return (0);
 }
 

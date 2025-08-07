@@ -52,8 +52,9 @@ t_file	*get_file_list(t_file *file, char **tokens, int index, int file_count)
 	if (!files)
 		return (NULL);
 	file = create_file_list(file, files);
+	free_arr(files);
 	if (!file)
-		return (free_arr(files), NULL);
+		return (NULL);
 	return (file);
 }
 

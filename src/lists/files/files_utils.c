@@ -57,6 +57,8 @@ t_file	*new_file_node(char *redir_type, char *filename)
 	t_file	*node;
 
 	node = xmalloc(sizeof(t_file));
+	if (!node)
+		return (NULL);
 	node->type = find_redir_type(redir_type);
 	node->filename = ft_strdup(filename);
 	if (!node->filename)
