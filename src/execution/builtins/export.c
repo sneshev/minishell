@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:26:29 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/25 13:36:22 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:29:00 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_export(t_env *env)
 	}
 }
 
-t_env 	*create_new_variable(t_env **env, char *arg, char *name)
+t_env	*create_new_variable(t_env **env, char *arg, char *name)
 {
 	t_env	*new;
 	char	*name_copy;
@@ -63,7 +63,7 @@ t_env	*replace_env_value(t_env *env, char *arg, int index)
 		env = env->next;
 		i++;
 	}
-	if (env->name[ft_strlen(env->name ) - 1] != '=')
+	if (env->name[ft_strlen(env->name) - 1] != '=')
 	{
 		new_name = ft_strjoin(env->name, "=");
 		if (!new_name)

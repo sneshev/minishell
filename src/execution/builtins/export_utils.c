@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:15 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/08/08 18:19:02 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/08 18:29:39 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ int	existing_name(t_env *env, char *name)
 	while (env)
 	{
 		if ((ft_strcmp(env->name, name) == 0)
-			|| (ft_strncmp(env->name, name, ft_strlen(env->name)) == 0 && name[ft_strlen(env->name)] == '=')
-			|| (ft_strncmp(name, env->name, ft_strlen(name)) == 0 && env->name[ft_strlen(name)] == '='))
+			|| (ft_strncmp(env->name, name, ft_strlen(env->name)) == 0
+				&& name[ft_strlen(env->name)] == '=')
+			|| (ft_strncmp(name, env->name, ft_strlen(name)) == 0
+				&& env->name[ft_strlen(name)] == '='))
 		{
 			return (i);
 		}
