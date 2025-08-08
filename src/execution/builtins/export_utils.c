@@ -42,34 +42,23 @@ bool	validate_export_syntax(char *cmd)
 	return (true);
 }
 
-bool	existing_key(t_env **env, char *key)
-{
-	t_env	*temp;
-
-	temp = *env;
-	while (temp)
-	{
-		if (ft_strncmp(temp->name, key, ft_strlen(key)) == 0
-			&& temp->name[ft_strlen(key)] == '=')
-			return (true);
-		temp = temp->next;
-	}
-	return (false);
-}
-
-//checks if the key has a value (doesnt matter if it has '=' or not)
-bool	check_empty_keyvalue(char *arg)
+int	existing_name(t_env *env, char *name)
 {
 	int	i;
 
 	i = 0;
-	while (arg[i])
+	while (env)
 	{
-		if (arg[i] == '=' && arg[i + 1])
-			return (false);
+		if ((ft_strcmp(env->name, name) == 0)
+		|| (ft_strncmp(env->name, name, ft_strlen(env->name)) == 0 && name[ft_strlen(env->name)] == '=')
+		|| (ft_strncmp(name, env->name, ft_strlen(name)) == 0 && env->name[ft_strlen(name)] == '='))
+		{
+			return (i);
+		}
 		i++;
+		env = env->next;
 	}
-	return (true);
+	return (-1);
 }
 
 t_env	*get_next_lowest_node(t_env *env, t_env *lowest)

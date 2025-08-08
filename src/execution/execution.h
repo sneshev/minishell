@@ -52,8 +52,7 @@ int		execute_export(t_list *list, t_env **env);
 //export utils
 void	write_export_err(char *s);
 bool	validate_export_syntax(char *cmd);
-bool	check_empty_keyvalue(char *arg);
-bool	existing_key(t_env **env, char *key);
+int		existing_name(t_env *env, char *name);
 t_env	*get_lowest_node(t_env *env);
 t_env	*get_next_lowest_node(t_env *env, t_env *lowest);
 
@@ -93,22 +92,9 @@ int		execute_env(t_list *list, char **environment);
 int		execute_exit(
 			t_list *list, t_env **env_ptr, char **environment, bool in_pipe);
 
-//export
-int		execute_export(t_list *list, t_env **env);
-t_env	*replace_env_value(t_env **env, char *arg, char *name);
-t_env	*create_new_variable(t_env **env, char *arg, char *name);
-t_env	*export_empty_key(t_env **env, t_env *cur, char *name);
-bool	existing_key(t_env **env, char *key);
-bool	check_empty_keyvalue(char *arg);
-void	print_export(t_env *export);
-
 // execute utils
 char	**convert_env(t_env *env);
 int		count_env_vars(t_env *env);
-int		execute_builtin(t_list *list, t_env **env, char **environment);
-bool	is_builtin(char *cmd);
-t_env	*create_var_node(char *var, t_env **env);
-bool	validate_export_syntax(char *cmd);
 
 // free
 void	free_env_node(t_env **prev_env);

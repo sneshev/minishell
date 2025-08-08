@@ -32,83 +32,59 @@ void	print_export(t_env *env)
 	}
 }
 
-t_env	*export_empty_key(t_env **env, t_env *cur, char *name)
+t_env 	*create_new_variable(t_env **env, char *arg, char *name)
 {
 	t_env	*new;
+	char	*name_copy;
 	char	*value;
 
-	value = ft_strdup("");
-	if (!value)
+	name_copy = ft_strdup(name);
+	if (!name_copy)
 		return (NULL);
-	new = NULL;
-	if (cur == NULL)
-	{
-		if (existing_key(env, name) == true)
-			return (free(value), NULL);
-		new = new_env_node(name, value);
-		if (!new)
-			return (free(value), NULL);
-		add_env_node_back(env, new);
-	}
-	else
-	{
-		if (cur->value)
-			free(cur->value);
-		cur->value = value;
-	}
-	return (*env);
-}
-
-t_env	*create_new_variable(t_env **env, char *arg, char *name)
-{
-	t_env	*new;
-	char	*key;
-	char	*value;
-
-	key = ft_strdup(name);
-	if (!key)
-		return (NULL);
-	if (check_empty_keyvalue(arg) == true)
-		return (export_empty_key(env, NULL, key));
 	value = get_env_value(arg);
 	if (!value)
-		return (free(key), NULL);
-	new = new_env_node(key, value);
+		return (free(name_copy), NULL);
+	new = new_env_node(name_copy, value);
 	if (!new)
-		return (free(key), free(value), NULL);
+		return (free(name_copy), free(value), NULL);
 	add_env_node_back(env, new);
 	return (*env);
 }
 
-t_env	*replace_env_value(t_env **env, char *arg, char *name)
+t_env	*replace_env_value(t_env *env, char *arg, int index)
 {
-	t_env	*cur;
 	char	*value;
+	char	*new_name;
+	int		i;
 
-	cur = *env;
-	while (cur)
+	i = 0;
+	while (i < index)
 	{
-		if (ft_strcmp(cur->name, name) == 0)
-		{
-			if (check_empty_keyvalue(arg) == true)
-				return (export_empty_key(env, cur, name));
-			value = get_env_value(arg);
-			if (!value)
-				return (NULL);
-			if (cur->value)
-				free(cur->value);
-			cur->value = value;
-			return (cur);
-		}
-		cur = cur->next;
+		env = env->next;
+		i++;
 	}
-	return (NULL);
+	if (env->name[ft_strlen(env->name ) - 1] != '=')
+	{
+		new_name = ft_strjoin(env->name, "=");
+		if (!new_name)
+			return (NULL);
+		free(env->name);
+		env->name = new_name;
+	}
+	value = get_env_value(arg);
+	if (!value)
+		return (NULL);
+	if (env->value)
+		free(env->value);
+	env->value = value;
+	return (env);
 }
 
 int	execute_export(t_list *list, t_env **env)
 {
 	char	*name;
 	int		i;
+	int		index;
 
 	if (!list->args[1])
 		print_export(*env);
@@ -120,7 +96,10 @@ int	execute_export(t_list *list, t_env **env)
 			return (-1);
 		if (validate_export_syntax(name) == false)
 			return (free(name), 1);
-		if (replace_env_value(env, list->args[i], name) == NULL)
+		index = existing_name(*env, name);
+		if (index != -1)
+			replace_env_value(*env, list->args[i], index);
+		else
 			create_new_variable(env, list->args[i], name);
 		free(name);
 		i++;
