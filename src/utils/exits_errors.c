@@ -3,21 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exits_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:38:20 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 13:38:30 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:47:33 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <readline/history.h>
-
-void	error_message(char const *s, int exit_code)
-{
-	(void)exit_code;
-	printf("%s\n", s);
-}
 
 void	exit_with_code(
 	int exit_code, t_list **list_ptr,

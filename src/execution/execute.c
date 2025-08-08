@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:39:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/26 13:13:51 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:47:14 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,20 @@ void	handle_setup_close(t_list *list, int pip[3])
 
 int	execute_list(t_list *list, int pid_count, t_env **env, char **environment)
 {
-	pid_t	pid[pid_count];
+	pid_t	*pid;
 	int		pip[3];
 	int		i;
 	int		exitcode;
 
+	pid = malloc(sizeof(pid_t) * pid_count);
+	if (!pid)
+		return (-1);
 	i = 0;
 	pip[2] = -1;
 	while (i < pid_count)
 	{
-		if (list->next)
-		{
-			if (pipe(pip) == -1)
-				perror_message("pipe");
-		}
+		if (list->next && pipe(pip) == -1)
+			return (write_err("pipe", "error"), free(pid), 1);
 		pid[i] = fork();
 		if (pid[i] == CHILD)
 			child_process(list, pip, env, environment);
@@ -51,6 +51,7 @@ int	execute_list(t_list *list, int pid_count, t_env **env, char **environment)
 		i++;
 	}
 	exitcode = wait_for_pids(pid, pid_count);
+	free(pid);
 	return (exitcode);
 }
 
