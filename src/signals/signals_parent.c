@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_parent.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 22:06:48 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/25 22:08:07 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:49:05 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	receive_sigint(int sig)
 	(void)sig;
 	g_signal = 0;
 	ft_putstr_fd("\n", STDERR_FILENO);
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
