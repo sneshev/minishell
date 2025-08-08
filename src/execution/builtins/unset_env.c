@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   unset_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:08:42 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 16:41:12 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:22:50 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,13 @@ int	execute_unset(t_list *list, t_env **env)
 		name = get_env_name(list->args[i]);
 		if (!name)
 			return (1);
-		while (cur)
+		while (cur && is_matching_varname(cur->name, name) == false)
 		{
-			if (is_matching_varname(cur->name, name) == true)
-			{
-				unset_var(env, cur, prev);
-				break ;
-			}
 			prev = cur;
 			cur = cur->next;
 		}
+		if (cur && is_matching_varname(cur->name, name) == true)
+			unset_var(env, cur, prev);
 		i++;
 		free(name);
 	}

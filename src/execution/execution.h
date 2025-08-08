@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:20:34 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/25 13:35:10 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:18:33 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 //execute
 int		execute(t_list *list, t_env **env);
 
-void	child_process(t_list *list, int pip[3], t_env **env, char **environment);
+void	child_process(t_list *list, int pip[3],
+			t_env **env, char **environment);
 //access
 int		check_invalid_file_cmd(t_list *list, t_env *env);
 
