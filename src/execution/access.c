@@ -47,8 +47,9 @@
 // 		return (0);
 // 	if (ft_strcmp)
 // 		return (check_access(list->cmd));
-	
-// 	//we still check this cause if its neither a builtin or cmd we still strdup cause we need to node
+
+// 	//we still check this cause if its neither 
+//	//a builtin or cmd we still strdup cause we need to node
 // 	if (get_cmd(env, list->cmd) == NULL)
 // 		return (write_err(list->cmd, "command not found"), 127);
 // 	return (check_access(list->cmd));

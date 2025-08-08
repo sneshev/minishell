@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:00 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/16 17:54:00 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/08 11:36:45 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,11 @@ t_env	*get_env(char **envp)
 	env = NULL;
 	envs = arr_dup(envp);
 	if (!envs)
-		return (NULL);
+		exit(1);
 	create_env(&env, envs);
 	free_arr(envs);
+	if (!env)
+		exit(1);
 	return (env);
 }
 
@@ -101,4 +103,3 @@ t_env	*get_env(char **envp)
 // 	free(env);
 // 	return (0);
 // }
-

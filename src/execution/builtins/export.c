@@ -30,7 +30,6 @@ void	print_export(t_env *env)
 		printf("%s %s%s\n", s, lowest->name, lowest->value);
 		env_len--;
 	}
-
 }
 
 t_env	*export_empty_key(t_env **env, t_env *cur, char *name)
@@ -70,7 +69,7 @@ t_env	*create_new_variable(t_env **env, char *arg, char *name)
 	if (!key)
 		return (NULL);
 	if (check_empty_keyvalue(arg) == true)
-		return(export_empty_key(env, NULL, key));
+		return (export_empty_key(env, NULL, key));
 	value = get_env_value(arg);
 	if (!value)
 		return (free(key), NULL);

@@ -23,7 +23,7 @@ int	name_length(const char *s)
 		if (s[i] == '=')
 		{
 			i++;
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -50,7 +50,6 @@ char	*get_env_name(char *env)
 	return (name);
 }
 
-
 char	*get_env_value(char *env)
 {
 	char	*value;
@@ -62,7 +61,6 @@ char	*get_env_value(char *env)
 	value = ft_substr(env, name_len, env_len);
 	return (value);
 }
-
 
 char	**arr_dup(char **arr)
 {

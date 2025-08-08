@@ -31,7 +31,7 @@ int	wait_for_pids(pid_t *pid, int pid_count)
 	int	i;
 	int	status;
 	int	exitcode;
-	
+
 	i = 0;
 	status = 0;
 	exitcode = 0;
@@ -42,14 +42,13 @@ int	wait_for_pids(pid_t *pid, int pid_count)
 	}
 	waitpid(pid[i], &status, 0);
 	if (WEXITSTATUS(status))
-	exitcode = (WEXITSTATUS(status));
+		exitcode = (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGQUIT)
-		write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
 		else if (WTERMSIG(status) == SIGINT)
-		write(STDOUT_FILENO, "\n", 1);
+			write(STDOUT_FILENO, "\n", 1);
 	}
-	
 	return (exitcode);
 }

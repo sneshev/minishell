@@ -20,8 +20,6 @@ int	execute_echo(t_list *list)
 
 	i = 1;
 	newline = 1;
-
-
 	while (list->args[i] && is_newline_flag(list->args[i]) == true)
 	{
 		newline = 0;
@@ -37,7 +35,6 @@ int	execute_echo(t_list *list)
 	if (newline == 1)
 		printf("\n");
 	return (0);
-
 }
 
 void	cd_error(char *new_dir)
@@ -75,7 +72,6 @@ int	execute_cd(t_list *list, t_env *env)
 		return (cd_error(new_dir), 1);
 	return (0);
 }
-
 
 int	execute_pwd(void)
 {

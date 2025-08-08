@@ -103,7 +103,7 @@ int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
 {
 	int	exitcode;
 	int	save_std[2];
-	
+
 	save_std[0] = -1;
 	save_std[1] = -1;
 	exitcode = check_invalid_file_cmd(list, *env);
@@ -115,7 +115,6 @@ int	execute_builtin_parent(t_list *list, t_env **env, char **environment)
 		if (reset_stdin_stdout(save_std) == -1)
 			return (1);
 	}
-
 	if (exitcode != 0)
 		close_files(list);
 	return (exitcode);

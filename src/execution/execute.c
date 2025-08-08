@@ -33,7 +33,7 @@ int	execute_list(t_list *list, int pid_count, t_env **env, char **environment)
 	int		pipe_input;
 	int		i;
 	int		exitcode;
-	
+
 	i = 0;
 	pipe_input = -1;
 	while (i < pid_count)
@@ -48,7 +48,6 @@ int	execute_list(t_list *list, int pid_count, t_env **env, char **environment)
 			child_process(list, pip, pipe_input, env, environment);
 		handle_setup_close(list, pip, &pipe_input);
 		close_files(list);
-		
 		list = list->next;
 		i++;
 	}
@@ -60,7 +59,7 @@ int	execute(t_list *list, t_env **env)
 {
 	char	**environment;
 	int		exitcode;
-	
+
 	disable_sigint();
 	environment = convert_env(*env);
 	if (!environment)

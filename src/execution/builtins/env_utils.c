@@ -39,10 +39,13 @@ bool	is_matching_varname(char *var, char *name)
 	return (false);
 }
 
-//im not sure if i need to pass cur and prev as double pointers to also delete original node
+/*
+	im not sure if i need to pass cur and prev as 
+	double pointers to also delete original node
+*/
 void	unset_var(t_env **env, t_env *cur, t_env *prev)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	if (prev)
 		prev->next = cur->next;

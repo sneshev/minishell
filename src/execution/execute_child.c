@@ -65,7 +65,9 @@ void	handle_fd_closing(t_list *list, int *pip, int prev_pipe)
 	close_files(list);
 }
 
-void	child_process(t_list *list, int *pip, int prev_pipe, t_env **env, char **environment)
+void	child_process(
+			t_list *list, int *pip, int prev_pipe,
+			t_env **env, char **environment)
 {
 	int	exitcode;
 

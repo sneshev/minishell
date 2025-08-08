@@ -49,7 +49,8 @@ bool	existing_key(t_env **env, char *key)
 	temp = *env;
 	while (temp)
 	{
-		if (ft_strncmp(temp->name, key, ft_strlen(key)) == 0 && temp->name[ft_strlen(key)] == '=')
+		if (ft_strncmp(temp->name, key, ft_strlen(key)) == 0
+			&& temp->name[ft_strlen(key)] == '=')
 			return (true);
 		temp = temp->next;
 	}
@@ -78,7 +79,6 @@ t_env	*get_next_lowest_node(t_env *env, t_env *lowest)
 	cur = NULL;
 	while (env)
 	{
-		//if its bigger than lowest
 		if (ft_strcmp(env->name, lowest->name) > 0)
 		{
 			if (cur == NULL || ft_strcmp(cur->name, env->name) > 0)
