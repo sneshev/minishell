@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:51:22 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/23 19:54:18 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:32:31 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 
-int     dec(int n);
-char    *charnum(int n, int len, char *ptr, int sign);
+int		dec(int n);
+char	*charnum(int n, int len, char *ptr, int sign);
 
 #endif
