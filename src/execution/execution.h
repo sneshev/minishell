@@ -19,11 +19,7 @@
 //execute
 int		execute(t_list *list, t_env **env);
 
-//child
-void	child_process(
-			t_list *list, int *pip, int prev_pipe,
-			t_env **env, char **environment);
-
+void	child_process(t_list *list, int pip[3], t_env **env, char **environment);
 //access
 int		check_invalid_file_cmd(t_list *list, t_env *env);
 
@@ -71,10 +67,6 @@ char	**convert_env(t_env *env);
 // execution
 char	*get_cmd(t_env *env, char *cmd);
 int		execute(t_list *list, t_env **env);
-int		check_access(char *cmd);
-void	child_process(
-			t_list *list, int *pip, int prev_pipe,
-			t_env **env, char **environment);
 
 //utils
 bool	is_newline_flag(char *arg);

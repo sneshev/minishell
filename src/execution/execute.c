@@ -13,29 +13,28 @@
 #include "../minishell.h"
 #include "execution.h"
 
-void	handle_setup_close(t_list *list, int *pip, int *pipe_input)
+void	handle_setup_close(t_list *list, int pip[3])
 {
 	if (list->prev)
-		close(*pipe_input);
+		close(pip[2]);
 	if (list->next)
 	{
-		*pipe_input = pip[READ];
+		pip[2] = pip[READ];
 		close(pip[WRITE]);
 	}
-	if (!list->next && *pipe_input != -1)
-		close(*pipe_input);
+	if (!list->next && pip[2] != -1)
+		close(pip[2]);
 }
 
 int	execute_list(t_list *list, int pid_count, t_env **env, char **environment)
 {
 	pid_t	pid[pid_count];
-	int		pip[2];
-	int		pipe_input;
+	int		pip[3];
 	int		i;
 	int		exitcode;
 
 	i = 0;
-	pipe_input = -1;
+	pip[2] = -1;
 	while (i < pid_count)
 	{
 		if (list->next)
@@ -45,8 +44,8 @@ int	execute_list(t_list *list, int pid_count, t_env **env, char **environment)
 		}
 		pid[i] = fork();
 		if (pid[i] == CHILD)
-			child_process(list, pip, pipe_input, env, environment);
-		handle_setup_close(list, pip, &pipe_input);
+			child_process(list, pip, env, environment);
+		handle_setup_close(list, pip);
 		close_files(list);
 		list = list->next;
 		i++;

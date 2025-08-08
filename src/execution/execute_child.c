@@ -13,7 +13,7 @@
 #include "../minishell.h"
 #include "execution.h"
 
-void	setup_input(t_list *list, int *pip, int prev_pipe)
+void	setup_input(t_list *list, int pip[3])
 {
 	if (list->next)
 		close(pip[READ]);
@@ -21,14 +21,14 @@ void	setup_input(t_list *list, int *pip, int prev_pipe)
 	{
 		if (list->prev)
 		{
-			dup2(prev_pipe, STDIN_FILENO);
-			close(prev_pipe);
+			dup2(pip[2], STDIN_FILENO);
+			close(pip[2]);
 		}
 	}
 	else if (list->input >= 0)
 	{
 		if (list->prev)
-			close(prev_pipe);
+			close(pip[2]);
 		dup2(list->input, STDIN_FILENO);
 		close(list->input);
 	}
@@ -53,7 +53,7 @@ void	setup_output(t_list *list, int *pip)
 	}
 }
 
-void	handle_fd_closing(t_list *list, int *pip, int prev_pipe)
+void	handle_fd_closing(t_list *list, int pip[3])
 {
 	if (list->next)
 	{
@@ -61,29 +61,27 @@ void	handle_fd_closing(t_list *list, int *pip, int prev_pipe)
 		close(pip[WRITE]);
 	}
 	if (list->prev)
-		close(prev_pipe);
+		close(pip[2]);
 	close_files(list);
 }
 
-void	child_process(
-			t_list *list, int *pip, int prev_pipe,
-			t_env **env, char **environment)
+void	child_process(t_list *list, int pip[3], t_env **env, char **environment)
 {
 	int	exitcode;
 
 	reset_signals();
 	if (!list->args)
 	{
-		handle_fd_closing(list, pip, prev_pipe);
+		handle_fd_closing(list, pip);
 		exit (0);
 	}
 	exitcode = check_invalid_file_cmd(list, *env);
 	if (exitcode != 0)
 	{
-		handle_fd_closing(list, pip, prev_pipe);
+		handle_fd_closing(list, pip);
 		exit(exitcode);
 	}
-	setup_input(list, pip, prev_pipe);
+	setup_input(list, pip);
 	setup_output(list, pip);
 	if (is_builtin(list->cmd))
 	{
