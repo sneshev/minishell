@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 12:51:44 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 12:57:39 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/09 13:52:11 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "tokens.h"
 
-int	redir(char *str)
+int	redir_or_pipe(char *str)
 {
 	if (!(*str))
 		return (-1);
@@ -53,21 +53,18 @@ bool	is_valid_syntax(char **tokens)
 	int	i;
 
 	i = 0;
-	if (is_pipe(tokens[i]))
+	if (is_pipe(tokens[0]))
 		return (write_syntax_err("|"), (false));
 	while (tokens[i])
 	{
-		if (is_pipe(tokens[i]) && is_pipe(tokens[i + 1]))
-		{
-			perror_message(tokens[i]);
-			return (false);
-		}
-		if (is_redirect(tokens[i]) && is_redirect(tokens[i + 1]))
-			return (false);
+		if (redir_or_pipe(tokens[i]) && is_pipe(tokens[i + 1]))
+			return (write_syntax_err(tokens[i + 1]), false);
+		if (is_redirect(tokens[i]) && redir_or_pipe(tokens[i + 1]))
+			return (write_syntax_err(tokens[i + 1]), false);
 		if (tokens[i + 1] == NULL)
 		{
 			if (is_pipe(tokens[i]) || is_redirect(tokens[i]))
-				return (false);
+				return (write_syntax_err("newline"), false);
 		}
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:05:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 13:06:05 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/09 13:49:51 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	find_token_len(char *str, t_env *env, bool count_quote, bool expand_envvar)
 	count = 0;
 	while (is_space(*str))
 		str++;
-	if (redir(str))
-		return (redir(str));
-	while (*str && !is_space(*str) && !redir(str))
+	if (redir_or_pipe(str))
+		return (redir_or_pipe(str));
+	while (*str && !is_space(*str) && !redir_or_pipe(str))
 	{
 		if (*str == '$')
 			count_envvar(&str, env, expand_envvar, &count);
