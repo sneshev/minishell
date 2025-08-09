@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 12:51:44 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/09 13:52:11 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/09 14:05:14 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 int	redir_or_pipe(char *str)
 {
-	if (!(*str))
-		return (-1);
+	if (!str || !(*str))
+		return (0);
 	if (*str == '<')
 	{
 		str++;
