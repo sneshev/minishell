@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:03 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/21 19:09:33 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/10 12:44:29 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ char	**arr_dup(char **arr)
 	int		index;
 
 	arr_len = arr_length(arr);
-	dup = xmalloc(sizeof(char *) *(arr_len + 1));
+	dup = malloc(sizeof(char *) *(arr_len + 1));
+	if (!dup)
+		return (NULL);
 	index = 0;
 	while (arr[index])
 	{

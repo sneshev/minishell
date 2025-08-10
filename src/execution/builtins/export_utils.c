@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:10:15 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/08/08 18:29:39 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/10 11:59:07 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,25 @@ void	write_export_err(char *s)
 	write(2, "'", 1);
 	write(2, ": not a valid identifier", 24);
 	write(2, "\n", 1);
+}
+
+t_env	*update_name(t_env *env)
+{
+	char	*new_name;
+
+	new_name = ft_strjoin(env->name, "=");
+	if (!new_name)
+		return (NULL);
+	free(env->name);
+	env->name = new_name;
+	return (env);
+}
+
+bool	is_without_value(char *name)
+{
+	if (name[ft_strlen(name) - 1] != '=')
+		return (true);
+	return (false);
 }
 
 bool	validate_export_syntax(char *cmd)
@@ -61,35 +80,4 @@ int	existing_name(t_env *env, char *name)
 		env = env->next;
 	}
 	return (-1);
-}
-
-t_env	*get_next_lowest_node(t_env *env, t_env *lowest)
-{
-	t_env	*cur;
-
-	cur = NULL;
-	while (env)
-	{
-		if (ft_strcmp(env->name, lowest->name) > 0)
-		{
-			if (cur == NULL || ft_strcmp(cur->name, env->name) > 0)
-				cur = env;
-		}
-		env = env->next;
-	}
-	return (cur);
-}
-
-t_env	*get_lowest_node(t_env *env)
-{
-	t_env	*lowest;
-
-	lowest = env;
-	while (env)
-	{
-		if (ft_strcmp(lowest->name, env->name) > 0)
-			lowest = env;
-		env = env->next;
-	}
-	return (lowest);
 }

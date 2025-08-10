@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:59:59 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 15:01:40 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/10 12:44:59 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ char	**get_cmd_args(char **tokens, int index)
 	arg_count = count_cmd_args(tokens, index);
 	if (arg_count < 1)
 		return (NULL);
-	args = xmalloc(sizeof(char *) * (arg_count + 1));
+	args = malloc(sizeof(char *) * (arg_count + 1));
+	if (!args)
+		return (NULL);
 	i = 0;
 	while (tokens[index] && !is_pipe(tokens[index]))
 	{

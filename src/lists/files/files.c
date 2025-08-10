@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:35:49 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 14:36:46 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/10 12:45:33 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ char	**get_redir_files(char **tokens, int index, int file_count)
 	char	**files;
 	int		i;
 
-	files = xmalloc(sizeof(char *) * (file_count + 1));
+	files = malloc(sizeof(char *) * (file_count + 1));
+	if (!files)
+		return (NULL);
 	i = 0;
 	while (tokens[index] && !is_pipe(tokens[index]))
 	{

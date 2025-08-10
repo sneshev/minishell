@@ -6,12 +6,28 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:35:28 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 17:18:32 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/10 12:02:15 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include "../execution.h"
+
+bool	is_newline_flag(char *arg)
+{
+	int	i;
+
+	if (arg[0] != '-')
+		return (false);
+	i = 1;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 int	execute_echo(t_list *list)
 {

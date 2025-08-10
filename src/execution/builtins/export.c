@@ -3,34 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:26:29 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/08/08 18:29:00 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/10 11:56:16 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include "../execution.h"
-
-void	print_export(t_env *env)
-{
-	const char	*s = "declare -x";
-	t_env		*lowest;
-	t_env		*next_lowest;
-	int			env_len;
-
-	env_len = ft_envlen(env);
-	lowest = get_lowest_node(env);
-	printf("%s %s%s\n", s, lowest->name, lowest->value);
-	while (env_len > 1)
-	{
-		next_lowest = get_next_lowest_node(env, lowest);
-		lowest = next_lowest;
-		printf("%s %s%s\n", s, lowest->name, lowest->value);
-		env_len--;
-	}
-}
 
 t_env	*create_new_variable(t_env **env, char *arg, char *name)
 {
@@ -51,10 +32,9 @@ t_env	*create_new_variable(t_env **env, char *arg, char *name)
 	return (*env);
 }
 
-t_env	*replace_env_value(t_env *env, char *arg, int index)
+t_env	*replace_env_value(t_env *env, char *arg, char *name, int index)
 {
 	char	*value;
-	char	*new_name;
 	int		i;
 
 	i = 0;
@@ -63,14 +43,10 @@ t_env	*replace_env_value(t_env *env, char *arg, int index)
 		env = env->next;
 		i++;
 	}
-	if (env->name[ft_strlen(env->name) - 1] != '=')
-	{
-		new_name = ft_strjoin(env->name, "=");
-		if (!new_name)
-			return (NULL);
-		free(env->name);
-		env->name = new_name;
-	}
+	if (is_without_value(name) == true)
+		return (env);
+	if (is_without_value(env->name) == true)
+		update_name(env);
 	value = get_env_value(arg);
 	if (!value)
 		return (NULL);
@@ -98,7 +74,7 @@ int	execute_export(t_list *list, t_env **env)
 			return (free(name), 1);
 		index = existing_name(*env, name);
 		if (index != -1)
-			replace_env_value(*env, list->args[i], index);
+			replace_env_value(*env, list->args[i], name, index);
 		else
 			create_new_variable(env, list->args[i], name);
 		free(name);

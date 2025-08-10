@@ -6,35 +6,12 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 14:06:52 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 15:29:59 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/10 12:03:53 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "execution.h"
-
-//what is this function ?
-// t_env	*create_var_node(char *var, t_env **env)
-// {
-// 	char	*name;
-// 	char	*value;
-// 	t_env	*new;
-
-// 	name = NULL;
-// 	value = NULL;
-// 	new = NULL;
-// 	name = get_env_name(var);
-// 	if (!name)
-// 		return (NULL);
-// 	value = get_env_value(var);
-// 	if (!value)
-// 		return (free(name), NULL);
-// 	new = new_env_node(name, value);
-// 	if (!new)
-// 		return (free(name), free(value), NULL);
-// 	add_env_node_back(env, new);
-// 	return (new);
-// }
 
 int	count_env_vars(t_env *env)
 {

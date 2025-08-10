@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:36:54 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 14:37:09 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/10 12:45:21 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_file	*new_file_node(char *redir_type, char *filename)
 {
 	t_file	*node;
 
-	node = xmalloc(sizeof(t_file));
+	node = malloc(sizeof(t_file));
 	if (!node)
 		return (NULL);
 	node->type = find_redir_type(redir_type);

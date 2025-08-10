@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:39:33 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/08/08 18:47:14 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:01:56 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "execution.h"
+
+void	close_files(t_list *list)
+{
+	if (list->input >= 0)
+		close(list->input);
+	if (list->output >= 0)
+		close(list->output);
+}
 
 void	handle_setup_close(t_list *list, int pip[3])
 {
