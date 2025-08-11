@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:59:59 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/10 12:44:59 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/11 20:39:09 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ char	**get_cmd_args(char **tokens, int index)
 		else
 		{
 			args[i] = ft_strdup(tokens[index]);
-			if (!args[i])
+			if (!args[i++])
 				return (free_arr(args), NULL);
-			i++;
 			(index)++;
 		}
 	}

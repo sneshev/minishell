@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:20:34 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/08/10 12:12:18 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/11 20:39:40 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	unset_var(t_env **env, t_env *cur, t_env *prev);
 void	free_env_node(t_env **prev_env);
 
 //exit
-int	execute_exit(
-	t_list *list, t_env **env_ptr, char **environment, bool in_pipe);
+int		execute_exit(
+			t_list *list, t_env **env_ptr, char **environment, bool in_pipe);
 
 // env
 char	*get_env_value(char *env);
