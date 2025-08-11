@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   waitpid.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:18:02 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/24 15:18:42 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/11 18:57:50 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,15 @@ int	wait_for_pids(pid_t *pid, int pid_count)
 	if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGQUIT)
+		{
 			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+			exitcode = 131;
+		}
 		else if (WTERMSIG(status) == SIGINT)
+		{
 			write(STDOUT_FILENO, "\n", 1);
+			exitcode = 130;
+		}
 	}
 	return (exitcode);
 }
