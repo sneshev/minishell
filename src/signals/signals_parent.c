@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 22:06:48 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/08 18:49:05 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/11 18:54:15 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	receive_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	set_exit_code(130);
 }
 
 void	redirect_sigint(void)
