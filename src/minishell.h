@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:50:47 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/11 20:52:06 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:58:55 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	print_list(t_list *list);
 void	print_files(t_file *file);
 
 // utils
-void	*xmalloc(size_t size);
 void	write_err(char *keyword, char *message);
 void	free_arr(char **arr);
 int		ft_strcmp(char *s1, char *s2);

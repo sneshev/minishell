@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:35:30 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 13:37:57 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/11 21:01:21 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,6 @@ void	free_arr(char **arr)
 	}
 	free(arr);
 	arr = NULL;
-}
-
-void	*xmalloc(size_t size)
-{
-	void	*ptr;
-
-	ptr = malloc(size);
-	if (!ptr)
-	{
-		ft_putstr_fd("minishell: xmalloc: cannot allocate )", 2);
-		ft_putnbr_fd((int)size, 2);
-		ft_putstr_fd(" bytes (errno 12: Cannot allocate memory)", 2);
-		return (NULL);
-	}
-	return (ptr);
 }
 
 int	ft_strcmp(char *s1, char *s2)

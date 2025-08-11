@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 12:51:44 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/11 19:36:20 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/11 21:00:42 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	add_heredoc_tokens(char *arr[], int *index, char **str)
 	if (!**str || is_redirect(*str) || is_pipe(*str))
 		return (1);
 	len = find_heredoc_token_len(*str, 0, 0);
-	arr[*index] = (char *)xmalloc(len * sizeof(char) + 1);
+	arr[*index] = (char *)malloc(len * sizeof(char) + 1);
 	if (arr[*index] == NULL)
 		return (-1);
 	ft_strlcpy(arr[*index], *str, (size_t)len + 1);

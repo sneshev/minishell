@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:45:40 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 14:46:51 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/11 20:59:37 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*expand_line(char **line, t_env *env, size_t len)
 
 	if (len == 0)
 		return (ft_strdup(""));
-	line2 = (char *)xmalloc(len * sizeof(char) + 1);
+	line2 = (char *)malloc(len * sizeof(char) + 1);
 	if (!line2)
 		return (free(*line), exit(1), NULL);
 	i = 0;

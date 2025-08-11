@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_delim.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:44:46 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 14:45:24 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/11 21:02:22 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ bool	has_quote(char *str)
 	return (false);
 }
 
-char	*delim_alloc(char *str, int len)
+char	*delim_alloc(char *str)
 {
 	char	quote_type;
+	int		len;
 
+	len = 0;
 	while (*str)
 	{
 		if (is_quote(*str))
@@ -49,7 +51,7 @@ char	*delim_alloc(char *str, int len)
 			str++;
 		}
 	}
-	return ((char *)xmalloc(len * sizeof(char) + 1));
+	return ((char *)malloc(len * sizeof(char) + 1));
 }
 
 size_t	add_heredoc_quoted_seq(
@@ -74,7 +76,7 @@ char	*find_delim(char *str)
 		return (NULL);
 	if (!*str)
 		return (strdup(""));
-	delim = delim_alloc(str, 0);
+	delim = delim_alloc(str);
 	if (!delim)
 		return (NULL);
 	i = 0;
