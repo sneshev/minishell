@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:05:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/09 13:49:51 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/11 18:47:44 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	count_tokens(char *str, t_env *env)
 			str++;
 		if (*str)
 		{
+			
 			token_len = find_token_len(str, NULL, true, false);
 			if (token_len < 0)
 				return (token_len);
@@ -123,15 +124,16 @@ char	**get_tokens(char *str, t_env *env, int total_tokens, int index)
 			str++;
 		if (is_heredoc(str) && add_heredoc_tokens(arr, &index, &str) == -1)
 			return (free_arr(arr), NULL);
-		else if (!is_heredoc(str) && find_token_len(str, env, false, true) == 0)
-			str += find_token_len(str, env, true, false);
 		else if (!is_heredoc(str))
 		{
-			add_token(arr, index, str, env);
+			if (is_quote(*str) || find_token_len(str, env, false, true))
+			{
+				add_token(arr, index, str, env);
+				index++;
+			}
 			str += find_token_len(str, env, true, false);
-			if (!arr[index])
+			if (index > 0 && !arr[index - 1])
 				return (free_arr(arr), NULL);
-			index++;
 		}
 	}
 	return (arr[index] = NULL, arr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:07:27 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/07/26 15:28:53 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/08/11 18:07:31 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*get_cmd(t_env *env, char *cmd)
 	paths = get_paths(env, cmd, 0);
 	if (!paths)
 		return (NULL);
-	while (paths[i])
+	while (paths[i] && cmd[0])
 	{
 		full_cmd = ft_strdup(paths[i]);
 		if (!full_cmd)
