@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:37:21 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 14:43:17 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/11 19:02:51 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	parent_heredoc(pid_t pid, int pipefd[2])
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status))
 	{
+		set_exit_code(130);
 		write(1, "\n", 1);
 		close(pipefd[0]);
 		return (0);
