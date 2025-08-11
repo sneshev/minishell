@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:50:47 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 17:37:31 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/11 20:52:06 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		count_strings(char **arr, bool count_empty);
 long	ft_atol(const char *nptr);
 
 // tokens
-char	**get_tokens(char *str, t_env *env, int total_tokens, int index);
+char	**get_tokens(char *str, t_env *env, int total_tokens);
 bool	is_valid_syntax(char **tokens);
 int		count_tokens(char *str, t_env *env);
 bool	is_pipe(char *str);

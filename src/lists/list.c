@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:08:13 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/08/11 19:36:09 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:52:24 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_list	*get_list(char *line, t_env *env)
 	t_list	*list;
 
 	list = NULL;
-	tokens = get_tokens(line, env, count_tokens(line, env), 0);
+	tokens = get_tokens(line, env, count_tokens(line, env));
 	if (!tokens)
 		return (NULL);
 	if (!is_valid_syntax(tokens))

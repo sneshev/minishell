@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_vars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 22:10:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/25 22:11:55 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/08/11 20:46:22 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,14 @@ int	add_env_variable(char *dest, char *src, int *j, t_env *env)
 	if (*src == '?')
 		free(envvar);
 	return (i);
+}
+
+void	count_envvar(char **str, t_env *env, bool expand_envvar, int *count)
+{
+	(*str)++;
+	if (expand_envvar)
+		*count += find_envvar_len(*str, env);
+	else
+		*count += 1 + find_varname_len(*str);
+	*str += find_varname_len(*str);
 }

@@ -6,22 +6,14 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:05:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/11 20:43:56 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:53:48 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "tokens.h"
 
-void	count_envvar(char **str, t_env *env, bool expand_envvar, int *count)
-{
-	(*str)++;
-	if (expand_envvar)
-		*count += find_envvar_len(*str, env);
-	else
-		*count += 1 + find_varname_len(*str);
-	*str += find_varname_len(*str);
-}
+void	count_envvar(char **str, t_env *env, bool expand_envvar, int *count);
 
 // return (-2); for unclosed brackets
 int	find_token_len(char *str, t_env *env, bool count_quote, bool expand_envvar)
@@ -108,15 +100,31 @@ void	add_token(char **arr, int index, char *str, t_env *env)
 	arr[index][j] = '\0';
 }
 
-char	**get_tokens(char *str, t_env *env, int total_tokens, int index)
+int	add_token_move_str(char **str, t_env *env, char **arr, int *index)
+{
+	if (is_quote(**str) || find_token_len(*str, env, 0, 1)
+		|| (*index > 0 && is_redirect(arr[*index - 1])))
+	{
+		add_token(arr, *index, *str, env);
+		(*index)++;
+	}
+	*str += find_token_len(*str, env, true, false);
+	if (*index > 0 && !arr[*index - 1])
+		return (-1);
+	return (1);
+}
+
+char	**get_tokens(char *str, t_env *env, int total_tokens)
 {
 	char	**arr;
+	int		index;
 
 	if (total_tokens < 0)
 		return (printf("unclosed quotes\n"), NULL);
 	arr = (char **)malloc((total_tokens + 1) * sizeof(char *));
 	if (!arr)
 		return (NULL);
+	index = 0;
 	while (index < total_tokens)
 	{
 		while (is_space(*str))
@@ -128,14 +136,7 @@ char	**get_tokens(char *str, t_env *env, int total_tokens, int index)
 		}
 		else
 		{
-			if (is_quote(*str) || find_token_len(str, env, 0, 1)
-				|| (index > 0 && is_redirect(arr[index - 1])))
-			{
-				add_token(arr, index, str, env);
-				index++;
-			}
-			str += find_token_len(str, env, true, false);
-			if (index > 0 && !arr[index - 1])
+			if (add_token_move_str(&str, env, arr, &index) == -1)
 				return (free_arr(arr), NULL);
 		}
 	}
