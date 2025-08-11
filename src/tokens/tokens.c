@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:05:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/11 18:47:44 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/11 19:36:25 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,12 @@ char	**get_tokens(char *str, t_env *env, int total_tokens, int index)
 	{
 		while (is_space(*str))
 			str++;
-		if (is_heredoc(str) && add_heredoc_tokens(arr, &index, &str) == -1)
-			return (free_arr(arr), NULL);
-		else if (!is_heredoc(str))
+		if (is_heredoc(str))
+		{
+			if (add_heredoc_tokens(arr, &index, &str) == -1)
+				return (free_arr(arr), NULL);		
+		}
+		else
 		{
 			if (is_quote(*str) || find_token_len(str, env, false, true))
 			{
