@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:05:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/11 19:36:25 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:00:52 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,8 @@ char	**get_tokens(char *str, t_env *env, int total_tokens, int index)
 		}
 		else
 		{
-			if (is_quote(*str) || find_token_len(str, env, false, true))
+			if (is_quote(*str) || find_token_len(str, env, 0, 1)
+				|| (index > 0 && is_redirect(arr[index - 1])))
 			{
 				add_token(arr, index, str, env);
 				index++;
