@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 18:16:35 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/08/09 14:05:43 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/08 13:30:26 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,3 @@ bool	is_directory(const char *path)
 		return (S_ISDIR(st.st_mode));
 	return (false);
 }
-
-// bool	is_command(char *str)
-// {
-// 	char	*cmd;
-
-// 	cmd = get_cmd(str);
-// 	if (!cmd)
-// 		return (false);
-// 	free(cmd);
-// 	return (true);
-// }

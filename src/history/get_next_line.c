@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:12:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/21 18:08:33 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/09/08 13:32:24 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,22 +107,3 @@ char	*ret(char *line, char **red, char **saved, int bytes_red)
 		return (free (line), nline);
 	}
 }
-
-// int	main(void)
-// {
-// 	int	fd;
-// 	char *nline = NULL;
-// 	int i = 1;
-
-// 	fd = open("text.txt", O_RDONLY);
-// 	nline = get_next_line(fd);
-// 	while(nline != NULL)
-// 	{
-// 	printf("%d: %s", i, nline);
-// 	free(nline);
-// 	i++;
-// 	nline = get_next_line(fd);
-// 	}
-// 	close(fd);
-// 	return (0);
-// }

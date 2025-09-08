@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:50:47 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/11 20:58:55 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/08 13:29:13 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@
 # include <stdio.h>
 # define READ 0
 # define WRITE 1
-
-// temporary
-void	print_list(t_list *list);
-void	print_files(t_file *file);
 
 // utils
 void	write_err(char *keyword, char *message);

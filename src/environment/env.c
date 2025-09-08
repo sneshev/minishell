@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:26:00 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/08/10 12:44:38 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/09/08 13:33:48 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,3 @@ t_env	*get_env(char **envp)
 		exit(1);
 	return (env);
 }
-
-// int	main(int argc, char *argv[], char *envp[])
-// {
-// 	(void)argc;
-// 	(void)argv;
-// 	t_env	*env = NULL;
-// 	env = get_env(envp);
-// 	if (!env)
-// 		return (0);
-// 	// t_env *temp = env;
-// 	// while (temp)
-// 	// {
-// 	// 	printf("%s\t%s\n", temp->name, temp->value);
-// 	// 	temp = temp->next;
-// 	// }
-// 	free_env_list(&env);
-// 	free(env);
-// 	return (0);
-// }
