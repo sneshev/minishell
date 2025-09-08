@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:08:45 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/09/06 16:26:27 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/08 12:48:11 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,22 @@ char	*take_arg_nextline(char *arg)
 	if (fd == UNINITIALIZED)
 	{
 		if (access(arg, F_OK) != 0)
-			return (write_err(arg, "No such file or directory"), NULL);
+		{
+			write_err(arg, "No such file or directory");
+			exit(127);
+		}
 		else if (access(arg, R_OK) != 0)
-			return (write_err(arg, "Permission denied"), NULL);
+		{
+			write_err(arg, "Permission denied");
+			exit(126);
+		}
 		fd = open(arg, O_RDONLY, 0400);
 		if (fd == -1)
 			return (NULL);
 	}
 	line = get_next_line(fd);
 	if (!line)
-	{
-		close(fd);
-		exit(get_exit_code());
-	}
+		return (close(fd), exit(get_exit_code), NULL);
 	return (line);
 }
 
