@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 22:12:06 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 13:01:37 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/09/09 15:47:36 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	find_quote_len(
 	if (quote_type == '\'')
 		expand_envvar = false;
 	str++;
+	if (!(*str))
+		return (-2);
 	while (*str && *str != quote_type)
 	{
 		if (*str == '$')
