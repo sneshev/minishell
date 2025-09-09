@@ -1,6 +1,6 @@
 obj
-# libft/*.o
-# libft/libft.a
+libft/*.o
+libft/libft.a
 a.out
 src/a.out
 minishell
