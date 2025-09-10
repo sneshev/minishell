@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:05:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/11 20:53:48 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/10 11:10:04 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	find_token_len(char *str, t_env *env, bool count_quote, bool expand_envvar)
 	while (*str && !is_space(*str) && !redir_or_pipe(str))
 	{
 		if (*str == '$')
-			count_envvar(&str, env, expand_envvar, &count);
+			count_envvar(&str, env, expand_envvar, &count); // MISTAKE HERE: after count_envvar(), the count keeps going until next space/redir/pipe
 		else if (is_quote(*str))
 		{
 			if (find_quote_len(str, env, 0, false) < 0)
