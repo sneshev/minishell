@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:05:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/09/10 11:22:01 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/10 11:22:18 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	find_token_len(char *str, t_env *env, bool count_quote, bool expand_envvar)
 	return (count);
 }
 
-// return (-2); for unclosed brackets
+// return (-2); for unclosed brackets 
 int	count_tokens(char *str, t_env *env)
 {
 	int	count;
