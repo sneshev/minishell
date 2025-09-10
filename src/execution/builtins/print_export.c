@@ -6,7 +6,7 @@
 /*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:51:27 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/08/10 12:23:31 by mmisumi          ###   ########.fr       */
+/*   Updated: 2025/09/10 13:14:59 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,18 @@ void	print_export(t_env *env)
 
 	env_len = ft_envlen(env);
 	lowest = get_lowest_node(env);
-	printf("%s %s\"%s\"\n", s, lowest->name, lowest->value);
+	printf("%s %s", s, lowest->name);
+	if (is_without_value(lowest->name) == false)
+		printf("\"%s\"", lowest->value);
+	printf("\n");
 	while (env_len > 1)
 	{
 		next_lowest = get_next_lowest_node(env, lowest);
 		lowest = next_lowest;
-		printf("%s %s\"%s\"\n", s, lowest->name, lowest->value);
+		printf("%s %s", s, lowest->name);
+		if (is_without_value(lowest->name) == false)
+			printf("\"%s\"", lowest->value);
+		printf("\n");
 		env_len--;
 	}
 }
