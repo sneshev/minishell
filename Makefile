@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+         #
+#    By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/27 16:25:11 by mmisumi           #+#    #+#              #
-#    Updated: 2025/09/09 15:27:24 by stefuntu         ###   ########.fr        #
+#    Updated: 2025/09/10 15:57:34 by mmisumi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS := src/main.c \
 	src/lists/files/heredoc.c src/lists/files/heredoc_utils.c src/lists/files/heredoc_delim.c src/lists/files/files.c src/lists/files/files_utils.c src/lists/files/create_files.c \
 	src/history/history.c src/history/get_next_line.c src/history/get_next_line_utils.c \
 	src/execution/waitpid.c src/execution/execute.c src/execution/execute_child.c src/execution/convert_env.c src/execution/access.c \
-	src/execution/builtins/unset_env.c src/execution/builtins/unset_env_utils.c src/execution/builtins/print_export.c src/execution/builtins/export.c src/execution/builtins/export_utils.c src/execution/builtins/exit.c src/execution/builtins/execute_builtin.c src/execution/builtins/builtin.c \
+	src/execution/builtins/builtin_utils.c src/execution/builtins/unset_env.c src/execution/builtins/unset_env_utils.c src/execution/builtins/print_export.c src/execution/builtins/export.c src/execution/builtins/export_utils.c src/execution/builtins/exit.c src/execution/builtins/execute_builtin.c src/execution/builtins/builtin.c \
 	src/environment/env.c src/environment/env_utils.c
 
 OBJDIR := obj

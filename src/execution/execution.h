@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmisumi <mmisumi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:20:34 by mmisumi           #+#    #+#             */
-/*   Updated: 2025/08/11 20:39:40 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:57:54 by mmisumi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,15 @@ bool	is_builtin(char *cmd);
 int		execute_builtin(t_list *list, t_env **env, char **environment);
 int		execute_builtin_parent(t_list *list, t_env **env, char **environment);
 
-//execute biultin
+//execute builtin
 int		execute_pwd(void);
 int		execute_cd(t_list *list, t_env *env);
 int		execute_echo(t_list *list);
+
+// builtin utils
+void	cd_error(char *new_dir);
+int		update_pwd(t_env *env, char *name, char **pwd);
+bool	is_newline_flag(char *arg);
 
 //waitpid
 int		count_pids(t_list *list);
