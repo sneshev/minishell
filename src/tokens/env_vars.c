@@ -6,7 +6,7 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 22:10:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/11 20:46:22 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/10 11:19:40 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	add_env_variable(char *dest, char *src, int *j, t_env *env)
 	return (i);
 }
 
-void	count_envvar(char **str, t_env *env, bool expand_envvar, int *count)
+int	count_envvar(char **str, t_env *env, bool expand_envvar, int *count)
 {
 	(*str)++;
 	if (expand_envvar)
@@ -88,4 +88,5 @@ void	count_envvar(char **str, t_env *env, bool expand_envvar, int *count)
 	else
 		*count += 1 + find_varname_len(*str);
 	*str += find_varname_len(*str);
+	return (*count);
 }

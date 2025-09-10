@@ -6,14 +6,14 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:05:53 by sneshev           #+#    #+#             */
-/*   Updated: 2025/09/10 11:10:04 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/10 11:22:01 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "tokens.h"
 
-void	count_envvar(char **str, t_env *env, bool expand_envvar, int *count);
+int	count_envvar(char **str, t_env *env, bool expand_envvar, int *count);
 
 // return (-2); for unclosed brackets
 int	find_token_len(char *str, t_env *env, bool count_quote, bool expand_envvar)
@@ -28,7 +28,7 @@ int	find_token_len(char *str, t_env *env, bool count_quote, bool expand_envvar)
 	while (*str && !is_space(*str) && !redir_or_pipe(str))
 	{
 		if (*str == '$')
-			count_envvar(&str, env, expand_envvar, &count); // MISTAKE HERE: after count_envvar(), the count keeps going until next space/redir/pipe
+			return (count_envvar(&str, env, expand_envvar, &count));
 		else if (is_quote(*str))
 		{
 			if (find_quote_len(str, env, 0, false) < 0)

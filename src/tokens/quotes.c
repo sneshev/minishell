@@ -6,14 +6,14 @@
 /*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 22:12:06 by sneshev           #+#    #+#             */
-/*   Updated: 2025/09/09 15:47:36 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/10 11:21:10 by stefuntu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "tokens.h"
 
-void	count_envvar(char **str, t_env *env, bool expand_envvar, int *count);
+int	count_envvar(char **str, t_env *env, bool expand_envvar, int *count);
 
 int	find_quote_len(
 	char *str, t_env *env, bool count_quote, bool expand_envvar)
