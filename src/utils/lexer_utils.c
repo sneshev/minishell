@@ -6,11 +6,12 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:35:19 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 13:36:49 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/09/10 14:40:03 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../tokens/tokens.h"
 
 bool	is_space(char c)
 {
@@ -60,4 +61,18 @@ int	count_strings(char **arr, bool count_empty)
 		i++;
 	}
 	return (count);
+}
+
+bool	is_empty_token(char *str, t_env *env)
+{
+	if (*str == '$')
+	{
+		str++;
+		if (find_envvar_len(str, env) > 0)
+			return (false);
+		str += find_varname_len(str);
+		if (!*str || is_space(*str))
+			return (true);
+	}
+	return (false);
 }
