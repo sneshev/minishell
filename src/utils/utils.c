@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:35:30 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/11 21:01:21 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/10 13:58:11 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,11 @@ long	ft_atol(const char *nptr)
 		nptr++;
 	}
 	return (nbr * sign);
+}
+
+char	*strdup_arg(char *str)
+{
+	if (*str == -1)
+		str++;
+	return (ft_strdup(str));
 }

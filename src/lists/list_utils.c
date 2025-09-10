@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stefuntu <stefuntu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:59:59 by sneshev           #+#    #+#             */
-/*   Updated: 2025/08/11 20:39:09 by stefuntu         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:15:56 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "list.h"
 #include <fcntl.h>
+
+char	*strdup_arg(char *str);
 
 // if fd == -1 we will not pipe/close the pipe
 // the computer will read this as empty input
@@ -69,7 +71,7 @@ char	**get_cmd_args(char **tokens, int index)
 			index += 2;
 		else
 		{
-			args[i] = ft_strdup(tokens[index]);
+			args[i] = strdup_arg(tokens[index]);
 			if (!args[i++])
 				return (free_arr(args), NULL);
 			(index)++;
