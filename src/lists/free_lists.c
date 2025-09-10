@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 15:05:09 by sneshev           #+#    #+#             */
-/*   Updated: 2025/07/26 15:06:17 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/09/10 15:22:06 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ void	free_list_node(t_list **prev_list)
 		free((*prev_list)->cmd);
 	if ((*prev_list)->args)
 		free_arr((*prev_list)->args);
+	if ((*prev_list)->input > 0)
+		close((*prev_list)->input);
+	if ((*prev_list)->output > 0)
+		close((*prev_list)->output);
 	free(*prev_list);
 	*prev_list = NULL;
 }
