@@ -6,7 +6,7 @@
 /*   By: sneshev <sneshev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:34:55 by sneshev           #+#    #+#             */
-/*   Updated: 2025/09/10 14:51:08 by sneshev          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:46:41 by sneshev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int	fetch_infile(int infile, t_file *file, t_env *env)
 {
-	if (infile > 0)
+	if (infile >= 0)
 		close(infile);
 	if (file->type == REDIR_HEREDOC)
 		return (handle_heredoc(file, env));
@@ -34,7 +34,7 @@ int	fetch_infile(int infile, t_file *file, t_env *env)
 
 int	fetch_outfile(int outfile, t_file *file)
 {
-	if (outfile > 0)
+	if (outfile >= 0)
 		close (outfile);
 	if (file->type == REDIR_OUT)
 		outfile = open(file->filename, O_TRUNC | O_WRONLY | O_CREAT, 0640);
@@ -66,10 +66,14 @@ int	create_files(int fd[2], t_file *file, t_env *env)
 		if (infile == HEREDOC_TERMINATED)
 			return (HEREDOC_TERMINATED);
 		if (infile == -1 || outfile == -1)
+		{
+			if (infile >= 0)
+				close(infile);
+			if (outfile >= 0)
+				close(outfile);
 			return (fd[0] = -1, fd[1] = -1, -1);
+		}
 		file = file->next;
 	}
-	fd[0] = infile;
-	fd[1] = outfile;
-	return (1);
+	return (fd[0] = infile, fd[1] = outfile, 1);
 }
